@@ -26,8 +26,13 @@ export const metadata: Metadata = {
   },
   description:
     "Camping, hiking, pool parties, BBQ nights & more — just an hour from Accra. Ava Park is Ghana's premier outdoor recreation destination.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     siteName: "Ava Park Ghana",
+    type: "website",
+    locale: "en_GH",
   },
 };
 
