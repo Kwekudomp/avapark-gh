@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { WHATSAPP_URL } from "@/data/constants";
 
 const NAV_LINKS = [
   { label: "Experiences", href: "/experiences" },
@@ -10,8 +11,6 @@ const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
-
-const WHATSAPP_URL = "https://wa.me/233540879700";
 const SCROLL_THRESHOLD = 50;
 
 export default function Nav() {

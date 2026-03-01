@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import InquiryForm from "@/components/InquiryForm";
+import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -56,10 +57,10 @@ export default function ContactPage() {
                       />
                     </svg>
                     <a
-                      href="tel:+233540879700"
+                      href={`tel:${PHONE_TEL}`}
                       className="text-sm text-text hover:text-accent transition-colors"
                     >
-                      +233 (0) 540 879 700
+                      {PHONE_DISPLAY}
                     </a>
                   </div>
 
@@ -79,10 +80,10 @@ export default function ContactPage() {
                       />
                     </svg>
                     <a
-                      href="mailto:info@avapark-gh.com"
+                      href={`mailto:${EMAIL}`}
                       className="text-sm text-text hover:text-accent transition-colors"
                     >
-                      info@avapark-gh.com
+                      {EMAIL}
                     </a>
                   </div>
 
@@ -144,7 +145,7 @@ export default function ContactPage() {
                   For quick responses, message us directly on WhatsApp.
                 </p>
                 <a
-                  href="https://wa.me/233540879700"
+                  href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-whatsapp text-white w-full py-3 rounded-full font-medium mt-4 hover:bg-whatsapp/90 transition-all text-center block"
@@ -160,7 +161,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="flex gap-3">
                   <a
-                    href="https://www.instagram.com/avapark_gh"
+                    href={INSTAGRAM_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
@@ -169,7 +170,7 @@ export default function ContactPage() {
                     IG
                   </a>
                   <a
-                    href="https://wa.me/233540879700"
+                    href={WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="WhatsApp"

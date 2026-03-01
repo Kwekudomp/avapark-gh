@@ -24,8 +24,9 @@ const SLIDES = [
   },
 ] as const;
 
+import { WHATSAPP_URL } from "@/data/constants";
+
 const CYCLE_INTERVAL = 5000;
-const WHATSAPP_URL = "https://wa.me/233540879700";
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);

@@ -14,7 +14,7 @@ export interface Experience {
   whatsappMessage: string;
 }
 
-const WHATSAPP_NUMBER = "233540879700";
+import { WHATSAPP_NUMBER } from "./constants";
 
 function whatsappMsg(name: string): string {
   return `Hi, I'm interested in the ${name} at Ava Park`;

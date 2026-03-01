@@ -12,6 +12,7 @@ interface GalleryImage {
 }
 
 const galleryImages: GalleryImage[] = [
+  // Venue photos
   { src: "/images/venue/campground-day.jpeg", alt: "Camping grounds at Ava Park", category: "camping" },
   { src: "/images/venue/pool-night.jpeg", alt: "Swimming pool at night", category: "pool" },
   { src: "/images/venue/campground-night.jpeg", alt: "Night camping with movie screen", category: "camping" },
@@ -19,6 +20,12 @@ const galleryImages: GalleryImage[] = [
   { src: "/images/venue/campground-moonrise.jpeg", alt: "Campground under the moonrise", category: "camping" },
   { src: "/images/venue/gardens.jpeg", alt: "Sunset Gardens landscaping", category: "gardens" },
   { src: "/images/venue/event-setup.jpeg", alt: "Outdoor event setup", category: "events" },
+  // Experience photos
+  { src: "/images/experiences/camping-2nights.jpeg", alt: "Two-night camping experience", category: "camping" },
+  { src: "/images/experiences/party-woods-1.jpeg", alt: "Party in the Woods event", category: "events" },
+  { src: "/images/experiences/saturday-bbq.jpeg", alt: "Saturday BBQ at Ava Park", category: "events" },
+  { src: "/images/experiences/sunset-gardens.jpeg", alt: "Sunset Gardens experience", category: "gardens" },
+  { src: "/images/experiences/farm.jpeg", alt: "Ava Park Farm tour", category: "gardens" },
 ];
 
 const categories = ["all", "camping", "pool", "gardens", "events"] as const;
@@ -65,7 +72,7 @@ export default function GalleryGrid() {
       {/* Image grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-[1400px] mx-auto">
         {filtered.map((img, i) => (
-          <ScrollReveal key={img.src} delay={i * 0.08}>
+          <ScrollReveal key={img.src} delay={Math.min(i * 0.08, 0.4)}>
             <div
               className="rounded-xl overflow-hidden cursor-pointer aspect-[4/3] relative group"
               onClick={() => setLightboxIndex(i)}

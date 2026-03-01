@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WHATSAPP_URL } from "@/data/constants";
 
 export default function DiasporaCTA() {
   return (
@@ -28,7 +29,7 @@ export default function DiasporaCTA() {
           </Link>
 
           <a
-            href="https://wa.me/233540879700"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="border-2 border-primary text-primary px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-white transition-all"

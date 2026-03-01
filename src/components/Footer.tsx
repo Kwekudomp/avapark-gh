@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
 const experiences = [
   { name: "Camping", slug: "camping" },
   { name: "Party In The Woods", slug: "party-in-the-woods" },
   { name: "Saturday BBQ", slug: "saturday-bbq" },
-  { name: "Hiking Tours", slug: "hiking-tours" },
+  { name: "Hiking Tours", slug: "krobo-mountain-hike" },
   { name: "Picnic Packages", slug: "picnic-packages" },
   { name: "Game Night", slug: "game-night" },
 ];
@@ -79,18 +80,18 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="tel:+233540879700"
+                  href={`tel:${PHONE_TEL}`}
                   className="text-sm text-white/60 transition hover:text-secondary"
                 >
-                  +233 (0) 540 879 700
+                  {PHONE_DISPLAY}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@avapark-gh.com"
+                  href={`mailto:${EMAIL}`}
                   className="text-sm text-white/60 transition hover:text-secondary"
                 >
-                  info@avapark-gh.com
+                  {EMAIL}
                 </a>
               </li>
               <li>
@@ -105,7 +106,7 @@ export default function Footer() {
             {/* Social icons */}
             <div className="mt-6 flex gap-3">
               <a
-                href="https://www.instagram.com/avapark_gh"
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -114,7 +115,7 @@ export default function Footer() {
                 IG
               </a>
               <a
-                href="https://wa.me/233540879700"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
@@ -129,7 +130,7 @@ export default function Footer() {
         {/* Copyright row */}
         <div className="mt-12 border-t border-white/10 pt-8">
           <p className="text-center text-xs tracking-[2px] text-white/40">
-            &copy; 2026 AVA PARK. ALL RIGHTS RESERVED.
+            &copy; {new Date().getFullYear()} AVA PARK. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>

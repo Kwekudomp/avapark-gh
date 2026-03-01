@@ -4,6 +4,7 @@ import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import ValueCards from "@/components/ValueCards";
 import ScrollReveal from "@/components/ScrollReveal";
+import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
 export const metadata: Metadata = {
   title: "About",
@@ -161,23 +162,23 @@ export default function AboutPage() {
             <ul className="space-y-4 text-text-secondary leading-relaxed">
               <li>
                 <a
-                  href="tel:+233540879700"
+                  href={`tel:${PHONE_TEL}`}
                   className="hover:text-accent transition"
                 >
-                  +233 (0) 540 879 700
+                  {PHONE_DISPLAY}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@avapark-gh.com"
+                  href={`mailto:${EMAIL}`}
                   className="hover:text-accent transition"
                 >
-                  info@avapark-gh.com
+                  {EMAIL}
                 </a>
               </li>
               <li>
                 <a
-                  href="https://instagram.com/avapark_gh"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-accent transition"
@@ -208,7 +209,7 @@ export default function AboutPage() {
         </h2>
         <div className="flex gap-4 justify-center mt-10 flex-wrap">
           <a
-            href="https://wa.me/233540879700"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-accent text-white px-8 py-4 rounded-full font-medium hover:bg-accent-dark hover:-translate-y-0.5 transition-all"

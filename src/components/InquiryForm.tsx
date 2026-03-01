@@ -47,7 +47,7 @@ export default function InquiryForm() {
     "w-full px-4 py-3 rounded-xl border border-border bg-white text-text focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all";
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form onSubmit={handleSubmit}>
       {/* Name */}
       <div className="space-y-1.5 mb-5">
         <label htmlFor="name" className="block text-sm font-medium text-primary">

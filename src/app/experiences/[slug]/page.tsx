@@ -63,10 +63,12 @@ export default async function ExperiencePage({
     images,
   } = experience;
 
-  // Pick 3 other experiences (exclude current)
-  const otherExperiences = experiences
-    .filter((e) => e.slug !== slug)
-    .sort(() => 0.5 - Math.random())
+  // Pick 3 other experiences (exclude current) — deterministic based on slug position
+  const currentIndex = experiences.findIndex((e) => e.slug === slug);
+  const others = experiences.filter((e) => e.slug !== slug);
+  const otherExperiences = others
+    .slice(currentIndex % others.length)
+    .concat(others.slice(0, currentIndex % others.length))
     .slice(0, 3);
 
   return (
