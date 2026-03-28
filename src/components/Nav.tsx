@@ -70,7 +70,7 @@ export default function Nav() {
           <Link href="/" onClick={closeMenu} aria-label="Hidden Paradise Nature Park — Home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/hp-logo.jpeg"
+              src="/hp-logo.svg"
               alt="Hidden Paradise Nature Park"
               className="h-12 w-auto object-contain"
             />
