@@ -10,7 +10,7 @@ export default function DiasporaCTA() {
         </p>
 
         <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mt-4 leading-tight">
-          Make Ava Park Part of Your Itinerary
+          Make Hidden Paradise Part of Your Itinerary
         </h2>
 
         <p className="text-text-secondary text-lg mt-6 leading-relaxed">

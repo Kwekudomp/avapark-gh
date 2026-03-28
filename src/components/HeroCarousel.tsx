@@ -8,19 +8,19 @@ import { motion } from "framer-motion";
 const SLIDES = [
   {
     src: "/images/venue/pool-night.jpeg",
-    alt: "Stunning blue-lit pool at night at Ava Park",
+    alt: "Stunning blue-lit pool at night at Hidden Paradise",
   },
   {
     src: "/images/venue/campground-day.jpeg",
-    alt: "Colourful camping tents on green lawn at Ava Park",
+    alt: "Colourful camping tents on green lawn at Hidden Paradise",
   },
   {
     src: "/images/venue/gardens.jpeg",
-    alt: "Beautifully landscaped gardens with hedges at Ava Park",
+    alt: "Beautifully landscaped gardens with hedges at Hidden Paradise",
   },
   {
     src: "/images/venue/event-setup.jpeg",
-    alt: "Outdoor event setup with canopy tents at Ava Park",
+    alt: "Outdoor event setup with canopy tents at Hidden Paradise",
   },
 ] as const;
 
@@ -80,9 +80,9 @@ export default function HeroCarousel() {
 
           {/* Headline */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mt-4 leading-tight">
-            Your Adventure Awaits
+            Your Escape Into
             <br />
-            at Ava Park
+            Hidden Paradise
           </h1>
 
           {/* Subtitle */}

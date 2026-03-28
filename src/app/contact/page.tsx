@@ -5,7 +5,7 @@ import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Ava Park. Send an inquiry, call us, or reach out via WhatsApp. Located on Akuse Road, about an hour east of Accra, Ghana.",
+    "Get in touch with Hidden Paradise. Send an inquiry, call us, or reach out via WhatsApp. Located on Akuse Road, about an hour east of Accra, Ghana.",
 };
 
 export default function ContactPage() {
@@ -108,7 +108,7 @@ export default function ContactPage() {
                       />
                     </svg>
                     <p className="text-sm text-text">
-                      Ava Park, Akuse Road, Okwenya
+                      Hidden Paradise, Akuse Road, Okwenya
                       <br />
                       <span className="text-text-secondary">
                         (about an hour east of Accra)

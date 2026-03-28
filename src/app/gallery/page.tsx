@@ -4,7 +4,7 @@ import GalleryGrid from "@/components/GalleryGrid";
 export const metadata: Metadata = {
   title: "Gallery",
   description:
-    "Explore photos of Ava Park — our camping grounds, swimming pool, sunset gardens, and event spaces.",
+    "Explore photos of Hidden Paradise — our camping grounds, swimming pool, sunset gardens, and event spaces.",
 };
 
 export default function GalleryPage() {
@@ -15,7 +15,7 @@ export default function GalleryPage() {
           Gallery
         </h1>
         <p className="text-text-secondary text-lg mt-6 max-w-2xl mx-auto">
-          A glimpse into the Ava Park experience — from sunrise campouts to
+          A glimpse into the Hidden Paradise experience — from sunrise campouts to
           moonlit pool parties.
         </p>
       </section>

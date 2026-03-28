@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
 const experiences = [
@@ -27,11 +28,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Column 1 — Brand */}
           <div>
-            <p className="text-lg font-semibold tracking-[3px]">AVA PARK</p>
-            <p className="mt-2 text-sm italic text-white/60">
+            <Image
+              src="/hp-logo.png"
+              alt="Hidden Paradise Nature Park"
+              width={140}
+              height={70}
+              className="h-16 w-auto object-contain brightness-0 invert"
+            />
+            <p className="mt-3 text-sm italic text-white/60">
               Your Escape Into Nature
             </p>
-            <p className="mt-3 text-sm text-white/50">Akuse Road, Okwenya</p>
+            <p className="mt-2 text-sm text-white/50">Akuse Road, Okwenya</p>
           </div>
 
           {/* Column 2 — Experiences */}
@@ -96,7 +103,7 @@ export default function Footer() {
               </li>
               <li>
                 <p className="text-sm text-white/60">
-                  Ava Park, Akuse Road
+                  Hidden Paradise, Akuse Road
                   <br />
                   (About an hour east of Accra)
                 </p>
@@ -130,7 +137,7 @@ export default function Footer() {
         {/* Copyright row */}
         <div className="mt-12 border-t border-white/10 pt-8">
           <p className="text-center text-xs tracking-[2px] text-white/40">
-            &copy; {new Date().getFullYear()} AVA PARK. ALL RIGHTS RESERVED.
+            &copy; {new Date().getFullYear()} HIDDEN PARADISE NATURE PARK. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>

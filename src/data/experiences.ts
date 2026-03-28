@@ -17,7 +17,7 @@ export interface Experience {
 import { WHATSAPP_NUMBER } from "./constants";
 
 function whatsappMsg(name: string): string {
-  return `Hi, I'm interested in the ${name} at Ava Park`;
+  return `Hi, I'm interested in the ${name} at Hidden Paradise`;
 }
 
 export function whatsappLink(experience: Experience): string {
@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
     name: "The Camping Experience",
     tagline: "2 nights under the stars",
     description:
-      "Escape the city and spend two unforgettable nights under the stars at Ava Park. Enjoy a full weekend of outdoor adventure, delicious meals, and great company surrounded by nature on the Akuse Road.",
+      "Escape the city and spend two unforgettable nights under the stars at Hidden Paradise. Enjoy a full weekend of outdoor adventure, delicious meals, and great company surrounded by nature on the Akuse Road.",
     schedule: "Weekends",
     time: "Friday – Sunday",
     packageIncludes: [
@@ -100,7 +100,7 @@ export const experiences: Experience[] = [
     name: "Saturday BBQ",
     tagline: "Meat, music, and moonlight",
     description:
-      "Every Saturday evening at Ava Park is a feast. Indulge in all types of grilled meats served with fried rice, yam chips, banku, and abolo. Sip on free local drinks and cocktail shots while networking under the stars.",
+      "Every Saturday evening at Hidden Paradise is a feast. Indulge in all types of grilled meats served with fried rice, yam chips, banku, and abolo. Sip on free local drinks and cocktail shots while networking under the stars.",
     schedule: "Every Saturday",
     time: "7:30 PM – Midnight",
     packageIncludes: [
@@ -123,7 +123,7 @@ export const experiences: Experience[] = [
     name: "Game Night",
     tagline: "Play hard, laugh harder",
     description:
-      "Every Thursday is Game Night at Ava Park. From classic board games like Ludo and Oware to pool party games, video games, and snooker -- there is something for everyone. Gather around the bonfire, play truth or dare, and you might even win a prize.",
+      "Every Thursday is Game Night at Hidden Paradise. From classic board games like Ludo and Oware to pool party games, video games, and snooker -- there is something for everyone. Gather around the bonfire, play truth or dare, and you might even win a prize.",
     schedule: "Every Thursday",
     time: "8:00 PM – 2:00 AM",
     packageIncludes: [
@@ -162,7 +162,7 @@ export const experiences: Experience[] = [
     name: "Friday Movie Night",
     tagline: "Cinema under the stars",
     description:
-      "Enjoy free entry to Friday Movie Night at Ava Park. Catch the first showing from 7 to 9 PM or the late showing from 10 PM to 1 AM. Popcorn, games, networking, and food & drinks are all available to make your night complete.",
+      "Enjoy free entry to Friday Movie Night at Hidden Paradise. Catch the first showing from 7 to 9 PM or the late showing from 10 PM to 1 AM. Popcorn, games, networking, and food & drinks are all available to make your night complete.",
     schedule: "Every Friday",
     time: "7:00 PM – 1:00 AM",
     packageIncludes: [
@@ -219,13 +219,13 @@ export const experiences: Experience[] = [
     name: "Krobo Mountain Hiking Tour",
     tagline: "Conquer the Krobo Mountain",
     description:
-      "Take on the Krobo Mountain with a guided hiking tour. The adventure includes snacks on the trail, a hearty lunch back at Ava Park, and time to unwind with board games, swimming, and soccer. You will also take home a goody bag.",
+      "Take on the Krobo Mountain with a guided hiking tour. The adventure includes snacks on the trail, a hearty lunch back at Hidden Paradise, and time to unwind with board games, swimming, and soccer. You will also take home a goody bag.",
     schedule: "Saturdays",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [
       "Hike the Krobo Mountain",
       "Snacks on the hike",
-      "Lunch in Ava Park",
+      "Lunch in Hidden Paradise",
       "Goody bag",
       "Shower & washroom facilities",
     ],
@@ -245,13 +245,13 @@ export const experiences: Experience[] = [
     name: "Mountain Yogaga Hike",
     tagline: "Explore the Yogaga trail",
     description:
-      "Hike the scenic Yogaga Mountain and return to Ava Park for a well-deserved lunch. The full-day package includes snacks on the trail, shower and washroom facilities, and a goody bag. Wind down with board games, swimming, and soccer.",
+      "Hike the scenic Yogaga Mountain and return to Hidden Paradise for a well-deserved lunch. The full-day package includes snacks on the trail, shower and washroom facilities, and a goody bag. Wind down with board games, swimming, and soccer.",
     schedule: "Saturdays",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [
       "Hike the Yogaga Mountain",
       "Snacks on the hike",
-      "Lunch in Ava Park",
+      "Lunch in Hidden Paradise",
       "Shower and washroom facilities",
       "Goody bag",
     ],
@@ -268,10 +268,10 @@ export const experiences: Experience[] = [
   },
   {
     slug: "shai-hills-tour",
-    name: "Ava Park & Shai Hills Reserve Experience",
+    name: "Hidden Paradise & Shai Hills Reserve Experience",
     tagline: "Nature, history, and adventure",
     description:
-      "A full-day adventure combining the Shai Hills Reserve with Ava Park. Enjoy transportation, a professional tour guide, hiking at the reserve, a boat ride on Kpong Dam, swimming pool access, and fun games -- with breakfast and lunch included.",
+      "A full-day adventure combining the Shai Hills Reserve with Hidden Paradise. Enjoy transportation, a professional tour guide, hiking at the reserve, a boat ride on Kpong Dam, swimming pool access, and fun games -- with breakfast and lunch included.",
     schedule: "Weekends",
     time: "6:00 AM – 4:00 PM",
     packageIncludes: [
@@ -294,14 +294,14 @@ export const experiences: Experience[] = [
     images: ["/images/experiences/shai-hills.jpeg"],
     category: "tour",
     isFeatured: false,
-    whatsappMessage: whatsappMsg("Ava Park & Shai Hills Reserve Experience"),
+    whatsappMessage: whatsappMsg("Hidden Paradise & Shai Hills Reserve Experience"),
   },
   {
     slug: "eastern-tour",
     name: "Eastern Tour",
     tagline: "Discover the Eastern Region",
     description:
-      "Explore the best of Ghana's Eastern Region in one packed day. Visit the Volta Lake for a boat cruise, cross the iconic Adome Bridge, tour the Akwamu Museum, hike at Shai Hills Reserve, and finish with lunch at Ava Park. Transportation, snacks, a tour guide, and a photoshoot are all included.",
+      "Explore the best of Ghana's Eastern Region in one packed day. Visit the Volta Lake for a boat cruise, cross the iconic Adome Bridge, tour the Akwamu Museum, hike at Shai Hills Reserve, and finish with lunch at Hidden Paradise. Transportation, snacks, a tour guide, and a photoshoot are all included.",
     schedule: "Weekends",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [
@@ -316,7 +316,7 @@ export const experiences: Experience[] = [
       "Bridge View visit",
       "Networking & good vibes",
       "Fun games",
-      "Lunch in Ava Park",
+      "Lunch in Hidden Paradise",
       "Photoshoot",
     ],
     activities: [
@@ -327,7 +327,7 @@ export const experiences: Experience[] = [
       "Bridge View visit",
       "Networking & good vibes",
       "Fun games",
-      "Lunch in Ava Park",
+      "Lunch in Hidden Paradise",
       "Photoshoot",
     ],
     coverImage: "/images/experiences/eastern-tour.jpeg",
@@ -343,7 +343,7 @@ export const experiences: Experience[] = [
     name: "Sunset Gardens",
     tagline: "Nature's beauty, curated",
     description:
-      "Beautiful landscaped gardens offering the sale of flowers, flower pots, garden arts, and landscape designs. A tranquil space for photography, shopping, and simply enjoying nature at Ava Park.",
+      "Beautiful landscaped gardens offering the sale of flowers, flower pots, garden arts, and landscape designs. A tranquil space for photography, shopping, and simply enjoying nature at Hidden Paradise.",
     schedule: "Open daily",
     time: "All day",
     packageIncludes: [
@@ -368,10 +368,10 @@ export const experiences: Experience[] = [
   },
   {
     slug: "farm",
-    name: "Ava Park Farm",
+    name: "Hidden Paradise Farm",
     tagline: "From soil to table",
     description:
-      "Visit the Ava Park Farm for a hands-on experience with fresh produce. Take a farm tour, buy spices, herbs, and fresh vegetables, enjoy a farm-to-table meal, or enrol in a learn-to-grow-food course.",
+      "Visit the Hidden Paradise Farm for a hands-on experience with fresh produce. Take a farm tour, buy spices, herbs, and fresh vegetables, enjoy a farm-to-table meal, or enrol in a learn-to-grow-food course.",
     schedule: "Open daily",
     time: "All day",
     packageIncludes: [
@@ -390,14 +390,14 @@ export const experiences: Experience[] = [
     images: ["/images/experiences/farm.jpeg"],
     category: "special",
     isFeatured: false,
-    whatsappMessage: whatsappMsg("Ava Park Farm"),
+    whatsappMessage: whatsappMsg("Hidden Paradise Farm"),
   },
   {
     slug: "art-show",
     name: "Art Show",
     tagline: "Creativity meets community",
     description:
-      "Ava Park's Art Show is a free-entry celebration of creativity. Browse exhibitions, join sip & paint sessions, watch an art auction, try bead making and pottery classes, and enjoy live music, face painting, and fun games throughout the day.",
+      "Hidden Paradise's Art Show is a free-entry celebration of creativity. Browse exhibitions, join sip & paint sessions, watch an art auction, try bead making and pottery classes, and enjoy live music, face painting, and fun games throughout the day.",
     schedule: "Special events",
     time: "10:00 AM – 10:00 PM",
     packageIncludes: [
@@ -442,7 +442,7 @@ export const experiences: Experience[] = [
     name: "Family Fun Day",
     tagline: "Fun for every age",
     description:
-      "Bring the whole family to Ava Park for a day packed with activities for all ages. Enjoy free entry with horse riding, bouncy castle, swimming, video games, face painting, arts & crafts, Lego, table tennis, soccer, and more.",
+      "Bring the whole family to Hidden Paradise for a day packed with activities for all ages. Enjoy free entry with horse riding, bouncy castle, swimming, video games, face painting, arts & crafts, Lego, table tennis, soccer, and more.",
     schedule: "Special events",
     time: "All day",
     packageIncludes: [
@@ -510,7 +510,7 @@ export const experiences: Experience[] = [
     name: "Night Market",
     tagline: "Shop, vibe, and unwind",
     description:
-      "Ava Park's Night Market is a free-entry evening event with music, a bonfire, movies in the park, arts & crafts sales, flea market finds, and fresh farm produce. A perfect way to spend the night with great vibes and good company.",
+      "Hidden Paradise's Night Market is a free-entry evening event with music, a bonfire, movies in the park, arts & crafts sales, flea market finds, and fresh farm produce. A perfect way to spend the night with great vibes and good company.",
     schedule: "Special events",
     time: "7:00 PM – 12:00 AM",
     packageIncludes: [

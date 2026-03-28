@@ -13,7 +13,7 @@ interface GalleryImage {
 
 const galleryImages: GalleryImage[] = [
   // Venue photos
-  { src: "/images/venue/campground-day.jpeg", alt: "Camping grounds at Ava Park", category: "camping" },
+  { src: "/images/venue/campground-day.jpeg", alt: "Camping grounds at Hidden Paradise", category: "camping" },
   { src: "/images/venue/pool-night.jpeg", alt: "Swimming pool at night", category: "pool" },
   { src: "/images/venue/campground-night.jpeg", alt: "Night camping with movie screen", category: "camping" },
   { src: "/images/venue/pool-party.jpeg", alt: "Pool party and social area", category: "pool" },
@@ -23,9 +23,9 @@ const galleryImages: GalleryImage[] = [
   // Experience photos
   { src: "/images/experiences/camping-2nights.jpeg", alt: "Two-night camping experience", category: "camping" },
   { src: "/images/experiences/party-woods-1.jpeg", alt: "Party in the Woods event", category: "events" },
-  { src: "/images/experiences/saturday-bbq.jpeg", alt: "Saturday BBQ at Ava Park", category: "events" },
+  { src: "/images/experiences/saturday-bbq.jpeg", alt: "Saturday BBQ at Hidden Paradise", category: "events" },
   { src: "/images/experiences/sunset-gardens.jpeg", alt: "Sunset Gardens experience", category: "gardens" },
-  { src: "/images/experiences/farm.jpeg", alt: "Ava Park Farm tour", category: "gardens" },
+  { src: "/images/experiences/farm.jpeg", alt: "Hidden Paradise Farm tour", category: "gardens" },
 ];
 
 const categories = ["all", "camping", "pool", "gardens", "events"] as const;

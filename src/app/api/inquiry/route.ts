@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     // For now, log the inquiry (in production, this would send an email via Resend or similar)
     console.log("New inquiry received:", { name, email, phone, experience, dates, message });
 
-    // TODO: Send email via Resend API to info@avapark-gh.com
+    // TODO: Send email via Resend API to info@hiddenparadisegh.com
 
     return NextResponse.json({ success: true });
   } catch {

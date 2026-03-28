@@ -39,10 +39,10 @@ export default function Home() {
       {/* Photo Mosaic */}
       <PhotoMosaic />
 
-      {/* Why Ava Park */}
+      {/* Why Hidden Paradise */}
       <section className="py-24 px-[5%]">
         <SectionHeader
-          tag="WHY AVA PARK"
+          tag="WHY HIDDEN PARADISE"
           title="What Makes Us Special"
           description="More than a park — it's an experience you'll never forget."
         />

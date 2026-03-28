@@ -21,16 +21,16 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Ava Park Ghana",
-    default: "Ava Park Ghana | Your Escape Into Nature",
+    template: "%s | Hidden Paradise Nature Park",
+    default: "Hidden Paradise Nature Park | Your Escape Into Nature",
   },
   description:
-    "Camping, hiking, pool parties, BBQ nights & more — just an hour from Accra. Ava Park is Ghana's premier outdoor recreation destination.",
+    "Camping, hiking, pool parties, BBQ nights & more — just an hour from Accra. Hidden Paradise is Ghana's premier nature park and outdoor recreation destination on the Akuse Road.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/hp-logo.svg",
   },
   openGraph: {
-    siteName: "Ava Park Ghana",
+    siteName: "Hidden Paradise Nature Park",
     type: "website",
     locale: "en_GH",
   },
@@ -50,9 +50,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "TouristAttraction",
-              name: "Ava Park",
+              name: "Hidden Paradise Nature Park",
               description:
-                "Outdoor recreation and events venue featuring camping, hiking tours, pool parties, BBQ nights, and more. Located on Akuse Road, about an hour east of Accra, Ghana.",
+                "300-acre nature park and outdoor recreation destination featuring camping, hiking tours, pool parties, BBQ nights, family days, and more. Located on Akuse Road, about an hour east of Accra, Ghana.",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Akuse Road",
@@ -61,9 +61,9 @@ export default function RootLayout({
                 addressCountry: "GH",
               },
               telephone: "+233540879700",
-              email: "info@avapark-gh.com",
-              url: "https://www.avapark-gh.com",
-              sameAs: ["https://instagram.com/avapark_gh"],
+              email: "info@hiddenparadisegh.com",
+              url: "https://www.hiddenparadisegh.com",
+              sameAs: ["https://instagram.com/hiddenparadisegh"],
             }),
           }}
         />

@@ -4,7 +4,7 @@ import ExperienceGrid from "@/components/ExperienceGrid";
 export const metadata: Metadata = {
   title: "Our Experiences",
   description:
-    "Explore all experiences at Ava Park — camping, hiking tours, pool parties, BBQ nights, picnics, game nights, and special events. Book your adventure today.",
+    "Explore all experiences at Hidden Paradise — camping, hiking tours, pool parties, BBQ nights, picnics, game nights, and special events. Book your adventure today.",
 };
 
 export default function ExperiencesPage() {
@@ -16,7 +16,7 @@ export default function ExperiencesPage() {
           Our Experiences
         </h1>
         <p className="text-text-secondary text-lg mt-6 max-w-2xl mx-auto">
-          From weekly events to special adventures — find your perfect Ava Park
+          From weekly events to special adventures — find your perfect Hidden Paradise
           experience.
         </p>
       </section>

@@ -9,7 +9,7 @@ import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Ava Park — Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
+    "Learn about Hidden Paradise — Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
 };
 
 const amenities = [
@@ -29,12 +29,12 @@ const amenities = [
       "Beautifully landscaped gardens perfect for photography, events, and peaceful walks.",
   },
   {
-    title: "Ava Grill Restaurant",
+    title: "The Hidden Grill Restaurant",
     description:
       "On-site restaurant serving local favourites — from grilled meats to traditional dishes.",
   },
   {
-    title: "Ava Farm",
+    title: "Hidden Paradise Farm",
     description:
       "A working farm where you can tour, buy fresh produce, and learn about sustainable farming.",
   },
@@ -67,7 +67,7 @@ export default function AboutPage() {
           <div>
             <Image
               src="/images/venue/gardens.jpeg"
-              alt="Ava Park sunset gardens"
+              alt="Hidden Paradise sunset gardens"
               width={600}
               height={800}
               className="rounded-2xl object-cover shadow-xl"
@@ -77,23 +77,24 @@ export default function AboutPage() {
           {/* Right — Text */}
           <div className="text-text-secondary leading-relaxed space-y-6">
             <p>
-              Ava Park is a nature-inspired recreation and events destination
-              nestled on Akuse Road in Ghana&apos;s Eastern Region, about an
-              hour&apos;s drive from Accra. What started as a vision to create
-              an outdoor escape has grown into a thriving community hub for
-              adventure, relaxation, and celebration.
+              Hidden Paradise Nature Park is a 300-acre tourism hub and outdoor
+              recreation destination on Akuse Road, in Ghana&apos;s Eastern Region
+              &mdash; about an hour&apos;s drive from Accra. Set in lush forest
+              land with proximity to the Volta, we&apos;ve built a community where
+              adventure, culture, and relaxation come together.
             </p>
             <p>
-              Our grounds feature camping facilities, a swimming pool, sunset
-              gardens, a working farm, and the Ava Grill restaurant &mdash; all
-              set against the backdrop of Ghana&apos;s beautiful eastern
-              landscape.
+              Currently operating on 30 acres, our grounds feature camping
+              facilities, a LED-lit swimming pool, sunset gardens, a working farm,
+              event spaces, and the Hidden Grill restaurant &mdash; all set against
+              the stunning backdrop of Ghana&apos;s Eastern corridor.
             </p>
             <p>
-              Whether you&apos;re looking for a weekend camping trip, a
-              thrilling mountain hike, a fun night out with friends, or the
-              perfect venue for your event &mdash; Ava Park delivers experiences
-              that reconnect you with nature and community.
+              Whether you&apos;re planning a weekend camping trip, a mountain
+              hike, a family day, or a corporate event &mdash; Hidden Paradise
+              delivers experiences that reconnect you with nature and community.
+              And this is just the beginning: our master plan extends to 300 acres,
+              with residential plots, chalets, a marina, and more.
             </p>
           </div>
         </div>
@@ -134,7 +135,7 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-6 text-text-secondary leading-relaxed">
               <p>
-                Ava Park, Akuse Road
+                Hidden Paradise, Akuse Road
                 <br />
                 Okwenya, Eastern Region
                 <br />
@@ -183,15 +184,15 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                   className="hover:text-accent transition"
                 >
-                  @avapark_gh
+                  @hiddenparadisegh
                 </a>
               </li>
               <li>
                 <a
-                  href="https://www.avapark-gh.com"
+                  href="https://www.hiddenparadisegh.com"
                   className="hover:text-accent transition"
                 >
-                  www.avapark-gh.com
+                  www.hiddenparadisegh.com
                 </a>
               </li>
             </ul>
@@ -205,7 +206,7 @@ export default function AboutPage() {
           READY FOR YOUR ADVENTURE?
         </p>
         <h2 className="font-display text-4xl md:text-5xl font-semibold text-white mt-4">
-          Book Your Ava Park Experience
+          Book Your Hidden Paradise Experience
         </h2>
         <div className="flex gap-4 justify-center mt-10 flex-wrap">
           <a
