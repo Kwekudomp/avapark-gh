@@ -72,7 +72,7 @@ export default function AdminDashboardClient({
           <img src="/hp-logo.jpeg" alt="" className="h-8 w-auto" />
           <div>
             <h1 className="font-semibold text-sm">Hidden Paradise</h1>
-            <p className="text-white/60 text-xs">Bookings Dashboard</p>
+            <p className="text-white/60 text-xs">Admin Dashboard</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -85,6 +85,22 @@ export default function AdminDashboardClient({
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        {/* CMS Navigation */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {[
+            { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: "🎯" },
+            { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: "📸" },
+            { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️" },
+          ].map(link => (
+            <a key={link.href} href={link.href}
+              className="bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">
+              <div className="text-2xl mb-2">{link.icon}</div>
+              <p className="font-semibold text-dark group-hover:text-primary transition text-sm">{link.label}</p>
+              <p className="text-xs text-text-secondary mt-1">{link.desc}</p>
+            </a>
+          ))}
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
