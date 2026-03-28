@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase";
+import { createServerSupabase } from "@/lib/supabase-server";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
 
 export default async function AdminDashboardPage() {

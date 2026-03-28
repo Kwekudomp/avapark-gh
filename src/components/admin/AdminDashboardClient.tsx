@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserSupabase, Booking, BookingStatus } from "@/lib/supabase";
+import { createBrowserSupabase } from "@/lib/supabase-browser";
+import { Booking, BookingStatus } from "@/lib/supabase";
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
