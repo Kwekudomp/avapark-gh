@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ExperienceGrid from "@/components/ExperienceGrid";
+import { getCMSExperiences } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Our Experiences",
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
     "Explore all experiences at Hidden Paradise — camping, hiking tours, pool parties, BBQ nights, picnics, game nights, and special events. Book your adventure today.",
 };
 
-export default function ExperiencesPage() {
+export default async function ExperiencesPage() {
+  const experiences = await getCMSExperiences();
+
   return (
     <>
       {/* Hero banner */}
@@ -23,7 +26,7 @@ export default function ExperiencesPage() {
 
       {/* Filterable experience grid */}
       <section className="py-24 px-[5%]">
-        <ExperienceGrid />
+        <ExperienceGrid initialExperiences={experiences} />
       </section>
     </>
   );

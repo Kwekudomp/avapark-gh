@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Experience } from "@/data/experiences";
+import { CMSExperience } from "@/lib/cms";
 import ScrollReveal from "./ScrollReveal";
 
 interface ExperienceCardProps {
-  experience: Experience;
+  experience: CMSExperience;
   index?: number;
 }
 
@@ -14,21 +14,27 @@ export default function ExperienceCard({
   experience,
   index = 0,
 }: ExperienceCardProps) {
-  const { slug, name, tagline, schedule, coverImage } = experience;
+  const { slug, name, tagline, schedule, cover_image_url, deposit_amount } = experience;
 
   return (
     <ScrollReveal delay={index * 0.1}>
       <div className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl rounded-2xl">
         {/* Image container — links to experience detail */}
         <Link href={`/experiences/${slug}`} className="block">
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
-            <Image
-              src={coverImage}
-              alt={name}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-bg-alt">
+            {cover_image_url ? (
+              <Image
+                src={cover_image_url}
+                alt={name}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                <span className="text-primary/30 text-4xl">🌿</span>
+              </div>
+            )}
 
             {/* Bottom gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -54,9 +60,9 @@ export default function ExperienceCard({
               {tagline}
             </p>
           )}
-          <Link href={`/book/${experience.slug}`}
+          <Link href={`/book/${slug}`}
             className="mt-4 block w-full text-center bg-accent text-white py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition">
-            {experience.depositAmount ? `Book — GHC ${experience.depositAmount} deposit` : "Reserve Spot"}
+            {deposit_amount ? `Book — GHC ${deposit_amount} deposit` : "Reserve Spot"}
           </Link>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import GalleryGrid from "@/components/GalleryGrid";
+import { getGalleryItems } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
     "Explore photos of Hidden Paradise — our camping grounds, swimming pool, sunset gardens, and event spaces.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const items = await getGalleryItems();
+
   return (
     <>
       <section className="py-32 pt-40 px-[5%] bg-bg-alt text-center">
@@ -21,7 +24,14 @@ export default function GalleryPage() {
       </section>
 
       <section className="py-24 px-[5%]">
-        <GalleryGrid />
+        {items.length > 0 ? (
+          <GalleryGrid initialItems={items} />
+        ) : (
+          <div className="text-center py-16 text-text-secondary">
+            <p className="text-4xl mb-4">📸</p>
+            <p className="text-lg">Photos coming soon</p>
+          </div>
+        )}
       </section>
     </>
   );

@@ -6,11 +6,11 @@ import PhotoMosaic from "@/components/PhotoMosaic";
 import ValueCards from "@/components/ValueCards";
 import WeeklySchedule from "@/components/WeeklySchedule";
 import DiasporaCTA from "@/components/DiasporaCTA";
-import { getFeaturedExperiences } from "@/data/experiences";
+import { getFeaturedCMSExperiences } from "@/lib/cms";
 
-const featured = getFeaturedExperiences();
+export default async function Home() {
+  const featured = await getFeaturedCMSExperiences();
 
-export default function Home() {
   return (
     <>
       {/* Hero */}

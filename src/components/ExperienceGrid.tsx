@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { experiences, Experience } from "@/data/experiences";
+import { CMSExperience } from "@/lib/cms";
 import ExperienceCard from "@/components/ExperienceCard";
 
 type Filter = "all" | "recurring" | "tour" | "special";
@@ -13,13 +13,13 @@ const tabs: { label: string; value: Filter }[] = [
   { label: "Special Events", value: "special" },
 ];
 
-export default function ExperienceGrid() {
+export default function ExperienceGrid({ initialExperiences }: { initialExperiences: CMSExperience[] }) {
   const [activeFilter, setActiveFilter] = useState<Filter>("all");
 
   const filtered =
     activeFilter === "all"
-      ? experiences
-      : experiences.filter((e) => e.category === activeFilter);
+      ? initialExperiences
+      : initialExperiences.filter((e) => e.category === activeFilter);
 
   return (
     <>
