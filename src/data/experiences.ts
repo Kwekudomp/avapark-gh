@@ -12,6 +12,15 @@ export interface Experience {
   category: "recurring" | "tour" | "special";
   isFeatured: boolean;
   whatsappMessage: string;
+  price: number | null;
+  depositAmount: number | null;
+  packageTiers?: {
+    id: string;
+    name: string;
+    price: number;
+    deposit: number;
+    description: string;
+  }[];
 }
 
 import { WHATSAPP_NUMBER } from "./constants";
@@ -65,6 +74,8 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Camping Experience"),
+    price: 400,
+    depositAmount: 200,
   },
   {
     slug: "party-in-the-woods",
@@ -94,6 +105,13 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Party In The Woods"),
+    price: 150,
+    depositAmount: 75,
+    packageTiers: [
+      { id: "explorer", name: "The Explorer", price: 150, deposit: 75, description: "Pool Access · All Games · 1 Water · 1 Cocktail" },
+      { id: "vip", name: "The Enthusiast (VIP)", price: 350, deposit: 175, description: "Priority Entry · Full BBQ Buffet · 2 Waters · 1 Premium Cocktail · Reserved Seating" },
+      { id: "tribe", name: "The Tribe Bundle (Group of 5)", price: 1600, deposit: 800, description: "VIP Table · Full BBQ for 5 · 2 Buckets of Beer · 1 Sparkling Wine · Dedicated Server" },
+    ],
   },
   {
     slug: "saturday-bbq",
@@ -117,6 +135,8 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Saturday BBQ"),
+    price: 200,
+    depositAmount: 100,
   },
   {
     slug: "game-night",
@@ -156,6 +176,8 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Game Night"),
+    price: 100,
+    depositAmount: 50,
   },
   {
     slug: "movie-night",
@@ -181,6 +203,8 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Friday Movie Night"),
+    price: null,
+    depositAmount: null,
   },
   {
     slug: "picnic-packages",
@@ -211,6 +235,8 @@ export const experiences: Experience[] = [
     category: "recurring",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Picnic Packages"),
+    price: 150,
+    depositAmount: 75,
   },
 
   // ─── TOUR EXPERIENCES ────────────────────────────────────────────────
@@ -239,6 +265,8 @@ export const experiences: Experience[] = [
     category: "tour",
     isFeatured: true,
     whatsappMessage: whatsappMsg("Krobo Mountain Hiking Tour"),
+    price: 200,
+    depositAmount: 100,
   },
   {
     slug: "yogaga-mountain-hike",
@@ -265,6 +293,8 @@ export const experiences: Experience[] = [
     category: "tour",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Mountain Yogaga Hike"),
+    price: 200,
+    depositAmount: 100,
   },
   {
     slug: "shai-hills-tour",
@@ -295,6 +325,8 @@ export const experiences: Experience[] = [
     category: "tour",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Hidden Paradise & Shai Hills Reserve Experience"),
+    price: 300,
+    depositAmount: 150,
   },
   {
     slug: "eastern-tour",
@@ -335,6 +367,8 @@ export const experiences: Experience[] = [
     category: "tour",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Eastern Tour"),
+    price: 300,
+    depositAmount: 150,
   },
 
   // ─── SPECIAL EXPERIENCES ─────────────────────────────────────────────
@@ -365,6 +399,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Sunset Gardens"),
+    price: null,
+    depositAmount: null,
   },
   {
     slug: "farm",
@@ -391,6 +427,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Hidden Paradise Farm"),
+    price: 80,
+    depositAmount: 40,
   },
   {
     slug: "art-show",
@@ -436,6 +474,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Art Show"),
+    price: null,
+    depositAmount: null,
   },
   {
     slug: "family-fun-day",
@@ -473,6 +513,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Family Fun Day"),
+    price: null,
+    depositAmount: null,
   },
   {
     slug: "garden-fair",
@@ -504,6 +546,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Garden Fair"),
+    price: null,
+    depositAmount: null,
   },
   {
     slug: "night-market",
@@ -538,6 +582,8 @@ export const experiences: Experience[] = [
     category: "special",
     isFeatured: false,
     whatsappMessage: whatsappMsg("Night Market"),
+    price: null,
+    depositAmount: null,
   },
 ];
 
