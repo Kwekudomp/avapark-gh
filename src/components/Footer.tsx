@@ -29,9 +29,9 @@ export default function Footer() {
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/hp-logo.svg"
+              src="/hp-logo.jpeg"
               alt="Hidden Paradise Nature Park"
-              className="h-16 w-auto object-contain brightness-0 invert"
+              className="h-16 w-auto object-contain"
             />
             <p className="mt-3 text-sm italic text-white/60">
               Your Escape Into Nature
