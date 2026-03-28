@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
-import Nav from "@/components/Nav";
-import WhatsAppFAB from "@/components/WhatsAppFAB";
-import Footer from "@/components/Footer";
+import PublicShell from "@/components/PublicShell";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -67,10 +65,7 @@ export default function RootLayout({
             }),
           }}
         />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppFAB />
+        <PublicShell>{children}</PublicShell>
       </body>
     </html>
   );
