@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
 const experiences = [
@@ -28,11 +27,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Column 1 — Brand */}
           <div>
-            <Image
-              src="/hp-logo.png"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hp-logo.svg"
               alt="Hidden Paradise Nature Park"
-              width={140}
-              height={70}
               className="h-16 w-auto object-contain brightness-0 invert"
             />
             <p className="mt-3 text-sm italic text-white/60">

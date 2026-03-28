@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { WHATSAPP_URL } from "@/data/constants";
 
@@ -69,13 +68,11 @@ export default function Nav() {
         <div className="flex h-16 items-center justify-between md:h-18">
           {/* Logo */}
           <Link href="/" onClick={closeMenu} aria-label="Hidden Paradise Nature Park — Home">
-            <Image
-              src="/hp-logo.png"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hp-logo.svg"
               alt="Hidden Paradise Nature Park"
-              width={120}
-              height={60}
               className="h-12 w-auto object-contain"
-              priority
             />
           </Link>
 
