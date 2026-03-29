@@ -53,7 +53,9 @@ export interface CMSEvent {
 export interface CMSVideo {
   id: string;
   title: string;
-  youtube_url: string;
+  youtube_url: string | null;
+  video_url: string | null;
+  source: "youtube" | "upload";
   category: string;
   is_active: boolean;
   sort_order: number;

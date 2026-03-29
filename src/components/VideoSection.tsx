@@ -11,7 +11,24 @@ function getYouTubeId(url: string): string | null {
 
 function VideoCard({ video }: { video: CMSVideo }) {
   const [playing, setPlaying] = useState(false);
-  const vid = getYouTubeId(video.youtube_url);
+
+  if (video.source === "upload" && video.video_url) {
+    return (
+      <div className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-black">
+        <video
+          src={video.video_url}
+          controls
+          className="w-full aspect-video object-cover"
+          preload="metadata"
+        />
+        <div className="p-4 bg-white">
+          <p className="text-sm font-semibold text-dark line-clamp-1">{video.title}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const vid = video.youtube_url ? getYouTubeId(video.youtube_url) : null;
   if (!vid) return null;
 
   return (
