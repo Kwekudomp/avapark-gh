@@ -93,14 +93,12 @@ export default function Nav() {
             ))}
 
             {/* Book Now CTA */}
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/experiences"
               className="bg-accent text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition-colors duration-200"
             >
               Book Now
-            </a>
+            </Link>
           </div>
 
           {/* Hamburger button (mobile) */}
@@ -179,15 +177,13 @@ export default function Nav() {
 
             {/* Book Now button (mobile - full width) */}
             <div className="mt-8">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/experiences"
                 onClick={closeMenu}
                 className="block w-full text-center bg-accent text-white px-6 py-3.5 rounded-full text-base font-medium hover:bg-accent-dark transition-colors duration-200"
               >
                 Book Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
