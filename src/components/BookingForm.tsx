@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Experience } from "@/data/experiences";
+import { CMSExperience } from "@/lib/supabase";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 
 declare global {
@@ -24,12 +24,12 @@ interface FormData {
   notes: string;
 }
 
-export default function BookingForm({ experience }: { experience: Experience }) {
+export default function BookingForm({ experience }: { experience: CMSExperience }) {
   const router = useRouter();
   const [form, setForm] = useState<FormData>({
     guest_name: "", guest_email: "", guest_phone: "",
     booking_date: "", adults: 1, children: 0,
-    package_tier_id: experience.packageTiers?.[0]?.id ?? "",
+    package_tier_id: experience.package_tiers?.[0]?.id ?? "",
     notes: "",
   });
   const [loading, setLoading] = useState(false);
@@ -45,10 +45,10 @@ export default function BookingForm({ experience }: { experience: Experience }) 
     document.body.appendChild(script);
   }, []);
 
-  const selectedTier = experience.packageTiers?.find(t => t.id === form.package_tier_id);
-  const depositPerPerson = selectedTier?.deposit ?? experience.depositAmount ?? 0;
+  const selectedTier = experience.package_tiers?.find(t => t.id === form.package_tier_id);
+  const depositPerPerson = selectedTier?.deposit ?? experience.deposit_amount ?? 0;
   const totalDeposit = depositPerPerson * form.adults + (form.children > 0 ? Math.floor(depositPerPerson * 0.5) * form.children : 0);
-  const isFree = !experience.depositAmount && !experience.packageTiers;
+  const isFree = !experience.deposit_amount && !experience.package_tiers;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const { name, value } = e.target;
@@ -177,11 +177,11 @@ export default function BookingForm({ experience }: { experience: Experience }) 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
       {/* Package tier selector (only for tiered experiences like Friday) */}
-      {experience.packageTiers && (
+      {experience.package_tiers && (
         <div>
           <label className={labelClass}>Select Package</label>
           <div className="space-y-3">
-            {experience.packageTiers.map(tier => (
+            {experience.package_tiers.map(tier => (
               <label
                 key={tier.id}
                 className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${

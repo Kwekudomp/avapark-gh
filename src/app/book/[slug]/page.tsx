@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
-import { getExperienceBySlug } from "@/data/experiences";
+import { getCMSExperienceBySlug } from "@/lib/cms";
 import BookingForm from "@/components/BookingForm";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await params;
-  const experience = getExperienceBySlug(slug);
+  const experience = await getCMSExperienceBySlug(slug);
   if (!experience) return {};
   return { title: `Book ${experience.name}` };
 }
@@ -16,7 +18,7 @@ export default async function BookPage(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const experience = getExperienceBySlug(slug);
+  const experience = await getCMSExperienceBySlug(slug);
   if (!experience) notFound();
 
   return (
@@ -30,11 +32,11 @@ export default async function BookPage(
         </h1>
         <p className="text-text-secondary mb-8">{experience.schedule} · {experience.time}</p>
 
-        {experience.depositAmount ? (
+        {experience.deposit_amount ? (
           <div className="bg-secondary/10 border border-secondary/30 rounded-2xl p-4 mb-8 flex items-center gap-3">
             <span className="text-secondary text-xl">🔒</span>
             <p className="text-sm text-text">
-              <strong>Deposit to secure your spot:</strong> GHC {experience.depositAmount} per person.
+              <strong>Deposit to secure your spot:</strong> GHC {experience.deposit_amount} per person.
               Remaining balance is paid at the venue.
             </p>
           </div>
