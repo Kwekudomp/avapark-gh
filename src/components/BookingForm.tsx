@@ -184,8 +184,8 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           package_tier_id: form.package_tier_id || null,
           package_tier_name: tierName,
           subtotal: totalDeposit * 2,
-          deposit_amount: totalDeposit,
-          notes: form.notes,
+          deposit_amount: 0,
+          notes: form.notes ? `[Pay at venue — GHC ${totalDeposit} due on arrival] ${form.notes}` : `Pay at venue — GHC ${totalDeposit} due on arrival`,
         }),
       });
       const data = await res.json();
