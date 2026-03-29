@@ -6,10 +6,16 @@ import PhotoMosaic from "@/components/PhotoMosaic";
 import ValueCards from "@/components/ValueCards";
 import WeeklySchedule from "@/components/WeeklySchedule";
 import DiasporaCTA from "@/components/DiasporaCTA";
-import { getFeaturedCMSExperiences } from "@/lib/cms";
+import UpcomingEvents from "@/components/UpcomingEvents";
+import VideoSection from "@/components/VideoSection";
+import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos } from "@/lib/cms";
 
 export default async function Home() {
-  const featured = await getFeaturedCMSExperiences();
+  const [featured, events, videos] = await Promise.all([
+    getFeaturedCMSExperiences(),
+    getUpcomingEvents(),
+    getVideos(),
+  ]);
 
   return (
     <>
@@ -48,6 +54,12 @@ export default async function Home() {
         />
         <ValueCards />
       </section>
+
+      {/* Upcoming Events */}
+      <UpcomingEvents events={events} />
+
+      {/* Videos */}
+      <VideoSection videos={videos} />
 
       {/* Weekly Schedule */}
       <WeeklySchedule />

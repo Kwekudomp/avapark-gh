@@ -90,6 +90,8 @@ export default function AdminDashboardClient({
           {[
             { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: "🎯" },
             { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: "📸" },
+            { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: "📅" },
+            { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬" },
             { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️" },
           ].map(link => (
             <a key={link.href} href={link.href}

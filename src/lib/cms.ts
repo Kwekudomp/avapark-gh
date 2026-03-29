@@ -114,6 +114,62 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
   }
 }
 
+export interface CMSEvent {
+  id: string;
+  title: string;
+  description: string | null;
+  event_date: string;
+  end_date: string | null;
+  image_url: string | null;
+  price: string | null;
+  ticket_url: string | null;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface CMSVideo {
+  id: string;
+  title: string;
+  youtube_url: string;
+  category: string;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export async function getUpcomingEvents(): Promise<CMSEvent[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const today = new Date().toISOString().split("T")[0];
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("is_active", true)
+      .gte("event_date", today)
+      .order("event_date", { ascending: true })
+      .limit(6);
+    if (error || !data?.length) return [];
+    return data as CMSEvent[];
+  } catch {
+    return [];
+  }
+}
+
+export async function getVideos(): Promise<CMSVideo[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data, error } = await supabase
+      .from("videos")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .limit(6);
+    if (error || !data?.length) return [];
+    return data as CMSVideo[];
+  } catch {
+    return [];
+  }
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   const defaults: SiteSettings = {
     phone_primary: "+233 (0) 540 879 700",
