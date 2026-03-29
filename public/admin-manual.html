@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidden Paradise — Admin Training Manual</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #1B3A2D;
+  --primary-light: #2A5441;
+  --accent: #E07B39;
+  --accent-dark: #C4652A;
+  --bg: #F7F4EF;
+  --bg-alt: #EEE9E1;
+  --border: #DDD8D0;
+  --text: #1B2A22;
+  --text-secondary: #6B7B6E;
+  --green: #2D6A4F;
+  --yellow: #F59E0B;
+  --red: #DC2626;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.cover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.cover-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  padding: 6px 20px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cover h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.cover p {
+  font-size: 18px;
+  opacity: 0.75;
+  max-width: 500px;
+  margin: 0 auto 32px;
+}
+.cover-leaf { font-size: 80px; margin-bottom: 24px; display: block; }
+
+nav.toc {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.toc-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-inner a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 12px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.toc-inner a:hover { color: var(--primary); border-bottom-color: var(--accent); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+section.manual-section {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.section-desc {
+  color: var(--text-secondary);
+  font-size: 16px;
+  margin-bottom: 40px;
+  max-width: 640px;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Steps */
+.steps { display: flex; flex-direction: column; gap: 16px; }
+.step {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+.step-content h4 { font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+.step-content p { font-size: 14px; color: var(--text-secondary); }
+.step-content code {
+  background: var(--bg-alt);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--accent-dark);
+}
+
+/* Flow */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 32px 0;
+}
+.flow-node {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 140px;
+  flex: 1;
+}
+.flow-node.active { border-color: var(--accent); background: #FFF5EF; }
+.flow-node.done { border-color: var(--green); background: #F0FAF5; }
+.flow-node .icon { font-size: 28px; margin-bottom: 8px; }
+.flow-node h4 { font-size: 13px; font-weight: 700; color: var(--primary); }
+.flow-node p { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.flow-arrow {
+  font-size: 24px;
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-pending { background: #FEF3C7; color: #92400E; }
+.badge-confirmed { background: #D1FAE5; color: #065F46; }
+.badge-cancelled { background: #FEE2E2; color: #991B1B; }
+.badge-free { background: #EDE9FE; color: #5B21B6; }
+
+/* Action buttons demo */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: default;
+}
+.btn-confirm { background: #059669; color: white; }
+.btn-cancel { background: #FEE2E2; color: #DC2626; }
+.btn-wa { background: #25D366; color: white; }
+
+/* Info box */
+.info-box {
+  display: flex;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin: 24px 0;
+}
+.info-box.tip { background: #F0FAF5; border: 1px solid #A7F3D0; }
+.info-box.warn { background: #FFFBEB; border: 1px solid #FCD34D; }
+.info-box.note { background: #EFF6FF; border: 1px solid #BFDBFE; }
+.info-box .icon { font-size: 24px; flex-shrink: 0; }
+.info-box .content h4 { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.info-box .content p { font-size: 13px; color: var(--text-secondary); }
+
+/* Quick ref table */
+table.quick-ref {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+table.quick-ref th {
+  background: var(--primary);
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+table.quick-ref th:first-child { border-radius: 12px 0 0 0; }
+table.quick-ref th:last-child { border-radius: 0 12px 0 0; }
+table.quick-ref td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+table.quick-ref tr:last-child td { border-bottom: none; }
+table.quick-ref tr:nth-child(even) td { background: var(--bg-alt); }
+table.quick-ref .task { font-weight: 600; color: var(--primary); }
+
+/* Screen mockup */
+.screen {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.screen-bar {
+  background: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.screen-body { padding: 20px; }
+
+/* Two col */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+/* Footer */
+footer {
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 40px 24px;
+}
+footer p { opacity: 0.6; font-size: 14px; }
+footer strong { color: var(--accent); }
+
+@media print {
+  nav.toc { display: none; }
+  .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  section.manual-section { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <span class="cover-leaf">🌿</span>
+  <div class="cover-badge">Admin Training Manual</div>
+  <h1>Hidden Paradise<br>Nature Park</h1>
+  <p>Everything you need to manage the website, bookings, content, and more.</p>
+  <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:12px 20px;font-size:13px;">📅 Events CMS</div>
+    <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:12px 20px;font-size:13px;">📸 Gallery</div>
+    <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:12px 20px;font-size:13px;">🎬 Videos</div>
+    <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:12px 20px;font-size:13px;">🎯 Bookings</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#login">🔐 Login</a>
+    <a href="#dashboard">📊 Dashboard</a>
+    <a href="#bookings">🎯 Bookings</a>
+    <a href="#experiences">🏕️ Experiences</a>
+    <a href="#gallery">📸 Gallery</a>
+    <a href="#events">📅 Events</a>
+    <a href="#videos">🎬 Videos</a>
+    <a href="#settings">⚙️ Settings</a>
+    <a href="#quickref">⚡ Quick Ref</a>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<section class="manual-section" id="login">
+  <div class="container">
+    <div class="section-label">01 — Getting Started</div>
+    <h2 class="section-title">Logging In</h2>
+    <p class="section-desc">Access the admin dashboard from any browser. You don't need to install anything.</p>
+
+    <div class="two-col">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Go to the admin URL</h4>
+            <p>Open your browser and visit <code>hiddenparadisegh.vercel.app/admin</code></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Enter your credentials</h4>
+            <p>Type your email address and password. These were set up for you in Supabase.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Click Sign In</h4>
+            <p>You'll be redirected to the main dashboard automatically.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Sign out when done</h4>
+            <p>Always click <strong>Sign Out</strong> in the top-right corner, especially on shared devices.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="screen">
+          <div class="screen-bar">🔐 Admin Login — Hidden Paradise</div>
+          <div class="screen-body">
+            <div style="text-align:center;padding:20px 0 28px;">
+              <div style="font-size:40px;margin-bottom:12px;">🌿</div>
+              <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--primary);font-weight:700;">Hidden Paradise</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Admin Portal</div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Email</div>
+              <div style="border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-secondary);">admin@hiddenparadise.com</div>
+            </div>
+            <div style="margin-bottom:20px;">
+              <div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Password</div>
+              <div style="border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-secondary);">••••••••••</div>
+            </div>
+            <div style="background:var(--primary);color:white;border-radius:999px;padding:12px;text-align:center;font-weight:600;font-size:14px;">Sign In</div>
+          </div>
+        </div>
+        <div class="info-box tip" style="margin-top:16px;">
+          <div class="icon">💡</div>
+          <div class="content">
+            <h4>Multiple admins</h4>
+            <p>You can create additional admin accounts in Supabase → Authentication → Users → Add user.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="manual-section" id="dashboard">
+  <div class="container">
+    <div class="section-label">02 — Overview</div>
+    <h2 class="section-title">The Dashboard</h2>
+    <p class="section-desc">Your command centre. See all bookings, stats, and navigate to any section from here.</p>
+
+    <div class="card-grid" style="margin-bottom:32px;">
+      <div class="card" style="border-top:4px solid var(--primary);">
+        <div style="font-size:32px;margin-bottom:8px;">📊</div>
+        <h3 style="color:var(--primary);margin-bottom:6px;">Total Bookings</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">All bookings ever made on the site regardless of status.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--yellow);">
+        <div style="font-size:32px;margin-bottom:8px;">⏳</div>
+        <h3 style="color:#92400E;margin-bottom:6px;">Pending</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">New bookings waiting for your confirmation. Action these first.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--green);">
+        <div style="font-size:32px;margin-bottom:8px;">✅</div>
+        <h3 style="color:var(--green);margin-bottom:6px;">Confirmed</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">Bookings you have confirmed. Guest has been notified.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--accent);">
+        <div style="font-size:32px;margin-bottom:8px;">💰</div>
+        <h3 style="color:var(--accent-dark);margin-bottom:6px;">Deposits Collected</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">Total online deposits paid via Paystack. Excludes pay-at-venue.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-weight:700;color:var(--primary);margin-bottom:16px;">CMS Navigation Cards</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">🎯</div>
+          <div style="font-size:13px;font-weight:600;">Experiences</div>
+        </div>
+        <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">📸</div>
+          <div style="font-size:13px;font-weight:600;">Gallery</div>
+        </div>
+        <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">📅</div>
+          <div style="font-size:13px;font-weight:600;">Events</div>
+        </div>
+        <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">🎬</div>
+          <div style="font-size:13px;font-weight:600;">Videos</div>
+        </div>
+        <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">⚙️</div>
+          <div style="font-size:13px;font-weight:600;">Site Settings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKINGS -->
+<section class="manual-section" id="bookings">
+  <div class="container">
+    <div class="section-label">03 — Bookings</div>
+    <h2 class="section-title">Managing Bookings</h2>
+    <p class="section-desc">Every guest booking appears here. You can confirm, cancel, search, filter, and contact guests directly.</p>
+
+    <!-- Booking flow -->
+    <h3 style="font-weight:700;color:var(--primary);margin-bottom:20px;">📌 How a Booking Works</h3>
+    <div class="flow">
+      <div class="flow-node">
+        <div class="icon">👤</div>
+        <h4>Guest Books</h4>
+        <p>Fills form on the website and pays or reserves</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node active">
+        <div class="icon">⏳</div>
+        <h4>Pending</h4>
+        <p>Appears in your dashboard as Pending</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="icon">👀</div>
+        <h4>You Review</h4>
+        <p>Check the date, group size, and notes</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node done">
+        <div class="icon">✅</div>
+        <h4>Confirm</h4>
+        <p>Click Confirm — guest gets WhatsApp message</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node done">
+        <div class="icon">🎉</div>
+        <h4>Guest Arrives</h4>
+        <p>They show up on the booking date</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:16px;">Understanding Booking Statuses</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="badge badge-pending">⏳ Pending</span>
+            <span style="font-size:13px;color:var(--text-secondary);">New booking, not yet actioned by admin</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="badge badge-confirmed">✅ Confirmed</span>
+            <span style="font-size:13px;color:var(--text-secondary);">You've confirmed — guest is expected to arrive</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="badge badge-cancelled">❌ Cancelled</span>
+            <span style="font-size:13px;color:var(--text-secondary);">Booking was cancelled (by admin or guest)</span>
+          </div>
+        </div>
+
+        <h3 style="font-weight:700;color:var(--primary);margin:24px 0 16px;">Action Buttons Explained</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="action-btn btn-confirm">Confirm</span>
+            <span style="font-size:13px;color:var(--text-secondary);">Marks booking as confirmed. Only shown on Pending bookings.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="action-btn btn-cancel">Cancel</span>
+            <span style="font-size:13px;color:var(--text-secondary);">Marks booking as cancelled. Guest is not automatically notified — use WA to inform them.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <span class="action-btn btn-wa">WA</span>
+            <span style="font-size:13px;color:var(--text-secondary);">Opens WhatsApp with a pre-filled message to the guest's phone number.</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:16px;">Searching & Filtering</h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num" style="background:var(--accent);">🔍</div>
+            <div class="step-content">
+              <h4>Search bar</h4>
+              <p>Type any part of a guest's name, email, phone number, or experience name.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--accent);">🏷️</div>
+            <div class="step-content">
+              <h4>Status filter</h4>
+              <p>Click <strong>All / Pending / Confirmed / Cancelled</strong> to show only that group.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--accent);">📅</div>
+            <div class="step-content">
+              <h4>Date range</h4>
+              <p>Set a <strong>From</strong> and <strong>To</strong> date to see bookings only within that period.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--accent);">✖️</div>
+            <div class="step-content">
+              <h4>Clear filters</h4>
+              <p>Click <strong>Clear filters</strong> to reset everything and see all bookings again.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box warn" style="margin-top:16px;">
+          <div class="icon">⚠️</div>
+          <div class="content">
+            <h4>Pay at Venue bookings</h4>
+            <p>If a guest chose "Reserve — Pay at Venue", the deposit column shows <strong>GHC 0</strong>. The notes field will say how much is due on arrival. Collect this when they arrive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCES -->
+<section class="manual-section" id="experiences">
+  <div class="container">
+    <div class="section-label">04 — Experiences</div>
+    <h2 class="section-title">Managing Experiences</h2>
+    <p class="section-desc">Control which experiences are visible on the site and which appear as featured on the homepage.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Go to Experiences</h4>
+              <p>From the dashboard, click the <strong>Experiences</strong> card.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Toggle Featured</h4>
+              <p>Click <strong>Featured</strong> on an experience to show/hide it in the homepage highlights grid (max 6 recommended).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Toggle Active</h4>
+              <p>Click <strong>Active</strong> to show or hide an experience from the public site entirely. Hidden experiences won't appear anywhere.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>Edit an Experience</h4>
+              <p>Click <strong>Edit</strong> to update the name, description, price, images, schedule, or package details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h4 style="font-weight:700;color:var(--primary);margin-bottom:16px;">Featured vs Active</h4>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="background:var(--bg-alt);border-radius:12px;padding:14px;">
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px;">⭐ Featured = ON</div>
+              <div style="font-size:13px;color:var(--text-secondary);">Appears in the homepage "Discover What Awaits" grid</div>
+            </div>
+            <div style="background:var(--bg-alt);border-radius:12px;padding:14px;">
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px;">⭐ Featured = OFF</div>
+              <div style="font-size:13px;color:var(--text-secondary);">Only visible on the /experiences page, not homepage</div>
+            </div>
+            <div style="background:var(--bg-alt);border-radius:12px;padding:14px;">
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px;">👁️ Active = ON</div>
+              <div style="font-size:13px;color:var(--text-secondary);">Visible to the public on the site</div>
+            </div>
+            <div style="background:var(--bg-alt);border-radius:12px;padding:14px;">
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px;">🚫 Active = OFF</div>
+              <div style="font-size:13px;color:var(--text-secondary);">Hidden from the public. Use for seasonal or paused experiences.</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-box tip" style="margin-top:16px;">
+          <div class="icon">💡</div>
+          <div class="content">
+            <h4>Tip</h4>
+            <p>Keep 4–6 experiences featured on the homepage. Too many makes it look cluttered.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="manual-section" id="gallery">
+  <div class="container">
+    <div class="section-label">05 — Gallery</div>
+    <h2 class="section-title">Uploading Photos</h2>
+    <p class="section-desc">Add real photos of the park to the public gallery. Images are stored securely in Supabase and served via CDN.</p>
+
+    <div class="two-col">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Go to Gallery</h4>
+            <p>From the dashboard, click the <strong>Gallery</strong> card.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Add a description</h4>
+            <p>Type a short description in the <strong>Description</strong> field (e.g. "Pool at sunset").</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Choose a category</h4>
+            <p>Select from: <code>venue</code> · <code>camping</code> · <code>pool</code> · <code>gardens</code> · <code>events</code></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Click "Choose Photo"</h4>
+            <p>Select the image file from your device. Upload starts automatically.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Delete if needed</h4>
+            <p>Hover over any photo and click the <strong>✕</strong> button to remove it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <h4 style="font-weight:700;color:var(--primary);margin-bottom:14px;">📋 File Requirements</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:13px;color:var(--text-secondary);">Formats</span>
+              <span style="font-weight:600;font-size:13px;">JPG, PNG, WEBP</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:13px;color:var(--text-secondary);">Max file size</span>
+              <span style="font-weight:600;font-size:13px;">50 MB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:13px;color:var(--text-secondary);">Recommended size</span>
+              <span style="font-weight:600;font-size:13px;">1920×1280 or larger</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+              <span style="font-size:13px;color:var(--text-secondary);">Storage</span>
+              <span style="font-weight:600;font-size:13px;">Supabase CDN (fast)</span>
+            </div>
+          </div>
+        </div>
+        <div class="info-box tip">
+          <div class="icon">📸</div>
+          <div class="content">
+            <h4>Best practice</h4>
+            <p>Upload bright, high-quality photos. Avoid blurry or dark images — they represent the park to potential visitors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="manual-section" id="events">
+  <div class="container">
+    <div class="section-label">06 — Events</div>
+    <h2 class="section-title">Creating Upcoming Events</h2>
+    <p class="section-desc">Add special events that appear on the homepage and drive bookings. Events show automatically until the date has passed.</p>
+
+    <div class="two-col">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Click "+ Add Event"</h4>
+            <p>Button in the top-right of the Events page.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Enter the event title</h4>
+            <p>Keep it short and exciting. E.g. <em>"New Year's Eve Bonfire Night"</em></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Set the date(s)</h4>
+            <p>Enter the <strong>Start Date</strong>. For multi-day events, set an <strong>End Date</strong> too.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Add price & description</h4>
+            <p>Enter the price (e.g. <em>GHC 200</em>) and a short description of what to expect.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Upload a cover image</h4>
+            <p>Click <strong>Upload Image</strong> to add a photo. This appears as the event card image on the site.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h4>Click "Save Event"</h4>
+            <p>The event goes live immediately on the homepage (if date is in the future).</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <h4 style="font-weight:700;color:var(--primary);margin-bottom:14px;">🗓️ Event Fields</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+            <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-weight:600;">Title <span style="color:var(--red);">*</span></div>
+              <div style="color:var(--text-secondary);">Name of the event shown to visitors</div>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-weight:600;">Start Date <span style="color:var(--red);">*</span></div>
+              <div style="color:var(--text-secondary);">When the event begins</div>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-weight:600;">End Date</div>
+              <div style="color:var(--text-secondary);">For multi-day events (optional)</div>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-weight:600;">Price</div>
+              <div style="color:var(--text-secondary);">e.g. GHC 150. Leave blank for free events.</div>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-weight:600;">Ticket Link</div>
+              <div style="color:var(--text-secondary);">URL to buy tickets (optional). Shows "Get Tickets" button.</div>
+            </div>
+            <div style="padding:10px 0;">
+              <div style="font-weight:600;">Cover Image</div>
+              <div style="color:var(--text-secondary);">Photo shown on the event card</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-box note">
+          <div class="icon">📌</div>
+          <div class="content">
+            <h4>Auto-hide past events</h4>
+            <p>Events with a past start date are automatically hidden from the homepage. They remain in the admin list so you have a record.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="manual-section" id="videos">
+  <div class="container">
+    <div class="section-label">07 — Videos</div>
+    <h2 class="section-title">Adding Videos</h2>
+    <p class="section-desc">Add YouTube videos or upload short clips directly. Videos appear in the homepage Video Section.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+      <div class="card" style="border-top:4px solid #FF0000;">
+        <div style="font-size:36px;margin-bottom:12px;">▶️</div>
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:8px;">Option A: YouTube Link</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Paste any YouTube or YouTube Shorts URL. A live preview appears before you save.</p>
+        <div class="steps" style="gap:10px;">
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">1</div>
+            <div class="step-content"><p>Click "+ Add Video" → Select <strong>YouTube Link</strong></p></div>
+          </div>
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">2</div>
+            <div class="step-content"><p>Enter a title and paste the YouTube URL</p></div>
+          </div>
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">3</div>
+            <div class="step-content"><p>Choose a category and click <strong>Save Video</strong></p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--primary);">
+        <div style="font-size:36px;margin-bottom:12px;">📤</div>
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:8px;">Option B: Upload Video</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Upload short clips directly from your phone or computer. Stored in Supabase.</p>
+        <div class="steps" style="gap:10px;">
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">1</div>
+            <div class="step-content"><p>Click "+ Add Video" → Select <strong>Upload Video</strong></p></div>
+          </div>
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">2</div>
+            <div class="step-content"><p>Enter a title, choose category, click the upload area</p></div>
+          </div>
+          <div class="step" style="padding:12px 16px;">
+            <div class="step-num" style="width:28px;height:28px;font-size:13px;">3</div>
+            <div class="step-content"><p>Wait for upload to finish, then click <strong>Save Video</strong></p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4 style="font-weight:700;color:var(--primary);margin-bottom:14px;">📋 Video Requirements</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px;">
+        <div>
+          <div style="font-weight:600;margin-bottom:8px;">Accepted formats</div>
+          <div style="color:var(--text-secondary);">MP4, MOV, WEBM, QuickTime</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:8px;">Max file size</div>
+          <div style="color:var(--text-secondary);">50 MB per video</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:8px;">Recommended length</div>
+          <div style="color:var(--text-secondary);">30 seconds – 3 minutes</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:8px;">Categories</div>
+          <div style="color:var(--text-secondary);">Highlights · Events · Nature · Experiences</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="manual-section" id="settings">
+  <div class="container">
+    <div class="section-label">08 — Site Settings</div>
+    <h2 class="section-title">Site Settings</h2>
+    <p class="section-desc">Update contact info, opening hours, and social media links. Changes take effect immediately across the whole site.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <h4 style="font-weight:700;color:var(--primary);margin-bottom:14px;">Fields you can edit</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">📞 Primary Phone</span>
+              <span style="color:var(--text-secondary);">Main contact number</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">🧺 Picnic Line</span>
+              <span style="color:var(--text-secondary);">Dedicated picnic booking line</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">📧 Email</span>
+              <span style="color:var(--text-secondary);">Contact email address</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">📸 Instagram</span>
+              <span style="color:var(--text-secondary);">Instagram handle (no @)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">💬 WhatsApp</span>
+              <span style="color:var(--text-secondary);">Number with country code, no +</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span style="font-weight:600;">🕒 Weekday Hours</span>
+              <span style="color:var(--text-secondary);">Mon–Fri opening hours</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;">
+              <span style="font-weight:600;">🕒 Weekend Hours</span>
+              <span style="color:var(--text-secondary);">Sat–Sun opening hours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-box warn">
+          <div class="icon">⚠️</div>
+          <div class="content">
+            <h4>WhatsApp number format</h4>
+            <p>Enter the WhatsApp number without any spaces, dashes, or + sign. Example: <code>233540879700</code></p>
+          </div>
+        </div>
+        <div class="info-box tip" style="margin-top:16px;">
+          <div class="icon">💡</div>
+          <div class="content">
+            <h4>Changes are instant</h4>
+            <p>Saving settings updates the live site immediately. The contact page, footer, and WhatsApp buttons all use these values.</p>
+          </div>
+        </div>
+        <div class="info-box note" style="margin-top:16px;">
+          <div class="icon">📌</div>
+          <div class="content">
+            <h4>Always click Save</h4>
+            <p>Each setting has its own Save button. Make sure to click it after editing each field.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK REF -->
+<section class="manual-section" id="quickref" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-label">Quick Reference</div>
+    <h2 class="section-title">⚡ Common Tasks at a Glance</h2>
+    <p class="section-desc">The most frequent admin actions and exactly where to find them.</p>
+
+    <div class="screen" style="overflow:hidden;">
+      <table class="quick-ref">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Where to go</th>
+            <th>Steps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="task">✅ Confirm a booking</td>
+            <td>Dashboard</td>
+            <td>Find booking → Click <strong>Confirm</strong></td>
+          </tr>
+          <tr>
+            <td class="task">💬 WhatsApp a guest</td>
+            <td>Dashboard</td>
+            <td>Find booking → Click <strong>WA</strong></td>
+          </tr>
+          <tr>
+            <td class="task">🔍 Find a booking</td>
+            <td>Dashboard → Search bar</td>
+            <td>Type name, email, or phone</td>
+          </tr>
+          <tr>
+            <td class="task">📅 Filter by date</td>
+            <td>Dashboard → Date range</td>
+            <td>Set From and To dates</td>
+          </tr>
+          <tr>
+            <td class="task">📸 Upload a photo</td>
+            <td>Gallery</td>
+            <td>Add description → Choose category → Click "Choose Photo"</td>
+          </tr>
+          <tr>
+            <td class="task">📅 Add an event</td>
+            <td>Events</td>
+            <td>Click "+ Add Event" → Fill form → Save</td>
+          </tr>
+          <tr>
+            <td class="task">🎬 Add a YouTube video</td>
+            <td>Videos</td>
+            <td>Click "+ Add Video" → YouTube Link → Paste URL → Save</td>
+          </tr>
+          <tr>
+            <td class="task">📤 Upload a short clip</td>
+            <td>Videos</td>
+            <td>Click "+ Add Video" → Upload Video → Choose file → Save</td>
+          </tr>
+          <tr>
+            <td class="task">🚫 Hide an experience</td>
+            <td>Experiences</td>
+            <td>Find experience → Toggle <strong>Active</strong> to OFF</td>
+          </tr>
+          <tr>
+            <td class="task">⭐ Feature on homepage</td>
+            <td>Experiences</td>
+            <td>Find experience → Toggle <strong>Featured</strong> to ON</td>
+          </tr>
+          <tr>
+            <td class="task">📞 Update phone number</td>
+            <td>Site Settings</td>
+            <td>Edit Primary Phone field → Click Save</td>
+          </tr>
+          <tr>
+            <td class="task">🕒 Change opening hours</td>
+            <td>Site Settings</td>
+            <td>Edit Weekday or Weekend Hours → Click Save</td>
+          </tr>
+          <tr>
+            <td class="task">👤 Add another admin</td>
+            <td>Supabase → Auth → Users</td>
+            <td>Click "Add user" → Enter email & password</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:40px;background:var(--primary);border-radius:20px;padding:32px;color:white;display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px;">Need help?</div>
+        <p style="opacity:0.7;font-size:14px;">If something isn't working, check that you're logged in and that the Supabase tables exist. For technical issues, contact your developer.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:200px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;font-size:13px;">
+          <div style="font-weight:700;margin-bottom:2px;">Live site</div>
+          <div style="opacity:0.7;">hiddenparadisegh.vercel.app</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;font-size:13px;">
+          <div style="font-weight:700;margin-bottom:2px;">Admin panel</div>
+          <div style="opacity:0.7;">hiddenparadisegh.vercel.app/admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-size:40px;margin-bottom:12px;">🌿</div>
+  <p><strong>Hidden Paradise Nature Park</strong> — Admin Training Manual</p>
+  <p style="margin-top:8px;">For internal use only · Version 1.0 · 2026</p>
+</footer>
+
+</body>
+</html>
