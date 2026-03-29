@@ -2,15 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
-export interface CMSVideo {
-  id: string;
-  title: string;
-  youtube_url: string;
-  category: string;
-  is_active: boolean;
-  sort_order: number;
-}
+import { CMSVideo } from "@/lib/supabase";
 
 const CATEGORIES = ["highlights", "events", "nature", "experiences"] as const;
 

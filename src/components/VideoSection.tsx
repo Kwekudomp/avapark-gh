@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CMSVideo } from "@/lib/cms";
+import { CMSVideo } from "@/lib/supabase";
 import SectionHeader from "@/components/SectionHeader";
 
 function getYouTubeId(url: string): string | null {

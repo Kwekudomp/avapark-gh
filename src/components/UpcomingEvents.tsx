@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CMSEvent } from "@/lib/cms";
+import { CMSEvent } from "@/lib/supabase";
 import SectionHeader from "@/components/SectionHeader";
 
 function EventCard({ event }: { event: CMSEvent }) {

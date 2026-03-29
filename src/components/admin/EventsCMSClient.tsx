@@ -2,19 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-
-export interface CMSEvent {
-  id: string;
-  title: string;
-  description: string | null;
-  event_date: string;
-  end_date: string | null;
-  image_url: string | null;
-  price: string | null;
-  ticket_url: string | null;
-  is_active: boolean;
-  sort_order: number;
-}
+import { CMSEvent } from "@/lib/supabase";
 
 const empty = {
   title: "", description: "", event_date: "", end_date: "",

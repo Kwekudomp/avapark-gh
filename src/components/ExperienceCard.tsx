@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CMSExperience } from "@/lib/cms";
+import { CMSExperience } from "@/lib/supabase";
 import ScrollReveal from "./ScrollReveal";
 
 interface ExperienceCardProps {

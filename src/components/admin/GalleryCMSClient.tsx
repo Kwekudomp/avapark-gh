@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { GalleryItem } from "@/lib/cms";
+import { GalleryItem } from "@/lib/supabase";
 
 const CATEGORIES = ["venue", "camping", "pool", "gardens", "events"] as const;
 

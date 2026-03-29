@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { CMSExperience } from "@/lib/cms";
+import { CMSExperience } from "@/lib/supabase";
 
 type FormState = {
   name: string;
