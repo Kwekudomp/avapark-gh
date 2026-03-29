@@ -162,6 +162,42 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     handler.openIframe();
   }
 
+  async function reserveAtVenue(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const tierName = selectedTier?.name ?? null;
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          experience_slug: experience.slug,
+          experience_name: experience.name,
+          guest_name: form.guest_name,
+          guest_email: form.guest_email,
+          guest_phone: form.guest_phone,
+          booking_date: form.booking_date,
+          group_size: form.adults + form.children,
+          adults: form.adults,
+          children: form.children,
+          package_tier_id: form.package_tier_id || null,
+          package_tier_name: tierName,
+          subtotal: totalDeposit * 2,
+          deposit_amount: totalDeposit,
+          notes: form.notes,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      router.push(`/book/success?name=${encodeURIComponent(form.guest_name)}&exp=${encodeURIComponent(experience.name)}&venue=1`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (isFree) {
@@ -274,17 +310,36 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-accent text-white py-4 rounded-full font-semibold text-base hover:bg-accent-dark hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
-      >
-        {loading
-          ? "Processing..."
-          : isFree
-          ? "Reserve My Spot"
-          : `Pay Deposit — GHC ${totalDeposit}`}
-      </button>
+      {isFree ? (
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-accent text-white py-4 rounded-full font-semibold text-base hover:bg-accent-dark hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
+        >
+          {loading ? "Processing..." : "Reserve My Spot"}
+        </button>
+      ) : (
+        <div className="space-y-3">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-accent text-white py-4 rounded-full font-semibold text-base hover:bg-accent-dark hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
+          >
+            {loading ? "Processing..." : `Pay Deposit Now — GHC ${totalDeposit}`}
+          </button>
+          <button
+            type="button"
+            onClick={reserveAtVenue}
+            disabled={loading}
+            className="w-full bg-white border-2 border-primary text-primary py-4 rounded-full font-semibold text-base hover:bg-primary hover:text-white transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {loading ? "Processing..." : "Reserve — Pay at Venue"}
+          </button>
+          <p className="text-center text-xs text-text-secondary">
+            Pay online now to secure your spot, or reserve and pay GHC {totalDeposit} on arrival.
+          </p>
+        </div>
+      )}
 
       <p className="text-center text-xs text-text-secondary">
         Prefer to book via WhatsApp?{" "}

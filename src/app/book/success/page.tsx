@@ -12,6 +12,7 @@ function SuccessContent() {
   const ref = params.get("ref");
   const amount = params.get("amount");
   const isFree = params.get("free") === "1";
+  const isVenue = params.get("venue") === "1";
 
   return (
     <div className="text-center max-w-lg mx-auto">
@@ -20,10 +21,17 @@ function SuccessContent() {
         You&apos;re Booked, {name}!
       </h1>
       <p className="text-text-secondary text-lg mb-6">
-        {isFree
+        {isFree || isVenue
           ? `Your spot for ${exp} has been reserved. We'll be in touch to confirm details.`
           : `Your deposit of GHC ${amount} for ${exp} has been received. We'll confirm your booking shortly.`}
       </p>
+
+      {isVenue && (
+        <div className="bg-accent/10 border border-accent/30 rounded-2xl p-4 mb-6 text-sm text-left">
+          <p className="font-semibold text-accent mb-1">Pay at Venue</p>
+          <p className="text-text-secondary">Please bring your deposit payment on arrival. Your spot is reserved but not confirmed until payment is received.</p>
+        </div>
+      )}
 
       {ref && (
         <div className="bg-bg-alt border border-border rounded-xl p-4 mb-6 text-sm">
