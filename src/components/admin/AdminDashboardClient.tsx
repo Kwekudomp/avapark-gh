@@ -22,6 +22,8 @@ export default function AdminDashboardClient({
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
   const [filter, setFilter] = useState<"all" | BookingStatus>("all");
   const [search, setSearch] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
 
   async function handleSignOut() {
@@ -52,8 +54,12 @@ export default function AdminDashboardClient({
     const matchesSearch = !search ||
       b.guest_name.toLowerCase().includes(search.toLowerCase()) ||
       b.guest_email.toLowerCase().includes(search.toLowerCase()) ||
+      b.guest_phone.includes(search) ||
       b.experience_name.toLowerCase().includes(search.toLowerCase());
-    return matchesStatus && matchesSearch;
+    const bookingDate = b.booking_date.slice(0, 10);
+    const matchesFrom = !dateFrom || bookingDate >= dateFrom;
+    const matchesTo = !dateTo || bookingDate <= dateTo;
+    return matchesStatus && matchesSearch && matchesFrom && matchesTo;
   });
 
   const stats = {
@@ -119,21 +125,42 @@ export default function AdminDashboardClient({
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <input
-            value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Search by name, email or experience..."
-            className="flex-1 border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-          />
-          <div className="flex gap-2">
-            {(["all", "pending", "confirmed", "cancelled"] as const).map(s => (
-              <button key={s} onClick={() => setFilter(s)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold capitalize transition ${
-                  filter === s ? "bg-primary text-white" : "bg-white border border-border text-text-secondary hover:border-primary"
-                }`}>
-                {s}
+        <div className="bg-white rounded-2xl border border-border p-4 mb-6 space-y-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              value={search} onChange={e => setSearch(e.target.value)}
+              placeholder="Search by name, phone, email or experience..."
+              className="flex-1 border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            />
+            <div className="flex gap-2 flex-wrap">
+              {(["all", "pending", "confirmed", "cancelled"] as const).map(s => (
+                <button key={s} onClick={() => setFilter(s)}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold capitalize transition ${
+                    filter === s ? "bg-primary text-white" : "bg-white border border-border text-text-secondary hover:border-primary"
+                  }`}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 items-center">
+            <div className="flex items-center gap-2 flex-1">
+              <label className="text-xs text-text-secondary whitespace-nowrap">From</label>
+              <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+                className="flex-1 border border-border rounded-xl px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+            </div>
+            <div className="flex items-center gap-2 flex-1">
+              <label className="text-xs text-text-secondary whitespace-nowrap">To</label>
+              <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+                className="flex-1 border border-border rounded-xl px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+            </div>
+            {(dateFrom || dateTo || search) && (
+              <button onClick={() => { setDateFrom(""); setDateTo(""); setSearch(""); }}
+                className="text-xs text-accent hover:underline whitespace-nowrap">
+                Clear filters
               </button>
-            ))}
+            )}
+            <p className="text-xs text-text-secondary whitespace-nowrap">{filtered.length} booking{filtered.length !== 1 ? "s" : ""}</p>
           </div>
         </div>
 
