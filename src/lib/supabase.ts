@@ -75,6 +75,20 @@ export interface SiteSettings {
   [key: string]: string;
 }
 
+export type ReviewStatus = "pending" | "approved" | "rejected";
+
+export interface Review {
+  id: string;
+  guest_name: string;
+  guest_email: string;
+  experience_name: string;
+  rating: number;
+  comment: string;
+  status: ReviewStatus;
+  admin_note: string | null;
+  created_at: string;
+}
+
 export interface Booking {
   id: string;
   experience_slug: string;

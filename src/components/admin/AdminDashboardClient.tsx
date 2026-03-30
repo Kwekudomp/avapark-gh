@@ -99,6 +99,7 @@ export default function AdminDashboardClient({
             { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: "📅" },
             { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬" },
             { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️" },
+            { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: "⭐" },
           ].map(link => (
             <a key={link.href} href={link.href}
               className="bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">

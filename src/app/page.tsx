@@ -8,13 +8,15 @@ import WeeklySchedule from "@/components/WeeklySchedule";
 import DiasporaCTA from "@/components/DiasporaCTA";
 import UpcomingEvents from "@/components/UpcomingEvents";
 import VideoSection from "@/components/VideoSection";
-import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos } from "@/lib/cms";
+import ReviewsSection from "@/components/ReviewsSection";
+import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews } from "@/lib/cms";
 
 export default async function Home() {
-  const [featured, events, videos] = await Promise.all([
+  const [featured, events, videos, reviews] = await Promise.all([
     getFeaturedCMSExperiences(),
     getUpcomingEvents(),
     getVideos(),
+    getApprovedReviews(),
   ]);
 
   return (
@@ -63,6 +65,9 @@ export default async function Home() {
 
       {/* Weekly Schedule */}
       <WeeklySchedule />
+
+      {/* Reviews */}
+      <ReviewsSection initialReviews={reviews} />
 
       {/* Diaspora CTA */}
       <DiasporaCTA />

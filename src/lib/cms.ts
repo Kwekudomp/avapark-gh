@@ -100,6 +100,21 @@ export async function getVideos(): Promise<CMSVideo[]> {
   }
 }
 
+export async function getApprovedReviews(): Promise<Review[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data, error } = await supabase
+      .from("reviews")
+      .select("id, guest_name, experience_name, rating, comment, created_at")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+    if (error || !data?.length) return [];
+    return data as Review[];
+  } catch {
+    return [];
+  }
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   const defaults: SiteSettings = {
     phone_primary: "+233 (0) 540 879 700",
