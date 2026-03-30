@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hidden Paradise — Marketing Campaign 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #1B3A2D;
+    --primary-light: #2a5442;
+    --accent: #E07B39;
+    --accent-light: #f5a672;
+    --gold: #C9A84C;
+    --bg: #FAFAF7;
+    --bg-alt: #F3F0EA;
+    --border: #E2DDD4;
+    --text: #2C2C2C;
+    --text-secondary: #6B6B6B;
+    --white: #FFFFFF;
+    --success: #2E7D5E;
+    --red: #C0392B;
+    --blue: #1877F2;
+    --pink: #E1306C;
+    --tiktok: #010101;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+  /* Layout */
+  .page-wrapper { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 260px; min-width: 260px; background: var(--primary); color: white;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    padding: 32px 20px; display: flex; flex-direction: column;
+  }
+  .sidebar-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; margin-bottom: 8px; line-height: 1.3; }
+  .sidebar-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 32px; }
+  .sidebar nav a {
+    display: block; padding: 8px 12px; border-radius: 8px; color: rgba(255,255,255,0.7);
+    text-decoration: none; font-size: 0.82rem; margin-bottom: 2px; transition: all 0.2s;
+  }
+  .sidebar nav a:hover { background: rgba(255,255,255,0.1); color: white; }
+  .sidebar nav .section-head { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); padding: 16px 12px 6px; }
+
+  .content { flex: 1; overflow: hidden; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #3d7a5a 100%);
+    color: white; padding: 72px 60px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-eyebrow { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-light); margin-bottom: 16px; }
+  .hero h1 { font-size: 3rem; line-height: 1.15; margin-bottom: 20px; position: relative; }
+  .hero h1 span { color: var(--accent-light); }
+  .hero-desc { font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 600px; position: relative; }
+  .hero-meta { display: flex; gap: 40px; margin-top: 40px; position: relative; }
+  .hero-meta-item .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+  .hero-meta-item .value { font-size: 1.1rem; font-weight: 600; color: white; margin-top: 2px; }
+
+  /* Main content area */
+  .main { padding: 52px 60px; }
+  .section { margin-bottom: 64px; }
+  .section-id { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 8px; }
+  .section h2 { font-size: 1.9rem; color: var(--primary); margin-bottom: 8px; }
+  .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 32px; max-width: 700px; }
+  .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+  /* Cards */
+  .card-grid { display: grid; gap: 20px; }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .card {
+    background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+  }
+  .card-accent { border-left: 4px solid var(--accent); }
+  .card-primary { border-left: 4px solid var(--primary); }
+  .card-gold { border-left: 4px solid var(--gold); }
+
+  /* Situation box */
+  .situation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .swot-card { border-radius: 14px; padding: 20px; }
+  .swot-s { background: #e8f5ee; border: 1px solid #c3e0ce; }
+  .swot-w { background: #fef3e8; border: 1px solid #f5d5b8; }
+  .swot-o { background: #eef3fe; border: 1px solid #c4d4f9; }
+  .swot-t { background: #fdeaea; border: 1px solid #f5c4c4; }
+  .swot-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; margin-bottom: 10px; }
+  .swot-s .swot-label { color: var(--success); }
+  .swot-w .swot-label { color: #c05a00; }
+  .swot-o .swot-label { color: #2255cc; }
+  .swot-t .swot-label { color: var(--red); }
+  .swot-list { list-style: none; font-size: 0.85rem; color: var(--text); }
+  .swot-list li { padding: 3px 0; padding-left: 14px; position: relative; }
+  .swot-list li::before { content: '•'; position: absolute; left: 0; opacity: 0.5; }
+
+  /* Audience */
+  .audience-card {
+    background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .audience-emoji { font-size: 2rem; }
+  .audience-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--primary); }
+  .audience-tag {
+    display: inline-block; background: var(--bg-alt); border-radius: 20px;
+    padding: 3px 10px; font-size: 0.72rem; color: var(--text-secondary);
+  }
+  .audience-insight { font-size: 0.83rem; color: var(--text-secondary); }
+  .audience-cta { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
+
+  /* Channels */
+  .channel-card {
+    background: white; border: 1px solid var(--border); border-radius: 16px; padding: 22px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .channel-icon {
+    width: 44px; height: 44px; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+  }
+  .ch-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .ch-tt { background: #010101; }
+  .ch-fb { background: var(--blue); }
+  .ch-wa { background: #25D366; }
+  .ch-gg { background: white; border: 1px solid #e0e0e0; }
+  .ch-em { background: var(--primary); }
+  .channel-priority {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; display: inline-block;
+  }
+  .pri-high { background: #e8f5ee; color: var(--success); }
+  .pri-med { background: #fef3e8; color: #c05a00; }
+  .pri-low { background: var(--bg-alt); color: var(--text-secondary); }
+  .channel-name { font-weight: 600; font-size: 0.95rem; color: var(--primary); }
+  .channel-desc { font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px; }
+  .channel-action { font-size: 0.8rem; font-weight: 500; color: var(--accent); margin-top: 6px; }
+
+  /* Content pillars */
+  .pillar {
+    background: white; border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden;
+  }
+  .pillar-header { padding: 16px 20px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+  .pillar-body { padding: 0 20px 16px; }
+  .pillar-examples { font-size: 0.8rem; color: var(--text-secondary); }
+  .pillar-examples li { padding: 4px 0; border-bottom: 1px solid var(--bg-alt); }
+  .pillar-examples li:last-child { border-bottom: none; }
+
+  /* Calendar */
+  .cal-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 8px; }
+  .cal-day {
+    background: white; border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 10px; font-size: 0.75rem; min-height: 100px;
+  }
+  .cal-day-name { font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 8px; }
+  .cal-post {
+    background: var(--bg-alt); border-radius: 6px; padding: 4px 6px;
+    margin-bottom: 4px; font-size: 0.7rem; line-height: 1.3; color: var(--text);
+  }
+  .cal-ig { background: #fce8f0; }
+  .cal-tt { background: #e8e8e8; }
+  .cal-fb { background: #e8eeff; }
+  .cal-wa { background: #e3f9e8; }
+
+  /* Ad specs */
+  .ad-card { background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .ad-card-header { background: var(--primary); color: white; padding: 14px 20px; font-weight: 600; font-size: 0.9rem; }
+  .ad-card-body { padding: 20px; }
+  .ad-spec { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--bg-alt); font-size: 0.83rem; }
+  .ad-spec:last-child { border-bottom: none; }
+  .ad-spec-label { color: var(--text-secondary); }
+  .ad-spec-value { font-weight: 500; text-align: right; max-width: 60%; }
+
+  /* Budget table */
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: var(--primary); color: white; padding: 12px 16px; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  th:first-child { border-radius: 10px 0 0 0; }
+  th:last-child { border-radius: 0 10px 0 0; }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg-alt); }
+  .total-row td { font-weight: 700; background: var(--bg-alt); }
+
+  /* Influencer tiers */
+  .inf-tier { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .inf-tier-badge { display: inline-block; border-radius: 20px; padding: 3px 12px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px; }
+  .tier-micro { background: #e8f5ee; color: var(--success); }
+  .tier-mid { background: #fef3e8; color: #c05a00; }
+  .tier-macro { background: #eef3fe; color: #2255cc; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 28px; }
+  .timeline-dot {
+    position: absolute; left: -28px; top: 4px; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--accent); border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .timeline-month { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+  .timeline-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--primary); margin-bottom: 6px; }
+  .timeline-list { font-size: 0.83rem; color: var(--text-secondary); list-style: none; }
+  .timeline-list li { padding: 2px 0 2px 14px; position: relative; }
+  .timeline-list li::before { content: '→'; position: absolute; left: 0; opacity: 0.5; font-size: 0.75rem; }
+
+  /* KPI cards */
+  .kpi-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; }
+  .kpi-target { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary); }
+  .kpi-label { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+  .kpi-timeframe { font-size: 0.7rem; color: var(--accent); font-weight: 600; margin-top: 6px; }
+
+  /* Messaging boxes */
+  .msg-box { background: var(--primary); color: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 16px; }
+  .msg-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+  .msg-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; line-height: 1.4; }
+  .msg-sub { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-top: 10px; }
+
+  /* Tags */
+  .tag { display: inline-block; background: var(--bg-alt); border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: var(--text-secondary); margin: 3px; }
+  .tag-accent { background: var(--accent); color: white; }
+  .tag-primary { background: var(--primary); color: white; }
+
+  /* Insight box */
+  .insight {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 16px; padding: 24px 28px; color: white; margin-bottom: 20px;
+  }
+  .insight-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+  .insight-text { font-size: 1rem; line-height: 1.6; }
+
+  /* Highlight number */
+  .hl { color: var(--accent); font-weight: 700; }
+
+  /* Caption box */
+  .caption-box { background: var(--bg-alt); border-radius: 14px; padding: 20px 24px; font-size: 0.88rem; }
+  .caption-box strong { display: block; color: var(--primary); margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .main { padding: 32px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">Hidden Paradise<br>Nature Park</div>
+    <div class="sidebar-sub">Marketing Campaign 2026</div>
+    <nav>
+      <div class="section-head">Analysis</div>
+      <a href="#situation">01 — Situation Analysis</a>
+      <a href="#audiences">02 — Target Audiences</a>
+      <a href="#positioning">03 — Positioning & Messaging</a>
+      <div class="section-head">Strategy</div>
+      <a href="#channels">04 — Channel Strategy</a>
+      <a href="#content">05 — Content Pillars</a>
+      <a href="#calendar">06 — Weekly Content Calendar</a>
+      <div class="section-head">Execution</div>
+      <a href="#paid">07 — Paid Advertising</a>
+      <a href="#influencers">08 — Influencer Strategy</a>
+      <a href="#partnerships">09 — Partnerships & B2B</a>
+      <a href="#budget">10 — Budget Plan</a>
+      <div class="section-head">Measure</div>
+      <a href="#kpis">11 — KPIs & Targets</a>
+      <a href="#roadmap">12 — 90-Day Roadmap</a>
+    </nav>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-eyebrow">Hidden Paradise Nature Park — Eastern Region, Ghana</div>
+      <h1>Marketing Campaign<br><span>2026 Growth Plan</span></h1>
+      <p class="hero-desc">A full-funnel strategy to grow bookings, build brand awareness, and position Hidden Paradise as the premier nature escape within 1 hour of Accra.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="label">Campaign Goal</div>
+          <div class="value">Drive Bookings</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Primary Market</div>
+          <div class="value">Greater Accra</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Campaign Window</div>
+          <div class="value">April — June 2026</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Horizon</div>
+          <div class="value">Q2 Launch → Year-Round</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+
+      <!-- 01 Situation Analysis -->
+      <div class="section" id="situation">
+        <div class="section-id">01</div>
+        <h2>Situation Analysis</h2>
+        <p class="section-desc">Understanding where Hidden Paradise stands today — what's working, what's missing, and what the opportunity looks like.</p>
+
+        <div class="insight">
+          <div class="insight-label">The Big Opportunity</div>
+          <div class="insight-text">Accra has <span class="hl">3.6 million+ urban residents</span> with very limited quality nature escape options within a day-trip range. Hidden Paradise sits on 300 acres just 1 hour away — a unique product with weak competition, but almost no marketing footprint to match.</div>
+        </div>
+
+        <div class="swot-grid">
+          <div class="swot-card swot-s">
+            <div class="swot-label">Strengths</div>
+            <ul class="swot-list">
+              <li>Unique 300-acre nature park product</li>
+              <li>Only ~1 hour from Accra</li>
+              <li>7-day programming (Mon–Sun events)</li>
+              <li>Multiple price points (GHC 70–1,600)</li>
+              <li>Instagram presence already active</li>
+              <li>Professional website with online booking</li>
+              <li>Strong Friday/Saturday night programming</li>
+              <li>Family Day — a rare family-friendly option</li>
+            </ul>
+          </div>
+          <div class="swot-card swot-w">
+            <div class="swot-label">Weaknesses</div>
+            <ul class="swot-list">
+              <li>Low brand awareness outside inner circle</li>
+              <li>No active paid advertising running</li>
+              <li>Limited content production (no regular video)</li>
+              <li>Online payment not yet live (Paystack)</li>
+              <li>Distance from Accra requires advance planning</li>
+              <li>No loyalty or repeat-visit incentives</li>
+              <li>No Google Business profile (unverified)</li>
+              <li>No email/SMS list built yet</li>
+            </ul>
+          </div>
+          <div class="swot-card swot-o">
+            <div class="swot-label">Opportunities</div>
+            <ul class="swot-list">
+              <li>Accra 'staycation' trend growing post-2024</li>
+              <li>Corporate retreat market largely untapped</li>
+              <li>Ghanaian diaspora travel to hometown</li>
+              <li>TikTok viral potential — nature + party content</li>
+              <li>Event space rental (weddings, photoshoots)</li>
+              <li>School trips & educational programs</li>
+              <li>Easter, Farmers' Day, Homowo seasonal peaks</li>
+              <li>Influencer economy growing rapidly in Ghana</li>
+            </ul>
+          </div>
+          <div class="swot-card swot-t">
+            <div class="swot-label">Threats / Risks</div>
+            <ul class="swot-list">
+              <li>Rainy season (May–Sep) reduces outdoor visits</li>
+              <li>Fuel price sensitivity affects day-trip decisions</li>
+              <li>Copycat venues if growth becomes visible</li>
+              <li>Negative reviews if operations not ready for scale</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 02 Target Audiences -->
+      <div class="section" id="audiences">
+        <div class="section-id">02</div>
+        <h2>Target Audiences</h2>
+        <p class="section-desc">Five distinct segments — each with a different reason to visit and a different path to conversion.</p>
+
+        <div class="card-grid card-grid-3" style="margin-bottom: 20px;">
+          <div class="audience-card">
+            <div class="audience-emoji">🎉</div>
+            <div class="audience-name">The Accra Social Crowd</div>
+            <span class="audience-tag">Ages 22–35</span>
+            <div class="audience-insight">Young professionals and social groups in Accra looking for unique Friday/Saturday night experiences beyond bars and clubs. Highly active on Instagram and TikTok. FOMO-driven.</div>
+            <div class="audience-cta">→ Friday Party in the Woods, Game Night, Saturday Smoke & Cinema</div>
+          </div>
+          <div class="audience-card">
+            <div class="audience-emoji">👨‍👩‍👧‍👦</div>
+            <div class="audience-name">The Ghanaian Family</div>
+            <span class="audience-tag">Parents 30–50</span>
+            <div class="audience-insight">Families in Accra seeking a safe, wholesome weekend outing. Traditional buffet, horse riding, and a kids zone make Sunday Family Day a strong draw. Facebook is their channel.</div>
+            <div class="audience-cta">→ Sunday Family Day, Weekday Sanctuary</div>
+          </div>
+          <div class="audience-card">
+            <div class="audience-emoji">💼</div>
+            <div class="audience-name">Corporate Groups</div>
+            <span class="audience-tag">HR & Event Planners</span>
+            <div class="audience-insight">Companies seeking offsite venues for team retreats, strategy sessions, and end-of-year parties. 300 acres offers serious event space. Budget-insensitive if the experience delivers.</div>
+            <div class="audience-cta">→ Full site hire, custom packages, retreat packages</div>
+          </div>
+          <div class="audience-card">
+            <div class="audience-emoji">💑</div>
+            <div class="audience-name">Couples & Date Nights</div>
+            <span class="audience-tag">Ages 25–40</span>
+            <div class="audience-insight">Couples looking for a romantic outdoor experience beyond restaurants. Saturday Smoke & Cinema and the general natural atmosphere are strong draws.</div>
+            <div class="audience-cta">→ Saturday BBQ & Cinema, custom date packages</div>
+          </div>
+          <div class="audience-card">
+            <div class="audience-emoji">🌿</div>
+            <div class="audience-name">Nature & Wellness Seekers</div>
+            <span class="audience-tag">Ages 28–45</span>
+            <div class="audience-insight">Growing segment of Accra residents interested in wellness, nature walks, meditation, and escaping digital noise. Weekday Sanctuary is a perfect fit. Often have disposable income.</div>
+            <div class="audience-cta">→ Weekday Sanctuary, yoga retreats, silent mornings</div>
+          </div>
+          <div class="audience-card">
+            <div class="audience-emoji">✈️</div>
+            <div class="audience-name">Diaspora & Expat Visitors</div>
+            <span class="audience-tag">International</span>
+            <div class="audience-insight">Ghanaians returning home and expats based in Accra frequently look for unique local experiences. They book online and share widely. A powerful word-of-mouth network globally.</div>
+            <div class="audience-cta">→ Full experience, accommodation packages</div>
+          </div>
+        </div>
+
+        <div class="card card-accent">
+          <strong style="color: var(--primary); font-size: 0.88rem;">Primary Focus for Launch:</strong>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">Start with <strong>The Accra Social Crowd</strong> (highest volume, fastest to convert, most shareable) and <strong>Families</strong> (Sunday anchor, repeat visitors). Corporate is highest revenue per booking — activate in Month 2 with direct outreach.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 03 Positioning & Messaging -->
+      <div class="section" id="positioning">
+        <div class="section-id">03</div>
+        <h2>Positioning & Messaging</h2>
+        <p class="section-desc">How Hidden Paradise should talk about itself — the core promise and the words to use.</p>
+
+        <div class="msg-box" style="margin-bottom: 20px;">
+          <div class="msg-label">Brand Positioning Statement</div>
+          <div class="msg-text">"Hidden Paradise is Ghana's most immersive nature escape — just 1 hour from Accra, 300 acres of pure nature where you can party under the stars, feast with family, or simply breathe again."</div>
+        </div>
+
+        <div class="card-grid card-grid-3" style="margin-bottom: 20px;">
+          <div class="card card-primary">
+            <strong style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary);">Tagline Option A</strong>
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary); margin-top: 8px;">"Where Nature Meets the Night"</p>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px;">Best for: Friday/Saturday nightlife crowd</p>
+          </div>
+          <div class="card card-accent">
+            <strong style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);">Tagline Option B</strong>
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary); margin-top: 8px;">"One Hour Away. A World Apart."</p>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px;">Best for: general brand — distance as a feature</p>
+          </div>
+          <div class="card card-gold">
+            <strong style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold);">Tagline Option C</strong>
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary); margin-top: 8px;">"Nature Never Looked This Good"</p>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px;">Best for: Instagram aesthetic — visual focus</p>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 16px;">Audience-Specific Messages</h3>
+        <div style="display: grid; gap: 12px; margin-bottom: 20px;">
+          <div class="caption-box">
+            <strong>To the Social Crowd</strong>
+            "Skip the same bars. This Friday, dance in the woods. 🌿🔥 Party in the Woods is back — limited spots, free shuttle from Accra. Book now → hiddenparadisegh.com"
+          </div>
+          <div class="caption-box">
+            <strong>To Families</strong>
+            "Give your children a Sunday they'll remember forever. Horse riding, traditional buffet, and 300 acres of pure nature — just 1 hour from home. Sunday Family Day from GHC 70."
+          </div>
+          <div class="caption-box">
+            <strong>To Corporate</strong>
+            "Your team deserves better than a conference room. Host your next retreat, strategy session, or end-of-year party at Hidden Paradise — 300 acres, fully equipped, exclusively yours."
+          </div>
+          <div class="caption-box">
+            <strong>To Wellness Seekers</strong>
+            "When Accra gets too loud, we'll be here. Come for the morning. The forest has been waiting."
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 12px;">Hashtag Strategy</h3>
+        <div>
+          <span class="tag tag-primary">#HiddenParadiseGH</span>
+          <span class="tag tag-accent">#PartyInTheWoods</span>
+          <span class="tag">#NatureEscapeGhana</span>
+          <span class="tag">#AccraWeekend</span>
+          <span class="tag">#GhanaExperiences</span>
+          <span class="tag">#SmokeAndCinema</span>
+          <span class="tag">#FamilyDayGhana</span>
+          <span class="tag">#NatureNightLife</span>
+          <span class="tag">#AccraLifestyle</span>
+          <span class="tag">#ExploreGhana</span>
+          <span class="tag">#EasternRegionGhana</span>
+          <span class="tag">#GhanaTravel</span>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 10px;">Always include: <strong>#HiddenParadiseGH</strong> (own branded tag) + 2–3 situational tags per post. Encourage guests to tag you.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 04 Channels -->
+      <div class="section" id="channels">
+        <div class="section-id">04</div>
+        <h2>Channel Strategy</h2>
+        <p class="section-desc">Not all platforms are equal. Here's where to focus energy based on audience fit and Ghana's media landscape.</p>
+
+        <div class="card-grid" style="gap: 16px;">
+
+          <div class="channel-card">
+            <div class="channel-icon ch-ig" style="color: white; font-size: 1.4rem;">📸</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-high">🔴 Priority 1</span>
+              <div class="channel-name">Instagram (@hiddenparadisegh)</div>
+              <div class="channel-desc">Your primary brand channel. Already active. The Accra lifestyle audience lives here. Reels and Stories drive discovery; feed posts build credibility. Stories drive direct DM bookings.</div>
+              <div class="channel-action">Goal: Post 5–7x/week. 3 Reels minimum. Turn on "Book" link in bio → hiddenparadisegh.com/experiences.</div>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon ch-tt" style="color: white; font-size: 1.4rem;">🎵</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-high">🔴 Priority 1</span>
+              <div class="channel-name">TikTok (create: @hiddenparadisegh)</div>
+              <div class="channel-desc">Fastest organic reach in Ghana right now, especially for 18–30 demographic. One viral video of Party in the Woods or a dramatic nature shot could bring thousands of new followers overnight.</div>
+              <div class="channel-action">Goal: Post 3–4x/week. Format: "POV you drove 1hr from Accra and found THIS." Trending audio + nature visuals = viral formula.</div>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon ch-fb" style="color: white; font-size: 1.3rem;">f</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-med">🟡 Priority 2</span>
+              <div class="channel-name">Facebook (create Page + run ads)</div>
+              <div class="channel-desc">Best platform for reaching 30–50 age group (families, corporate decision makers). Facebook Events feature is powerful for weekend programming. Also the best ROI for paid ads in Ghana.</div>
+              <div class="channel-action">Create Facebook Page. Create Events for every Friday/Saturday/Sunday. Run targeted ads to Accra families and young professionals.</div>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon ch-wa" style="color: white; font-size: 1.2rem;">💬</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-high">🔴 Priority 1</span>
+              <div class="channel-name">WhatsApp Broadcast Lists</div>
+              <div class="channel-desc">Already your primary booking channel. Build a formal broadcast list from all past guests. This is your highest-conversion channel — people who've been before are your best re-sellers.</div>
+              <div class="channel-action">Build 3 lists: (1) Past guests, (2) Corporate contacts, (3) Influencers/media. Send weekly "This Week at Hidden Paradise" message every Tuesday evening.</div>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon ch-gg">🔍</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-med">🟡 Priority 2</span>
+              <div class="channel-name">Google My Business + SEO</div>
+              <div class="channel-desc">People searching "nature parks near Accra" or "things to do in Ghana" should find you. A verified Google listing with photos and reviews is free and drives long-term organic traffic.</div>
+              <div class="channel-action">Claim and verify Google Business Profile immediately. Add all photos, hours, events. Ask every guest for a Google Review — aim for 50+ reviews in 90 days.</div>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon ch-em" style="color: white; font-size: 1.2rem;">✉️</div>
+            <div style="flex: 1;">
+              <span class="channel-priority pri-low">⚪ Priority 3</span>
+              <div class="channel-name">Email Newsletter</div>
+              <div class="channel-desc">Long-term asset. Every booking form now captures email. Build a monthly newsletter: upcoming events, behind-the-scenes, special offers. Low cost, high retention.</div>
+              <div class="channel-action">Start collecting emails now via booking form. Send first newsletter at 100 subscribers. Use Resend or Mailchimp. Monthly cadence.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 05 Content Pillars -->
+      <div class="section" id="content">
+        <div class="section-id">05</div>
+        <h2>Content Pillars</h2>
+        <p class="section-desc">Six themes that define what you post — keeping content varied, consistent, and on-brand.</p>
+
+        <div class="card-grid card-grid-3">
+          <div class="pillar">
+            <div class="pillar-header" style="background: #e8f5ee; color: var(--success);">
+              🌳 <span>Nature & Atmosphere</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Show the raw beauty — morning mist, the lake, the forest canopy. The product sells itself visually.</p>
+              <ul class="pillar-examples">
+                <li>"Sunrise over the lake — come find your peace"</li>
+                <li>Drone shots of the 300-acre property</li>
+                <li>ASMR nature walks (TikTok)</li>
+                <li>"This is 1 hour from Accra 😮"</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-header" style="background: #fce8f0; color: #c0286b;">
+              🎉 <span>Event Hype & FOMO</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Drive urgency around the weekly events. Show highlights, crowd energy, and count down to next events.</p>
+              <ul class="pillar-examples">
+                <li>Event countdown Stories (Tuesday–Friday)</li>
+                <li>Highlights reel from last week's party</li>
+                <li>"Spots left this Friday: 12 🔥"</li>
+                <li>Before/after: setup vs. full party</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-header" style="background: #fff8e1; color: #c08000;">
+              👥 <span>Guest Stories & UGC</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Repost guest content, share reactions, and celebrate your guests. UGC is the most trusted content type.</p>
+              <ul class="pillar-examples">
+                <li>Repost guest photos + tag them</li>
+                <li>"This family came from London for Family Day 🥹"</li>
+                <li>Guest testimonial video (vertical, 30 sec)</li>
+                <li>Poll: "What's your favourite experience?"</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-header" style="background: #eef3fe; color: #2255cc;">
+              🍖 <span>Food & Lifestyle</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Food is highly shareable. The BBQ, traditional buffet, and outdoor dining experience deserve their own content track.</p>
+              <ul class="pillar-examples">
+                <li>Close-up BBQ cooking videos</li>
+                <li>Traditional Sunday buffet spread</li>
+                <li>"Fufu in the forest hits different"</li>
+                <li>Drink/cocktail detail shots at golden hour</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-header" style="background: #fef3e8; color: #c05a00;">
+              🏕️ <span>Behind the Scenes</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">People love to see how the magic is made. Setup, team prep, morning routines at the park build authenticity.</p>
+              <ul class="pillar-examples">
+                <li>Time-lapse of event setup</li>
+                <li>Meet the team (staff intro videos)</li>
+                <li>"Day in the life at Hidden Paradise"</li>
+                <li>How we prepare the traditional buffet</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-header" style="background: #f3e8fe; color: #7b2fa8;">
+              💡 <span>Deals & CTAs</span>
+            </div>
+            <div class="pillar-body" style="padding-top: 14px;">
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Direct conversion posts. Limited to 1–2x/week — don't overdo it or you'll train your audience to ignore you.</p>
+              <ul class="pillar-examples">
+                <li>"Group of 5 this Friday? You save GHC 350 with the VIP table"</li>
+                <li>Early-bird discount (first 20 bookings)</li>
+                <li>Link in bio reminder + swipe-up Story</li>
+                <li>Corporate package teaser</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 06 Content Calendar -->
+      <div class="section" id="calendar">
+        <div class="section-id">06</div>
+        <h2>Weekly Content Calendar</h2>
+        <p class="section-desc">A repeatable weekly rhythm. Consistency beats perfection — stick to this pattern and the algorithm rewards you.</p>
+
+        <div style="margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #fce8f0; display: inline-block;"></span> Instagram</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #e8e8e8; display: inline-block;"></span> TikTok</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #e8eeff; display: inline-block;"></span> Facebook</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #e3f9e8; display: inline-block;"></span> WhatsApp</span>
+        </div>
+
+        <div class="cal-week">
+          <div class="cal-day">
+            <div class="cal-day-name">Monday</div>
+            <div class="cal-post cal-ig">IG Story: "Happy Monday — the forest is quiet and waiting for you 🌿"</div>
+            <div class="cal-post cal-tt">TikTok: Nature atmosphere clip (ASMR)</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Tuesday</div>
+            <div class="cal-post cal-ig">IG Reel: "This Week at Hidden Paradise" — preview all events</div>
+            <div class="cal-post cal-wa">WhatsApp Broadcast: Weekly lineup + booking link</div>
+            <div class="cal-post cal-fb">Facebook Event: Create/update events for Fri/Sat/Sun</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Wednesday</div>
+            <div class="cal-post cal-ig">IG Feed Post: Guest UGC repost or food/nature photo</div>
+            <div class="cal-post cal-tt">TikTok: Behind the scenes or team content</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Thursday</div>
+            <div class="cal-post cal-ig">IG Story: "Tomorrow is Friday 🔥 — spots filling fast. Link in bio"</div>
+            <div class="cal-post cal-ig">IG Feed: Game Night promo (if Thursday event)</div>
+            <div class="cal-post cal-fb">Facebook: Friday event boost ad goes live (GHC 30–50)</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Friday</div>
+            <div class="cal-post cal-tt">TikTok: POV "You chose Hidden Paradise tonight" — morning tease</div>
+            <div class="cal-post cal-ig">IG Story: Live update from setup + "last few spots"</div>
+            <div class="cal-post cal-ig">IG Story: Live from the event (9pm+)</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Saturday</div>
+            <div class="cal-post cal-ig">IG Reel: Highlights from last night (post by noon)</div>
+            <div class="cal-post cal-tt">TikTok: Best clip from Friday night</div>
+            <div class="cal-post cal-ig">IG Story: Smoke & Cinema promo for tonight</div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-day-name">Sunday</div>
+            <div class="cal-post cal-ig">IG Feed: Beautiful Family Day photo — horses, kids, buffet</div>
+            <div class="cal-post cal-fb">Facebook Post: "Sunday Family Day is LIVE 🌳 — come before spots fill"</div>
+            <div class="cal-post cal-tt">TikTok: Family Day compilation — emotional / warm content</div>
+          </div>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 12px;">💡 <strong>Hire a part-time content creator</strong> (GHC 800–1,500/month) to shoot and post consistently. One person responsible = consistent voice.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 07 Paid Advertising -->
+      <div class="section" id="paid">
+        <div class="section-id">07</div>
+        <h2>Paid Advertising</h2>
+        <p class="section-desc">Start small, measure what works, and scale. Facebook/Instagram ads are the highest ROI paid channel in Ghana right now.</p>
+
+        <div class="card-grid card-grid-2" style="margin-bottom: 24px;">
+          <div class="ad-card">
+            <div class="ad-card-header">Campaign 1 — Weekend Event Driver</div>
+            <div class="ad-card-body">
+              <div class="ad-spec"><span class="ad-spec-label">Objective</span><span class="ad-spec-value">Traffic / Bookings (link clicks to /experiences)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Platform</span><span class="ad-spec-value">Facebook + Instagram</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Audience</span><span class="ad-spec-value">Greater Accra, ages 22–40, interests: nightlife, restaurants, travel, music festivals</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Format</span><span class="ad-spec-value">Single video (30 sec) or Carousel (3 event photos)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Schedule</span><span class="ad-spec-value">Thursday 6am → Saturday midnight (weekly)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Budget</span><span class="ad-spec-value">GHC 50–100/week (≈ $4–8 USD)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">CTA</span><span class="ad-spec-value">"Book Your Spot" → /experiences</span></div>
+            </div>
+          </div>
+          <div class="ad-card">
+            <div class="ad-card-header">Campaign 2 — Sunday Family Day</div>
+            <div class="ad-card-body">
+              <div class="ad-spec"><span class="ad-spec-label">Objective</span><span class="ad-spec-value">Reach / Awareness</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Platform</span><span class="ad-spec-value">Facebook primary, Instagram secondary</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Audience</span><span class="ad-spec-value">Greater Accra, ages 28–50, interests: family activities, parenting, food, Ghana culture</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Format</span><span class="ad-spec-value">Photo carousel or single warm family photo</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Schedule</span><span class="ad-spec-value">Friday 9am → Sunday noon</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Budget</span><span class="ad-spec-value">GHC 50/week</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">CTA</span><span class="ad-spec-value">"Plan Your Family Sunday" → /book/family-day</span></div>
+            </div>
+          </div>
+          <div class="ad-card">
+            <div class="ad-card-header">Campaign 3 — Brand Awareness (Always On)</div>
+            <div class="ad-card-body">
+              <div class="ad-spec"><span class="ad-spec-label">Objective</span><span class="ad-spec-value">Brand awareness / Reach</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Platform</span><span class="ad-spec-value">Instagram Reels boost</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Audience</span><span class="ad-spec-value">Greater Accra + Kumasi + abroad, ages 22–45, lookalike of page followers</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Format</span><span class="ad-spec-value">Best-performing Reel from the week (boost top content only)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Schedule</span><span class="ad-spec-value">Ongoing (7 days), rolling</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Budget</span><span class="ad-spec-value">GHC 30–50/week</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">CTA</span><span class="ad-spec-value">"Learn More" → homepage</span></div>
+            </div>
+          </div>
+          <div class="ad-card">
+            <div class="ad-card-header">Campaign 4 — Corporate Retargeting</div>
+            <div class="ad-card-body">
+              <div class="ad-spec"><span class="ad-spec-label">Objective</span><span class="ad-spec-value">Lead generation</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Platform</span><span class="ad-spec-value">LinkedIn + Facebook</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Audience</span><span class="ad-spec-value">Job title: HR Manager, Event Manager, CEO/Director; Location: Accra; Company size: 50+</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Format</span><span class="ad-spec-value">Single image with headline: "Your next team retreat is 1 hour away"</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Schedule</span><span class="ad-spec-value">Monday–Friday (business hours)</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">Budget</span><span class="ad-spec-value">GHC 100/week</span></div>
+              <div class="ad-spec"><span class="ad-spec-label">CTA</span><span class="ad-spec-value">"Get a Group Quote" → WhatsApp or email</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-accent">
+          <strong style="color: var(--primary); font-size: 0.88rem;">Ad Creative Checklist</strong>
+          <ul style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 10px; list-style: none;">
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ Show real people having a good time (not empty landscape shots)</li>
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ First 3 seconds must hook — open with the most dramatic/beautiful shot</li>
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ Include subtitles on all video ads (most people watch without sound)</li>
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ Always mention "1 hour from Accra" — this removes the distance objection</li>
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ Show the price — transparency builds trust and filters unqualified clicks</li>
+            <li style="padding: 4px 0 4px 16px; position: relative;">✅ Test 2 creatives per campaign — same audience, different visuals — let data decide</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 08 Influencer Strategy -->
+      <div class="section" id="influencers">
+        <div class="section-id">08</div>
+        <h2>Influencer Strategy</h2>
+        <p class="section-desc">Micro-influencers in Ghana punch far above their weight — 10,000 engaged followers often outperforms 500,000 passive ones.</p>
+
+        <div class="card-grid card-grid-3" style="margin-bottom: 24px;">
+          <div class="inf-tier">
+            <span class="inf-tier-badge tier-micro">Micro — Primary</span>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary); margin-bottom: 8px;">10K – 100K followers</div>
+            <p style="font-size: 0.83rem; color: var(--text-secondary);">Accra lifestyle bloggers, food influencers, family bloggers, travel creators. High engagement rate (5–12%). Audiences trust their recommendations. Work on barter (free experience) in early stage.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--success); margin-top: 10px;">Deal: Free experience for 2 → 1 Reel + 3 Stories + tag</p>
+          </div>
+          <div class="inf-tier">
+            <span class="inf-tier-badge tier-mid">Mid-tier — Secondary</span>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary); margin-bottom: 8px;">100K – 500K followers</div>
+            <p style="font-size: 0.83rem; color: var(--text-secondary);">Well-known Ghanaian lifestyle and travel pages. Higher reach, moderate engagement. Paid partnerships (GHC 500–2,000 per post). Target 1–2 per quarter for brand moments.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: #c05a00; margin-top: 10px;">Budget: GHC 1,000–3,000/quarter</p>
+          </div>
+          <div class="inf-tier">
+            <span class="inf-tier-badge tier-macro">Event-Based — Tactical</span>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary); margin-bottom: 8px;">Content Creators on TikTok</div>
+            <p style="font-size: 0.83rem; color: var(--text-secondary);">TikTok creators with 5K–200K who produce high-quality short-form video. Invite to a special "Creator Night" — let them create freely with your venue as the backdrop.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: #2255cc; margin-top: 10px;">Host quarterly Creator Nights — invite 5–8 creators at once</p>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 16px;">Influencer Outreach Template</h3>
+        <div class="caption-box">
+          <strong>DM / WhatsApp Message</strong>
+          Hi [Name]! 🌿 We're Hidden Paradise Nature Park — a 300-acre nature escape just 1 hour from Accra. We've been following your content and think your audience would love what we're building here. We'd love to host you and a guest for [specific event — e.g. Party in the Woods / Sunday Family Day] — all on us. In exchange, we'd love 1 Reel and 3 Stories. Would you be open to it? Reply and we'll send the details 🙏
+        </div>
+
+        <div class="card card-primary" style="margin-top: 16px;">
+          <strong style="font-size: 0.88rem; color: var(--primary);">Categories to target (Ghana):</strong>
+          <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="tag">Accra food bloggers</span>
+            <span class="tag">Ghana travel vloggers</span>
+            <span class="tag">Lifestyle couples (IG/TT)</span>
+            <span class="tag">Family & parenting creators</span>
+            <span class="tag">Music / nightlife DJs</span>
+            <span class="tag">Fitness & wellness influencers</span>
+            <span class="tag">Corporate/business pages</span>
+            <span class="tag">Diaspora Ghana travel accounts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 09 Partnerships -->
+      <div class="section" id="partnerships">
+        <div class="section-id">09</div>
+        <h2>Partnerships & B2B Outreach</h2>
+        <p class="section-desc">The fastest path to high-volume bookings is selling to groups, not individuals. These channels unlock that.</p>
+
+        <div class="card-grid card-grid-2">
+          <div class="card card-primary">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">🏢</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Corporate HR Departments</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">Target HR Managers at mid-to-large Accra companies for team retreats, offsites, and end-of-year parties. Build a simple "Corporate Packages" PDF. Cold email + LinkedIn outreach.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Target: Banks, telecoms, NGOs, international companies in Accra</p>
+          </div>
+          <div class="card card-accent">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">🏫</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Schools & Universities</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">End-of-term trips, graduation events, environmental education days. Build a "School Trip Package" — tailored pricing per student, educational forest walk, lunch included.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Target: Private schools in Accra + Tema area</p>
+          </div>
+          <div class="card card-gold">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">⛪</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Churches & Religious Groups</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">Large Accra churches regularly organise family outings, youth retreats, and anniversary celebrations. A direct approach to the events coordinator or pastor is highly effective.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Target: 10 largest churches in Greater Accra area</p>
+          </div>
+          <div class="card card-primary">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">📸</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Photographers & Event Planners</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">Accra's photography and event planning community are constantly looking for unique shoot locations and event venues. Offer a referral commission (10–15% of booking value) for every client they send.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Build a referral partner network — 20 partners × 2 bookings/month = significant volume</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">✈️</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Tour Operators & Hotels</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">Partner with Accra hotels and local tour operators to include Hidden Paradise as a day excursion option for their guests. Provide promo materials at hotel concierge desks.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Target: Labadi Beach Hotel, Movenpick, Kempinski — concierge partnership</p>
+          </div>
+          <div class="card">
+            <div style="font-size: 1.2rem; margin-bottom: 8px;">🎂</div>
+            <strong style="color: var(--primary); font-size: 0.95rem;">Private Events & Celebrations</strong>
+            <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 8px;">Birthday parties, pre-wedding shoots, gender reveals, anniversaries. The natural setting is a powerful backdrop. Offer a simple "Private Hire" package — exclusive access to a zone for 4 hours.</p>
+            <p style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 8px;">Add a "Private Events" page to the website with enquiry form</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 10 Budget -->
+      <div class="section" id="budget">
+        <div class="section-id">10</div>
+        <h2>Monthly Budget Plan</h2>
+        <p class="section-desc">A realistic starting budget. Start lean, measure results, and increase what works after Month 1.</p>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Line Item</th>
+                <th>Channel</th>
+                <th>Monthly (GHC)</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Paid Ads — Weekend Events</strong></td>
+                <td>Facebook / Instagram</td>
+                <td><strong>GHC 400–600</strong></td>
+                <td>~GHC 100–150/week, Thu–Sat</td>
+              </tr>
+              <tr>
+                <td><strong>Paid Ads — Family Day</strong></td>
+                <td>Facebook</td>
+                <td><strong>GHC 200</strong></td>
+                <td>GHC 50/week, Fri–Sun</td>
+              </tr>
+              <tr>
+                <td><strong>Always-On Brand Awareness</strong></td>
+                <td>Instagram Reels boost</td>
+                <td><strong>GHC 150</strong></td>
+                <td>Boost best reel weekly</td>
+              </tr>
+              <tr>
+                <td><strong>Corporate Ads</strong></td>
+                <td>Facebook / LinkedIn</td>
+                <td><strong>GHC 200</strong></td>
+                <td>Start Month 2</td>
+              </tr>
+              <tr>
+                <td><strong>Influencer — Micro Barter</strong></td>
+                <td>Instagram / TikTok</td>
+                <td><strong>GHC 0</strong></td>
+                <td>Free experience trades (no cash)</td>
+              </tr>
+              <tr>
+                <td><strong>Influencer — Paid (mid-tier)</strong></td>
+                <td>Instagram</td>
+                <td><strong>GHC 500–1,000</strong></td>
+                <td>1 collaboration/month from Month 2</td>
+              </tr>
+              <tr>
+                <td><strong>Part-time Content Creator</strong></td>
+                <td>On-site photographer/video</td>
+                <td><strong>GHC 800–1,500</strong></td>
+                <td>Shoots Fri/Sat/Sun each week</td>
+              </tr>
+              <tr>
+                <td><strong>Google Business / SEO Tools</strong></td>
+                <td>Google</td>
+                <td><strong>GHC 0</strong></td>
+                <td>Free (just needs time to set up)</td>
+              </tr>
+              <tr class="total-row">
+                <td><strong>Total Month 1</strong></td>
+                <td></td>
+                <td><strong>GHC 1,550–2,450</strong></td>
+                <td>≈ $100–165 USD/month</td>
+              </tr>
+              <tr class="total-row">
+                <td><strong>Total Month 2–3 (scaled)</strong></td>
+                <td></td>
+                <td><strong>GHC 3,000–5,000</strong></td>
+                <td>Add influencer + corporate spend</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card card-accent">
+          <strong style="color: var(--primary); font-size: 0.88rem;">Return Expectation:</strong>
+          <p style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 6px;">If ads drive 20 additional bookings/month at an average of GHC 200/person, that's GHC 4,000 in additional revenue from a GHC 1,500 spend — a <strong>2.7× ROAS</strong> in Month 1. Scale anything above 2× ROAS.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 11 KPIs -->
+      <div class="section" id="kpis">
+        <div class="section-id">11</div>
+        <h2>KPIs & Success Targets</h2>
+        <p class="section-desc">What good looks like. Review weekly, adjust monthly.</p>
+
+        <div class="card-grid card-grid-4" style="margin-bottom: 24px;">
+          <div class="kpi-card">
+            <div class="kpi-target">500</div>
+            <div class="kpi-label">New Instagram Followers</div>
+            <div class="kpi-timeframe">Month 1 target</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">50</div>
+            <div class="kpi-label">Online Bookings</div>
+            <div class="kpi-timeframe">Month 1 target</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">25</div>
+            <div class="kpi-label">Google Reviews</div>
+            <div class="kpi-timeframe">First 30 days</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">3</div>
+            <div class="kpi-label">Influencer Collabs</div>
+            <div class="kpi-timeframe">Month 1</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">2,000</div>
+            <div class="kpi-label">Instagram Followers</div>
+            <div class="kpi-timeframe">90-day target</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">200</div>
+            <div class="kpi-label">Online Bookings</div>
+            <div class="kpi-timeframe">90-day target</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">5</div>
+            <div class="kpi-label">Corporate Enquiries</div>
+            <div class="kpi-timeframe">Month 2–3</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-target">GHC 30K</div>
+            <div class="kpi-label">Online Revenue</div>
+            <div class="kpi-timeframe">90-day target</div>
+          </div>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden;">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Where to Check</th>
+                <th>Review Frequency</th>
+                <th>Alert if Below</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Website bookings</td><td>Admin dashboard</td><td>Daily</td><td>3/week</td></tr>
+              <tr><td>Instagram reach & engagement</td><td>IG Insights</td><td>Weekly</td><td>3% engagement rate</td></tr>
+              <tr><td>TikTok views</td><td>TikTok Analytics</td><td>Weekly</td><td>500 views/video</td></tr>
+              <tr><td>Ad cost per booking</td><td>Facebook Ads Manager</td><td>Weekly</td><td>GHC 30/booking</td></tr>
+              <tr><td>Google review count</td><td>Google Business</td><td>Monthly</td><td>5 new reviews/month</td></tr>
+              <tr><td>WhatsApp enquiries</td><td>WhatsApp Business</td><td>Daily</td><td>Response within 2hrs</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 12 Roadmap -->
+      <div class="section" id="roadmap">
+        <div class="section-id">12</div>
+        <h2>90-Day Launch Roadmap</h2>
+        <p class="section-desc">Everything in priority order — what to do first, what can wait.</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-month">Week 1 — Foundation (Do These First)</div>
+            <div class="timeline-title">Set the Groundwork</div>
+            <ul class="timeline-list">
+              <li>Claim and verify Google My Business profile — add all photos, hours, events, and phone number</li>
+              <li>Enable Paystack on the website so online bookings can be paid (critical conversion step)</li>
+              <li>Create TikTok account @hiddenparadisegh</li>
+              <li>Create Facebook Page and first 5 Facebook Events (for upcoming Fri/Sat/Sun)</li>
+              <li>Update Instagram bio: "🌿 Ghana's nature escape | 1hr from Accra | Book → hiddenparadisegh.com/experiences"</li>
+              <li>Add "Book Now" link in Instagram bio</li>
+              <li>Build WhatsApp Broadcast list from all past guest numbers</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-month">Week 2–3 — Content Engine</div>
+            <div class="timeline-title">Start Publishing Consistently</div>
+            <ul class="timeline-list">
+              <li>Hire or brief a content creator — shoot first weekend content (Friday night + Sunday Family Day)</li>
+              <li>Publish first 3 TikTok videos: nature shot, event highlights, "1 hour from Accra" reveal</li>
+              <li>Begin weekly content calendar rhythm (see Section 06)</li>
+              <li>Send first WhatsApp broadcast to past guests: "We've upgraded — check what's new this weekend"</li>
+              <li>DM first 10 micro-influencers with barter proposal</li>
+              <li>Ask every guest on-site this weekend for a Google Review (show them how on your phone)</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-month">Month 1 — First Ads Live</div>
+            <div class="timeline-title">Paid Amplification Begins</div>
+            <ul class="timeline-list">
+              <li>Launch Campaign 1 (Weekend Event Driver) — GHC 100/week to start</li>
+              <li>Launch Campaign 2 (Sunday Family Day) — GHC 50/week</li>
+              <li>First influencer visit and content goes live — reshare everything</li>
+              <li>Review Week 1–4 ad performance — cut what's below 2× ROAS, double what works</li>
+              <li>Build "Corporate Packages" PDF and begin outreach to 5 Accra companies</li>
+              <li>Host first Creator Night — invite 5–8 TikTok creators</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-month">Month 2–3 — Scale & Diversify</div>
+            <div class="timeline-title">Systemise and Grow</div>
+            <ul class="timeline-list">
+              <li>Launch mid-tier influencer collaboration (paid, 100K+ followers)</li>
+              <li>Add Private Events / Corporate enquiry page to the website</li>
+              <li>Launch Easter weekend special campaign (peak season — go bigger on budget)</li>
+              <li>Begin corporate outreach to 20 target companies</li>
+              <li>Launch email newsletter (at 100+ emails collected)</li>
+              <li>Partner with 3 Accra hotels for concierge referrals</li>
+              <li>Analyse: Which day/event is driving most online bookings? Double its marketing budget.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="insight" style="margin-top: 32px;">
+          <div class="insight-label">The Single Most Important Action</div>
+          <div class="insight-text" style="font-size: 0.95rem;">Before any of this — <strong>activate Paystack online payment.</strong> Every person who clicks "Book Now" and hits a dead end is a lost booking. The website is ready. The booking form is ready. You just need to add the Paystack key to Vercel. That one action turns the site from a brochure into a revenue machine.</div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /content -->
+</div><!-- /page-wrapper -->
+</body>
+</html>
