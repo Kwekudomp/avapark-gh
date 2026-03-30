@@ -1,5 +1,5 @@
 import { createServerSupabase } from "./supabase-server";
-import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings } from "./supabase";
+import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review } from "./supabase";
 
 export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings };
 
