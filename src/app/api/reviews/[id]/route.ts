@@ -6,8 +6,9 @@ import { createServerClient } from "@supabase/ssr";
 // PATCH — approve or reject a review (admin only)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   // Auth check
   const cookieStore = cookies();
   const supabaseAuth = createServerClient(
@@ -27,7 +28,7 @@ export async function PATCH(
   const { error } = await admin
     .from("reviews")
     .update({ status, admin_note: admin_note ?? null })
-    .eq("id", params.id);
+    .eq("id", id);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ success: true });
