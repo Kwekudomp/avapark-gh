@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
 
 // PATCH — approve or reject a review (admin only)
 export async function PATCH(
@@ -9,14 +7,10 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  // Auth check
-  const cookieStore = cookies();
-  const supabaseAuth = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll() } }
-  );
-  const { data: { user } } = await supabaseAuth.auth.getUser();
+
+  // Auth check using existing server helper (handles async cookies)
+  const supabase = await createServerSupabase();
+  const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { status, admin_note } = await req.json();
