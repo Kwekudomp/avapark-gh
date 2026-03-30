@@ -355,6 +355,7 @@ footer strong { color: var(--accent); }
     <a href="#events">📅 Events</a>
     <a href="#videos">🎬 Videos</a>
     <a href="#settings">⚙️ Settings</a>
+    <a href="#reviews">⭐ Reviews</a>
     <a href="#quickref">⚡ Quick Ref</a>
   </div>
 </nav>
@@ -483,7 +484,17 @@ footer strong { color: var(--accent); }
           <div style="font-size:24px;margin-bottom:6px;">⚙️</div>
           <div style="font-size:13px;font-weight:600;">Site Settings</div>
         </div>
+        <div style="background:#fef3e8;border:1px solid #f5d5b8;border-radius:12px;padding:14px;text-align:center;position:relative;">
+          <div style="position:absolute;top:-6px;right:-6px;background:var(--red);color:white;font-size:11px;font-weight:700;border-radius:999px;padding:2px 7px;">NEW</div>
+          <div style="font-size:24px;margin-bottom:6px;">⭐</div>
+          <div style="font-size:13px;font-weight:600;">Reviews</div>
+        </div>
       </div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--red);margin-top:20px;">
+      <h3 style="font-weight:700;color:var(--primary);margin-bottom:8px;">🔴 Notification Badge</h3>
+      <p style="font-size:13px;color:var(--text-secondary);">When a guest submits a review, a <strong style="color:var(--red);">red badge</strong> appears on the Reviews card showing the number of reviews waiting for your action. It disappears once all pending reviews are handled.</p>
     </div>
   </div>
 </section>
@@ -1001,6 +1012,114 @@ footer strong { color: var(--accent); }
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section class="manual-section" id="reviews">
+  <div class="container">
+    <div class="section-label">09 — Guest Reviews</div>
+    <h2 class="section-title">⭐ Managing Reviews</h2>
+    <p class="section-desc">Guests can submit reviews from the homepage. Every review starts as <strong>Pending</strong> — only you decide what gets published on the site.</p>
+
+    <!-- How it works -->
+    <div class="card-grid" style="margin-bottom:32px;">
+      <div class="card" style="border-top:4px solid var(--yellow);">
+        <div style="font-size:28px;margin-bottom:8px;">⏳</div>
+        <h3 style="color:#92400E;margin-bottom:6px;">Pending</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">Newly submitted reviews. Not visible to the public yet. These trigger the red badge on your dashboard.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--green);">
+        <div style="font-size:28px;margin-bottom:8px;">✅</div>
+        <h3 style="color:var(--green);margin-bottom:6px;">Approved</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">Approved reviews appear live on the homepage "What Our Guests Say" section immediately.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--red);">
+        <div style="font-size:28px;margin-bottom:8px;">🚫</div>
+        <h3 style="color:var(--red);margin-bottom:6px;">Rejected</h3>
+        <p style="font-size:13px;color:var(--text-secondary);">Rejected reviews are hidden from the public and kept in your records. Use this for spam or inappropriate content.</p>
+      </div>
+    </div>
+
+    <!-- Review flow infographic -->
+    <div style="background:var(--bg-alt);border-radius:20px;padding:28px;margin-bottom:32px;">
+      <h3 style="font-weight:700;color:var(--primary);margin-bottom:20px;text-align:center;">Review Lifecycle</h3>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;gap:8px;">
+        <div style="background:white;border-radius:14px;padding:16px 20px;text-align:center;min-width:130px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="font-size:24px;margin-bottom:6px;">📝</div>
+          <div style="font-size:12px;font-weight:700;color:var(--primary);">Guest submits</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">on the homepage</div>
+        </div>
+        <div style="font-size:20px;color:var(--border);">→</div>
+        <div style="background:#fef3e8;border:1px solid #f5d5b8;border-radius:14px;padding:16px 20px;text-align:center;min-width:130px;">
+          <div style="font-size:24px;margin-bottom:6px;">⏳</div>
+          <div style="font-size:12px;font-weight:700;color:#92400E;">Pending</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">🔴 badge appears</div>
+        </div>
+        <div style="font-size:20px;color:var(--border);">→</div>
+        <div style="background:white;border-radius:14px;padding:16px 20px;text-align:center;min-width:130px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="font-size:24px;margin-bottom:6px;">👀</div>
+          <div style="font-size:12px;font-weight:700;color:var(--primary);">You review it</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">at /admin/reviews</div>
+        </div>
+        <div style="font-size:20px;color:var(--border);">→</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#e8f5ee;border:1px solid #c3e0ce;border-radius:14px;padding:12px 16px;text-align:center;min-width:130px;">
+            <div style="font-size:18px;margin-bottom:4px;">✅</div>
+            <div style="font-size:12px;font-weight:700;color:var(--green);">Approve → Live</div>
+          </div>
+          <div style="background:#fdeaea;border:1px solid #f5c4c4;border-radius:14px;padding:12px 16px;text-align:center;min-width:130px;">
+            <div style="font-size:18px;margin-bottom:4px;">🚫</div>
+            <div style="font-size:12px;font-weight:700;color:var(--red);">Reject → Hidden</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step by step -->
+    <div class="card" style="margin-bottom:24px;">
+      <h3 style="font-weight:700;color:var(--primary);margin-bottom:16px;">How to Approve or Reject a Review</h3>
+      <ol style="list-style:none;padding:0;display:flex;flex-direction:column;gap:14px;">
+        <li style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:var(--primary);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">1</span>
+          <div><strong>Go to the Dashboard</strong> — if there are pending reviews, a red badge shows on the ⭐ Reviews card.</div>
+        </li>
+        <li style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:var(--primary);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">2</span>
+          <div><strong>Click the Reviews card</strong> to go to <code style="background:var(--bg-alt);padding:2px 6px;border-radius:4px;font-size:12px;">/admin/reviews</code>.</div>
+        </li>
+        <li style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:var(--primary);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">3</span>
+          <div><strong>The Pending tab is selected by default.</strong> Read each review — the guest's name, which experience they visited, star rating, and comment are all shown.</div>
+        </li>
+        <li style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:var(--primary);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">4</span>
+          <div>
+            Click <strong style="color:var(--green);">Approve</strong> to publish the review on the homepage, or <strong style="color:var(--red);">Reject</strong> to hide it.
+            <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
+              <span style="background:#e8f5ee;border:1px solid #c3e0ce;color:var(--green);padding:4px 14px;border-radius:999px;font-size:12px;font-weight:600;">✓ Approve</span>
+              <span style="background:#fdeaea;border:1px solid #f5c4c4;color:var(--red);padding:4px 14px;border-radius:999px;font-size:12px;font-weight:600;">✕ Reject</span>
+            </div>
+          </div>
+        </li>
+        <li style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:var(--primary);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">5</span>
+          <div><strong>The status updates instantly.</strong> Approved reviews go live on the homepage immediately — no page refresh needed.</div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Tips -->
+    <div class="card" style="border-left:4px solid var(--accent);">
+      <h3 style="font-weight:700;color:var(--primary);margin-bottom:12px;">💡 Tips</h3>
+      <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--text-secondary);">
+        <li style="padding-left:20px;position:relative;"><span style="position:absolute;left:0;">•</span>Check reviews <strong>daily</strong> — a quick response time shows guests their feedback is valued.</li>
+        <li style="padding-left:20px;position:relative;"><span style="position:absolute;left:0;">•</span>Use the <strong>Pending</strong> filter tab to see only reviews needing action.</li>
+        <li style="padding-left:20px;position:relative;"><span style="position:absolute;left:0;">•</span>Reject reviews that contain spam, offensive language, or are clearly fake.</li>
+        <li style="padding-left:20px;position:relative;"><span style="position:absolute;left:0;">•</span>You can change a rejected review to approved later if needed — just click <strong>Approve</strong>.</li>
+        <li style="padding-left:20px;position:relative;"><span style="position:absolute;left:0;">•</span>Aim to have at least 5–10 approved reviews visible — social proof builds booking confidence.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- QUICK REF -->
 <section class="manual-section" id="quickref" style="border-bottom:none;">
   <div class="container">
@@ -1079,6 +1198,16 @@ footer strong { color: var(--accent); }
             <td>Edit Weekday or Weekend Hours → Click Save</td>
           </tr>
           <tr>
+            <td class="task">⭐ Approve a review</td>
+            <td>Reviews</td>
+            <td>Find review → Click <strong>Approve</strong></td>
+          </tr>
+          <tr>
+            <td class="task">🚫 Reject a review</td>
+            <td>Reviews</td>
+            <td>Find review → Click <strong>Reject</strong></td>
+          </tr>
+          <tr>
             <td class="task">👤 Add another admin</td>
             <td>Supabase → Auth → Users</td>
             <td>Click "Add user" → Enter email & password</td>
@@ -1109,7 +1238,7 @@ footer strong { color: var(--accent); }
 <footer>
   <div style="background:white;border-radius:12px;padding:8px 14px;display:inline-block;margin-bottom:12px;"><img src="/hp-logo.jpeg" alt="Hidden Paradise" style="height:44px;width:auto;display:block;" /></div>
   <p><strong>Hidden Paradise Nature Park</strong> — Admin Training Manual</p>
-  <p style="margin-top:8px;">For internal use only · Version 1.0 · 2026</p>
+  <p style="margin-top:8px;">For internal use only · Version 1.1 · 2026</p>
 </footer>
 
 </body>
