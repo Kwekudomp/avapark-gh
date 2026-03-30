@@ -12,5 +12,18 @@ export default async function AdminDashboardPage() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  return <AdminDashboardClient initialBookings={bookings ?? []} userEmail={user.email ?? ""} />;
+  const { createAdminSupabase } = await import("@/lib/supabase-server");
+  const admin = createAdminSupabase();
+  const { count: pendingReviews } = await admin
+    .from("reviews")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "pending");
+
+  return (
+    <AdminDashboardClient
+      initialBookings={bookings ?? []}
+      userEmail={user.email ?? ""}
+      pendingReviews={pendingReviews ?? 0}
+    />
+  );
 }

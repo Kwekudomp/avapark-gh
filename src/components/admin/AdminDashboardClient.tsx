@@ -14,9 +14,11 @@ const STATUS_COLORS: Record<BookingStatus, string> = {
 export default function AdminDashboardClient({
   initialBookings,
   userEmail,
+  pendingReviews = 0,
 }: {
   initialBookings: Booking[];
   userEmail: string;
+  pendingReviews?: number;
 }) {
   const router = useRouter();
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
@@ -94,15 +96,20 @@ export default function AdminDashboardClient({
         {/* CMS Navigation */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
-            { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: "🎯" },
-            { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: "📸" },
-            { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: "📅" },
-            { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬" },
-            { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️" },
-            { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: "⭐" },
+            { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: "🎯", badge: 0 },
+            { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: "📸", badge: 0 },
+            { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: "📅", badge: 0 },
+            { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬", badge: 0 },
+            { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️", badge: 0 },
+            { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: "⭐", badge: pendingReviews },
           ].map(link => (
             <a key={link.href} href={link.href}
-              className="bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">
+              className="relative bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">
+              {link.badge > 0 && (
+                <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5">
+                  {link.badge}
+                </span>
+              )}
               <div className="text-2xl mb-2">{link.icon}</div>
               <p className="font-semibold text-dark group-hover:text-primary transition text-sm">{link.label}</p>
               <p className="text-xs text-text-secondary mt-1">{link.desc}</p>
