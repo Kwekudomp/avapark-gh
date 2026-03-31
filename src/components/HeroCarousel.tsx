@@ -94,7 +94,7 @@ export default function HeroCarousel() {
         >
           {/* Tag */}
           <p className="text-xl md:text-3xl tracking-[4px] uppercase text-secondary-light font-semibold">
-            Where Nature <span className="text-3xl md:text-5xl font-black align-middle">☥</span> Heals
+            Where Nature <span className="text-6xl md:text-8xl font-black align-middle leading-none">☥</span> Heals
           </p>
 
           {/* Headline */}
