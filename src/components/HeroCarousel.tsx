@@ -25,7 +25,6 @@ const SLIDES = [
   },
 ] as const;
 
-import { WHATSAPP_URL, WHATSAPP_NUMBER } from "@/data/constants";
 
 const CYCLE_INTERVAL = 5000;
 
@@ -59,13 +58,6 @@ export default function HeroCarousel() {
     if (activity) router.push(`/experiences/${activity.slug}`);
   };
 
-  const getWhatsAppLink = () => {
-    const activity = ACTIVITIES.find((a) => a.slug === selectedActivity);
-    const msg = activity
-      ? `Hi%2C+I%27m+interested+in+${activity.wa}+at+Hidden+Paradise`
-      : `Hi%2C+I%27d+like+to+book+an+experience+at+Hidden+Paradise`;
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-  };
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -133,40 +125,22 @@ export default function HeroCarousel() {
                 ))}
               </select>
             </div>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <button
-                onClick={handleFinder}
-                className="flex-1 sm:flex-none bg-accent text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-accent-dark transition-all"
-              >
-                Explore
-              </button>
-              <a
-                href={getWhatsAppLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 sm:flex-none bg-[#25D366] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all text-center"
-              >
-                WhatsApp
-              </a>
-            </div>
+            <button
+              onClick={handleFinder}
+              className="w-full sm:w-auto bg-accent text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-accent-dark transition-all"
+            >
+              Explore
+            </button>
           </div>
 
-          {/* Secondary CTAs */}
-          <div className="flex gap-4 mt-5 justify-center flex-wrap">
+          {/* Secondary CTA */}
+          <div className="flex gap-4 mt-5 justify-center">
             <Link
               href="/experiences"
               className="border border-white/40 text-white/80 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide hover:bg-white/10 transition-all backdrop-blur-sm"
             >
               All Experiences
             </Link>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/80 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide hover:text-white transition-all"
-            >
-              Chat with us →
-            </a>
           </div>
         </motion.div>
       </div>

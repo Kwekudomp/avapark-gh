@@ -97,7 +97,7 @@ export default function Nav() {
               href="/#stay"
               className="border border-primary text-primary px-5 py-2 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200"
             >
-              Where to Stay
+              Accommodation
             </Link>
 
             {/* Book Now CTA */}
@@ -190,7 +190,7 @@ export default function Nav() {
                 onClick={closeMenu}
                 className="block w-full text-center border border-primary text-primary px-6 py-3.5 rounded-full text-base font-medium hover:bg-primary hover:text-white transition-colors duration-200"
               >
-                Where to Stay
+                Accommodation
               </Link>
               <Link
                 href="/experiences"
