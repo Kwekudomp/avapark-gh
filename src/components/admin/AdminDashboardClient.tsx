@@ -97,6 +97,7 @@ export default function AdminDashboardClient({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
             { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: "🎯", badge: 0 },
+            { href: "/admin/accommodation", label: "Accommodation", desc: "Manage partner lodge listings", icon: "🏨", badge: 0 },
             { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: "📸", badge: 0 },
             { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: "📅", badge: 0 },
             { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬", badge: 0 },

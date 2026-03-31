@@ -12,14 +12,15 @@ import ReviewsSection from "@/components/ReviewsSection";
 import AccommodationSection from "@/components/AccommodationSection";
 import HowToGetHere from "@/components/HowToGetHere";
 import EmailSignup from "@/components/EmailSignup";
-import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews } from "@/lib/cms";
+import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews, getAccommodationPartners } from "@/lib/cms";
 
 export default async function Home() {
-  const [featured, events, videos, reviews] = await Promise.all([
+  const [featured, events, videos, reviews, partners] = await Promise.all([
     getFeaturedCMSExperiences(),
     getUpcomingEvents(),
     getVideos(),
     getApprovedReviews(),
+    getAccommodationPartners(),
   ]);
 
   return (
@@ -48,7 +49,7 @@ export default async function Home() {
       </section>
 
       {/* Accommodation */}
-      <AccommodationSection />
+      <AccommodationSection partners={partners} />
 
       {/* Upcoming Events */}
       <UpcomingEvents events={events} />

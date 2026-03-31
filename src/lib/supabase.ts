@@ -89,6 +89,24 @@ export interface Review {
   created_at: string;
 }
 
+export interface AccommodationPartner {
+  id: string;
+  name: string;
+  type: string;
+  distance: string;
+  price_from: string;
+  guests: string;
+  highlights: string[];
+  badge: string | null;
+  badge_color: string | null;
+  image_url: string | null;
+  whatsapp_override: string | null;
+  enquiry_url: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+}
+
 export interface Booking {
   id: string;
   experience_slug: string;

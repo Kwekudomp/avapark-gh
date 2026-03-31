@@ -1,7 +1,7 @@
 import { createServerSupabase } from "./supabase-server";
-import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review } from "./supabase";
+import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner } from "./supabase";
 
-export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings };
+export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, AccommodationPartner };
 
 export async function getCMSExperiences(): Promise<CMSExperience[]> {
   try {
@@ -110,6 +110,21 @@ export async function getApprovedReviews(): Promise<Review[]> {
       .order("created_at", { ascending: false });
     if (error || !data?.length) return [];
     return data as Review[];
+  } catch {
+    return [];
+  }
+}
+
+export async function getAccommodationPartners(): Promise<AccommodationPartner[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data, error } = await supabase
+      .from("accommodation_partners")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    if (error || !data?.length) return [];
+    return data as AccommodationPartner[];
   } catch {
     return [];
   }

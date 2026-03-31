@@ -7,7 +7,6 @@ import { WHATSAPP_URL } from "@/data/constants";
 
 const NAV_LINKS = [
   { label: "Experiences", href: "/experiences" },
-  { label: "Stay", href: "/#stay" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -93,6 +92,14 @@ export default function Nav() {
               </Link>
             ))}
 
+            {/* Stay button */}
+            <Link
+              href="/#stay"
+              className="border border-primary text-primary px-5 py-2 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200"
+            >
+              Where to Stay
+            </Link>
+
             {/* Book Now CTA */}
             <Link
               href="/experiences"
@@ -176,8 +183,15 @@ export default function Nav() {
               ))}
             </div>
 
-            {/* Book Now button (mobile - full width) */}
-            <div className="mt-8">
+            {/* Stay + Book Now buttons (mobile) */}
+            <div className="mt-8 space-y-3">
+              <Link
+                href="/#stay"
+                onClick={closeMenu}
+                className="block w-full text-center border border-primary text-primary px-6 py-3.5 rounded-full text-base font-medium hover:bg-primary hover:text-white transition-colors duration-200"
+              >
+                Where to Stay
+              </Link>
               <Link
                 href="/experiences"
                 onClick={closeMenu}
