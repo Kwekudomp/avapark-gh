@@ -75,7 +75,7 @@ export default function HeroCarousel() {
         >
           {/* Tag */}
           <p className="text-xs tracking-[4px] uppercase text-secondary-light font-semibold">
-            Escape Into Nature
+            Where Nature Hails
           </p>
 
           {/* Headline */}
