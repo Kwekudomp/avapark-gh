@@ -7,6 +7,7 @@ import { WHATSAPP_URL } from "@/data/constants";
 
 const NAV_LINKS = [
   { label: "Experiences", href: "/experiences" },
+  { label: "Stay", href: "/#stay" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

@@ -9,6 +9,9 @@ import DiasporaCTA from "@/components/DiasporaCTA";
 import UpcomingEvents from "@/components/UpcomingEvents";
 import VideoSection from "@/components/VideoSection";
 import ReviewsSection from "@/components/ReviewsSection";
+import AccommodationSection from "@/components/AccommodationSection";
+import HowToGetHere from "@/components/HowToGetHere";
+import EmailSignup from "@/components/EmailSignup";
 import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews } from "@/lib/cms";
 
 export default async function Home() {
@@ -21,7 +24,7 @@ export default async function Home() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero + Activity Finder */}
       <HeroCarousel />
 
       {/* Featured Experiences */}
@@ -44,8 +47,20 @@ export default async function Home() {
         </Link>
       </section>
 
+      {/* Accommodation */}
+      <AccommodationSection />
+
+      {/* Upcoming Events */}
+      <UpcomingEvents events={events} />
+
       {/* Photo Mosaic */}
       <PhotoMosaic />
+
+      {/* Weekly Schedule */}
+      <WeeklySchedule />
+
+      {/* Videos */}
+      <VideoSection videos={videos} />
 
       {/* Why Hidden Paradise */}
       <section className="py-24 px-[5%]">
@@ -57,20 +72,17 @@ export default async function Home() {
         <ValueCards />
       </section>
 
-      {/* Upcoming Events */}
-      <UpcomingEvents events={events} />
-
-      {/* Videos */}
-      <VideoSection videos={videos} />
-
-      {/* Weekly Schedule */}
-      <WeeklySchedule />
-
       {/* Reviews */}
       <ReviewsSection initialReviews={reviews} />
 
+      {/* How to Get Here */}
+      <HowToGetHere />
+
       {/* Diaspora CTA */}
       <DiasporaCTA />
+
+      {/* Email Signup */}
+      <EmailSignup />
     </>
   );
 }

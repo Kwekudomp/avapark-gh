@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const SLIDES = [
@@ -24,12 +25,24 @@ const SLIDES = [
   },
 ] as const;
 
-import { WHATSAPP_URL } from "@/data/constants";
+import { WHATSAPP_URL, WHATSAPP_NUMBER } from "@/data/constants";
 
 const CYCLE_INTERVAL = 5000;
 
+const ACTIVITIES = [
+  { label: "Camping", slug: "camping", wa: "camping+overnight+stay" },
+  { label: "Pool Party", slug: "pool-party", wa: "pool+party" },
+  { label: "Hiking", slug: "krobo-mountain-hike", wa: "hiking+tour" },
+  { label: "BBQ & Bonfire", slug: "saturday-bbq", wa: "BBQ+and+bonfire" },
+  { label: "Picnic Package", slug: "picnic-packages", wa: "picnic+package" },
+  { label: "Private Event", slug: "private-event", wa: "private+event+enquiry" },
+  { label: "Game Night", slug: "game-night", wa: "game+night" },
+];
+
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedActivity, setSelectedActivity] = useState("");
+  const router = useRouter();
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
@@ -39,6 +52,20 @@ export default function HeroCarousel() {
     const interval = setInterval(nextSlide, CYCLE_INTERVAL);
     return () => clearInterval(interval);
   }, [nextSlide]);
+
+  const handleFinder = () => {
+    if (!selectedActivity) return;
+    const activity = ACTIVITIES.find((a) => a.slug === selectedActivity);
+    if (activity) router.push(`/experiences/${activity.slug}`);
+  };
+
+  const getWhatsAppLink = () => {
+    const activity = ACTIVITIES.find((a) => a.slug === selectedActivity);
+    const msg = activity
+      ? `Hi%2C+I%27m+interested+in+${activity.wa}+at+Hidden+Paradise`
+      : `Hi%2C+I%27d+like+to+book+an+experience+at+Hidden+Paradise`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+  };
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -91,21 +118,54 @@ export default function HeroCarousel() {
             &amp; unforgettable experiences.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex gap-4 mt-10 justify-center flex-wrap">
+          {/* Activity Finder */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-4 max-w-xl mx-auto">
+            <div className="flex items-center gap-3 flex-1 w-full">
+              <span className="text-white/70 text-sm font-medium whitespace-nowrap hidden sm:block">I want to…</span>
+              <select
+                value={selectedActivity}
+                onChange={(e) => setSelectedActivity(e.target.value)}
+                className="flex-1 bg-transparent text-white text-sm font-medium outline-none cursor-pointer w-full"
+              >
+                <option value="" className="text-dark">What would you like to do?</option>
+                {ACTIVITIES.map((a) => (
+                  <option key={a.slug} value={a.slug} className="text-dark">{a.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+                onClick={handleFinder}
+                className="flex-1 sm:flex-none bg-accent text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-accent-dark transition-all"
+              >
+                Explore
+              </button>
+              <a
+                href={getWhatsAppLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 sm:flex-none bg-[#25D366] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all text-center"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </div>
+
+          {/* Secondary CTAs */}
+          <div className="flex gap-4 mt-5 justify-center flex-wrap">
             <Link
               href="/experiences"
-              className="border-2 border-white/40 text-white px-8 py-4 rounded-full font-medium tracking-wide hover:bg-white/10 hover:-translate-y-0.5 transition-all backdrop-blur-sm"
+              className="border border-white/40 text-white/80 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide hover:bg-white/10 transition-all backdrop-blur-sm"
             >
-              Explore Experiences
+              All Experiences
             </Link>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-accent text-white px-8 py-4 rounded-full font-medium tracking-wide hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-lg transition-all"
+              className="text-white/80 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide hover:text-white transition-all"
             >
-              Book via WhatsApp
+              Chat with us →
             </a>
           </div>
         </motion.div>

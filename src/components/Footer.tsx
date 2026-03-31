@@ -10,9 +10,18 @@ const experiences = [
   { name: "Game Night", slug: "game-night" },
 ];
 
+const stayLinks = [
+  { name: "Akuse River Lodge", href: "/#stay" },
+  { name: "Volta Forest Retreat", href: "/#stay" },
+  { name: "Okwenya Guesthouse", href: "/#stay" },
+  { name: "Eastern Hills Camp", href: "/#stay" },
+  { name: "List Your Property", href: "/contact" },
+];
+
 const quickLinks = [
   { name: "All Experiences", href: "/experiences" },
   { name: "Gallery", href: "/gallery" },
+  { name: "How to Get Here", href: "/#directions" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
@@ -24,7 +33,7 @@ export default function Footer() {
       <div className="h-px bg-secondary" />
 
       <div className="mx-auto max-w-[1400px] px-6 py-16">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Column 1 — Brand */}
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -58,7 +67,26 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Quick Links */}
+          {/* Column 3 — Stay */}
+          <div>
+            <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
+              WHERE TO STAY
+            </h3>
+            <ul className="space-y-2">
+              {stayLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/60 transition hover:text-secondary"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4 — Quick Links */}
           <div>
             <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
               EXPLORE
