@@ -74,7 +74,7 @@ export default function HeroCarousel() {
           className="text-center"
         >
           {/* Tag */}
-          <p className="text-base md:text-lg tracking-[4px] uppercase text-secondary-light font-semibold">
+          <p className="text-xl md:text-3xl tracking-[4px] uppercase text-secondary-light font-semibold">
             Where Nature ☥ Heals
           </p>
 
