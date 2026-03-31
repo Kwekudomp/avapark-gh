@@ -75,7 +75,7 @@ export default function HeroCarousel() {
         >
           {/* Tag */}
           <p className="text-xs tracking-[4px] uppercase text-secondary-light font-semibold">
-            Where Nature ✚ Heals
+            Where Nature ☥ Heals
           </p>
 
           {/* Headline */}
