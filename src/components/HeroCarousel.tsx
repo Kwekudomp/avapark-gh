@@ -36,6 +36,8 @@ const ACTIVITIES = [
   { label: "Picnic Package", slug: "picnic-packages", wa: "picnic+package" },
   { label: "Private Event", slug: "private-event", wa: "private+event+enquiry" },
   { label: "Game Night", slug: "game-night", wa: "game+night" },
+  { label: "Tours", slug: "eastern-tour", wa: "tours+enquiry" },
+  { label: "Boat Cruise", slug: "eastern-tour", wa: "boat+cruise+enquiry" },
 ];
 
 export default function HeroCarousel() {
