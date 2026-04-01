@@ -101,9 +101,14 @@ export default function HeroCarousel() {
 
           {/* Headline */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mt-4 leading-tight">
-            Your Escape Into
+            Your{" "}
+            <span style={{ WebkitTextStroke: "2px white", color: "transparent" }}>
+              Escape
+            </span>{" "}
+            Into
             <br />
-            Hidden Paradise
+            Hidden{" "}
+            <span className="italic text-accent">Paradise</span>
           </h1>
 
           {/* Subtitle */}
