@@ -108,7 +108,7 @@ export default function HeroCarousel() {
             Into
             <br />
             Hidden{" "}
-            <span className="italic text-accent">Paradise</span>
+            <span className="italic text-secondary-light">Paradise</span>
           </h1>
 
           {/* Subtitle */}
