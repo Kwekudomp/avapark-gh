@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { CMSExperience } from "@/lib/supabase";
 import ScrollReveal from "./ScrollReveal";
 
@@ -15,6 +16,7 @@ export default function ExperienceCard({
   index = 0,
 }: ExperienceCardProps) {
   const { slug, name, tagline, schedule, cover_image_url, deposit_amount } = experience;
+  const [imgError, setImgError] = useState(false);
 
   return (
     <ScrollReveal delay={index * 0.1}>
@@ -22,13 +24,14 @@ export default function ExperienceCard({
         {/* Image container — links to experience detail */}
         <Link href={`/experiences/${slug}`} className="block">
           <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-bg-alt">
-            {cover_image_url ? (
+            {cover_image_url && !imgError ? (
               <Image
                 src={cover_image_url}
                 alt={name}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                onError={() => setImgError(true)}
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
