@@ -107,7 +107,7 @@ export default function HeroCarousel() {
             </span>{" "}
             Into
             <br />
-            Hidden{" "}
+            <span className="italic">Hidden</span>{" "}
             <span className="italic text-secondary-light">Paradise</span>
           </h1>
 
