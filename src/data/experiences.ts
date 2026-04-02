@@ -371,6 +371,61 @@ export const experiences: Experience[] = [
     depositAmount: 150,
   },
 
+  {
+    slug: "atv-ride",
+    name: "ATV Ride",
+    tagline: "Tear through the terrain",
+    description:
+      "Strap in and throttle through the rugged trails and open grounds of Hidden Paradise on an All-Terrain Vehicle. Whether you are a first-timer or seasoned rider, our guided ATV experience delivers an adrenaline-packed adventure through 300 acres of raw nature.",
+    schedule: "Available daily",
+    time: "By appointment",
+    packageIncludes: [
+      "ATV rental",
+      "Safety gear (helmet & gloves)",
+      "Trail guide",
+      "Safety briefing",
+    ],
+    activities: [
+      "Trail riding",
+      "Off-road adventure",
+      "Photography stops",
+    ],
+    coverImage: "/images/experiences/atv-ride.jpeg",
+    images: ["/images/experiences/atv-ride.jpeg"],
+    category: "recurring",
+    isFeatured: false,
+    whatsappMessage: whatsappMsg("ATV Ride"),
+    price: 150,
+    depositAmount: 75,
+  },
+  {
+    slug: "bike-ride",
+    name: "Bike Ride",
+    tagline: "Pedal through paradise",
+    description:
+      "Explore the scenic trails and lush grounds of Hidden Paradise on two wheels. Our guided bike rides take you through shaded paths, open lawns, and viewpoints across the 300-acre property. Perfect for solo riders, couples, and groups.",
+    schedule: "Available daily",
+    time: "By appointment",
+    packageIncludes: [
+      "Bicycle rental",
+      "Safety helmet",
+      "Trail guide",
+      "Refreshments",
+    ],
+    activities: [
+      "Trail cycling",
+      "Nature exploration",
+      "Photography stops",
+    ],
+    coverImage: "/images/experiences/bike-ride.jpeg",
+    images: ["/images/experiences/bike-ride.jpeg"],
+    category: "recurring",
+    isFeatured: false,
+    whatsappMessage: whatsappMsg("Bike Ride"),
+    price: 80,
+    depositAmount: 40,
+  },
+
   // ─── SPECIAL EXPERIENCES ─────────────────────────────────────────────
   {
     slug: "sunset-gardens",
