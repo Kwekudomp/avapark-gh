@@ -38,7 +38,7 @@ const ACTIVITIES = [
   { label: "Game Night", slug: "game-night", wa: "game+night" },
   { label: "Tours", slug: "eastern-tour", wa: "tours+enquiry" },
   { label: "Boat Cruise", slug: "eastern-tour", wa: "boat+cruise+enquiry" },
-  { label: "ATV Ride", slug: "atv-ride", wa: "ATV+ride+enquiry" },
+  { label: "ATV Ride", slug: "atv-dirt-ride", wa: "ATV+ride+enquiry" },
   { label: "Bike Ride", slug: "bike-ride", wa: "bike+ride+enquiry" },
 ];
 
