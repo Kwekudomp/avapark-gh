@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import ExperienceGrid from "@/components/ExperienceGrid";
 import { getCMSExperiences } from "@/lib/cms";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Our Experiences",
   description:
