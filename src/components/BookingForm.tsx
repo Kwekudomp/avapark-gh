@@ -155,7 +155,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     doc.setTextColor(...white);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
-    doc.text("🏕  THE CAMPING EXPERIENCE — PACK LIST", 105, 59.5, { align: "center" });
+    doc.text("THE CAMPING EXPERIENCE — PACK LIST", 105, 59.5, { align: "center" });
 
     // ── Subtitle ──
     doc.setTextColor(...green);
