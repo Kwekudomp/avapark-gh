@@ -97,30 +97,146 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     return baseNotes ? `${baseNotes}\n${activityLine}` : activityLine;
   }
 
-  function downloadChecklist() {
-    const lines = [
-      "AVAPARK — CAMPING CHECKLIST",
-      "===========================",
-      "",
-      "Pack the following for your camping experience:",
-      "",
-      ...CAMP_CHECKLIST.map(item => `  ☐  ${item}`),
-      "",
-      "BOOKING DETAILS",
-      "───────────────",
-      "A 50% deposit is required to secure your dates.",
-      "Confirm your booking at least 48 hours before arrival.",
-      "",
-      "Contact: +233 (0) 540 879 700 | info@avapark-gh.com",
-      "Web: www.avapark-gh.com | IG: @avapark_gh",
-    ];
-    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
-    a.href     = url;
-    a.download = "Avapark-Camping-Checklist.txt";
-    a.click();
-    URL.revokeObjectURL(url);
+  async function downloadChecklist() {
+    const { jsPDF } = await import("jspdf");
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const W = 210;
+    const green  = [22, 101, 52]  as [number, number, number];  // dark green
+    const olive  = [74, 107, 34]  as [number, number, number];  // olive green
+    const orange = [194, 82, 15]  as [number, number, number];  // brand orange
+    const cream  = [252, 248, 240] as [number, number, number]; // off-white bg
+    const white  = [255, 255, 255] as [number, number, number];
+
+    // ── Background ──
+    doc.setFillColor(...cream);
+    doc.rect(0, 0, 210, 297, "F");
+
+    // ── Top green banner ──
+    doc.setFillColor(...green);
+    doc.rect(0, 0, 210, 42, "F");
+
+    // ── Logo (embed SVG as image via canvas trick) ──
+    // Try to load the logo; if it fails we just skip it
+    try {
+      const img = new Image();
+      img.src = "/hp-logo.svg";
+      await new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        setTimeout(resolve, 2000);
+      });
+      if (img.complete && img.naturalWidth > 0) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 120; canvas.height = 120;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, 120, 120);
+        const dataUrl = canvas.toDataURL("image/png");
+        doc.addImage(dataUrl, "PNG", 10, 4, 34, 34);
+      }
+    } catch { /* skip logo if unavailable */ }
+
+    // ── Brand name ──
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    doc.text("HIDDEN PARADISE", 52, 18);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    doc.text("NATURE PARK", 52, 26);
+
+    // ── Tagline ──
+    doc.setFontSize(9);
+    doc.setTextColor(200, 230, 200);
+    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern Region", 52, 35);
+
+    // ── Title block ──
+    doc.setFillColor(...olive);
+    doc.roundedRect(15, 50, W - 30, 14, 3, 3, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("🏕  THE CAMPING EXPERIENCE — PACK LIST", 105, 59.5, { align: "center" });
+
+    // ── Subtitle ──
+    doc.setTextColor(...green);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.text("Everything you need for an unforgettable weekend under the stars.", 105, 73, { align: "center" });
+
+    // ── Checklist items ──
+    const colLeft  = 20;
+    const colRight = 115;
+    const startY   = 82;
+    const rowH     = 11;
+
+    const half = Math.ceil(CAMP_CHECKLIST.length / 2);
+    const leftItems  = CAMP_CHECKLIST.slice(0, half);
+    const rightItems = CAMP_CHECKLIST.slice(half);
+
+    // Column headers
+    doc.setFillColor(...olive);
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.roundedRect(colLeft - 2, startY - 7, 85, 7, 2, 2, "F");
+    doc.text("WHAT TO BRING", colLeft + 2, startY - 2);
+    doc.roundedRect(colRight - 2, startY - 7, 85, 7, 2, 2, "F");
+    doc.text("WHAT TO BRING (cont.)", colRight + 2, startY - 2);
+
+    // Items
+    [...leftItems, ...rightItems].forEach((item, i) => {
+      const isRight = i >= leftItems.length;
+      const x = isRight ? colRight : colLeft;
+      const y = startY + (isRight ? i - leftItems.length : i) * rowH;
+
+      // alternating row bg
+      if ((isRight ? i - leftItems.length : i) % 2 === 0) {
+        doc.setFillColor(232, 245, 232);
+        doc.rect(x - 2, y - 4.5, 85, rowH, "F");
+      }
+
+      // checkbox
+      doc.setDrawColor(...green);
+      doc.setLineWidth(0.4);
+      doc.rect(x, y - 3.5, 4.5, 4.5);
+
+      // text
+      doc.setTextColor(30, 30, 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(item, x + 7, y);
+    });
+
+    const afterList = startY + Math.max(leftItems.length, rightItems.length) * rowH + 8;
+
+    // ── Booking info box ──
+    doc.setFillColor(...green);
+    doc.roundedRect(15, afterList, W - 30, 28, 4, 4, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text("BOOKING DETAILS", 105, afterList + 9, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("A 50% deposit is required to secure your dates.", 105, afterList + 17, { align: "center" });
+    doc.text("Confirm your booking at least 48 hours before arrival.", 105, afterList + 23, { align: "center" });
+
+    // ── Footer ──
+    const footerY = 272;
+    doc.setFillColor(...orange);
+    doc.rect(0, footerY, 210, 25, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text("+233 (0) 540 879 700", 20, footerY + 9);
+    doc.text("info@hiddenparadisegh.com", 20, footerY + 17);
+    doc.setFont("helvetica", "normal");
+    doc.text("www.hiddenparadisegh.com", 105, footerY + 9, { align: "center" });
+    doc.text("@hiddenparadisegh", 105, footerY + 17, { align: "center" });
+    doc.setFont("helvetica", "bold");
+    doc.text("Terms & Conditions Apply", 190, footerY + 13, { align: "right" });
+
+    doc.save("Hidden-Paradise-Camping-Checklist.pdf");
   }
 
   async function submitFreeBooking() {
