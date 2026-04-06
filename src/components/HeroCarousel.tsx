@@ -100,29 +100,12 @@ export default function HeroCarousel() {
           <p className="text-xl md:text-3xl tracking-[4px] uppercase text-secondary-light font-semibold">
             Where Nature{" "}
             <svg
-              viewBox="0 0 80 124"
+              viewBox="0 0 500 878"
               fill="currentColor"
-              className="inline-block align-middle w-12 h-16 md:w-20 md:h-28 mx-1"
+              className="inline-block align-middle w-8 h-14 md:w-14 md:h-24 mx-1"
               aria-hidden="true"
             >
-              {/* Loop — pointed Gothic arch top, hollow centre */}
-              <path
-                fillRule="evenodd"
-                d="
-                  M40,3 C40,3 67,13 67,31 C67,50 55,60 40,60
-                  C25,60 13,50 13,31 C13,13 40,3 40,3 Z
-                  M40,15 C40,15 55,21 55,31 C55,45 48,52 40,52
-                  C32,52 25,45 25,31 C25,21 40,15 40,15 Z
-                "
-              />
-              {/* Shaft */}
-              <rect x="36" y="58" width="8" height="50" rx="1.5" />
-              {/* Left arm — tapers to a point (cross pattée style) */}
-              <path d="M6,79 L15,72 L36,72 L36,86 L15,86 Z" />
-              {/* Right arm */}
-              <path d="M74,79 L65,72 L44,72 L44,86 L65,86 Z" />
-              {/* Decorative foot diamond */}
-              <path d="M36,108 L31,114 L40,122 L49,114 L44,108 Z" />
+              <path d="M 260 2 C 187 2 83 37 127 214 C 148 297 198 362 239 421 L 24 409 C 30 435 30 461 24 487 L 239 475 L 224 874 C 253 865 277 868 299 874 L 286 475 L 480 487 C 474 461 473 435 480 409 L 286 421 C 322 357 373 300 391 206 C 427 16 330 2 263 2 C 262 2 261 2 260 2 z M 258 51 C 335 50 414 161 264 385 C 106 163 181 51 258 51 z" />
             </svg>
             {" "}Heals
           </p>
