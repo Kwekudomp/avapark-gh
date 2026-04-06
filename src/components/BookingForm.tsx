@@ -24,14 +24,44 @@ interface FormData {
   notes: string;
 }
 
+// ── Camping-specific constants ───────────────────────────────────────────
+const COMPLIMENTARY_ACTIVITIES = [
+  "Spin the Bottle", "Archery", "Dart Board", "Tag of War", "Sack Races",
+  "Karaoke", "Music & Good Vibes", "Networking", "Volleyball", "Soccer",
+  "Table Tennis", "Board Games",
+];
+
+const PAY_TO_USE_ACTIVITIES = [
+  "Pool Table", "Movie Night", "Bonfire", "Swimming", "Video Games",
+  "Hiking", "Cycling", "Sip & Paint", "Photoshoot", "Horse Riding",
+  "Boating / Fishing", "Paintball Target Shooting", "Mini Golf Course",
+  "Crafting & Pottery Classes",
+];
+
+const CAMP_CHECKLIST = [
+  "Toiletries",
+  "Swimsuit",
+  "Bedsheet / Duvet",
+  "Extension Board",
+  "Towels",
+  "Pillows",
+  "Sportswear (Hiking & Outfit For Games)",
+  "Party Outfits",
+  "Sneakers for Games",
+  "Bug Spray / Mosquito Repellent",
+];
+
 export default function BookingForm({ experience }: { experience: CMSExperience }) {
   const router = useRouter();
+  const isCamping = experience.slug === "camping";
+
   const [form, setForm] = useState<FormData>({
     guest_name: "", guest_email: "", guest_phone: "",
     booking_date: "", adults: 1, children: 0,
     package_tier_id: experience.package_tiers?.[0]?.id ?? "",
     notes: "",
   });
+  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -55,6 +85,44 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     setForm(prev => ({ ...prev, [name]: name === "adults" || name === "children" ? Number(value) : value }));
   }
 
+  function toggleActivity(activity: string) {
+    setSelectedActivities(prev =>
+      prev.includes(activity) ? prev.filter(a => a !== activity) : [...prev, activity]
+    );
+  }
+
+  function buildNotes(baseNotes: string) {
+    if (!isCamping || selectedActivities.length === 0) return baseNotes;
+    const activityLine = `Activities interested in: ${selectedActivities.join(", ")}`;
+    return baseNotes ? `${baseNotes}\n${activityLine}` : activityLine;
+  }
+
+  function downloadChecklist() {
+    const lines = [
+      "AVAPARK — CAMPING CHECKLIST",
+      "===========================",
+      "",
+      "Pack the following for your camping experience:",
+      "",
+      ...CAMP_CHECKLIST.map(item => `  ☐  ${item}`),
+      "",
+      "BOOKING DETAILS",
+      "───────────────",
+      "A 50% deposit is required to secure your dates.",
+      "Confirm your booking at least 48 hours before arrival.",
+      "",
+      "Contact: +233 (0) 540 879 700 | info@avapark-gh.com",
+      "Web: www.avapark-gh.com | IG: @avapark_gh",
+    ];
+    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = "Avapark-Camping-Checklist.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function submitFreeBooking() {
     setLoading(true);
     setError("");
@@ -76,7 +144,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           package_tier_name: null,
           subtotal: 0,
           deposit_amount: 0,
-          notes: form.notes,
+          notes: buildNotes(form.notes),
         }),
       });
       const data = await res.json();
@@ -139,7 +207,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
               subtotal: totalDeposit * 2,
               deposit_amount: totalDeposit,
               paystack_reference: response.reference,
-              notes: form.notes,
+              notes: buildNotes(form.notes),
             }),
           });
           const bookingData = await bookingRes.json();
@@ -185,7 +253,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           package_tier_name: tierName,
           subtotal: totalDeposit * 2,
           deposit_amount: 0,
-          notes: form.notes ? `[Pay at venue — GHC ${totalDeposit} due on arrival] ${form.notes}` : `Pay at venue — GHC ${totalDeposit} due on arrival`,
+          notes: buildNotes(form.notes ? `[Pay at venue — GHC ${totalDeposit} due on arrival] ${form.notes}` : `Pay at venue — GHC ${totalDeposit} due on arrival`),
         }),
       });
       const data = await res.json();
@@ -283,6 +351,84 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           </select>
         </div>
       </div>
+
+      {/* ── Camping: Activity Selection ── */}
+      {isCamping && (
+        <div className="space-y-4">
+          <div>
+            <label className={labelClass}>Which activities are you interested in?</label>
+            <p className="text-xs text-text-secondary mb-3">Select all that apply — helps us prepare for your stay.</p>
+
+            <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">✅ Complimentary</p>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {COMPLIMENTARY_ACTIVITIES.map(activity => (
+                <label key={activity}
+                  className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer text-sm transition ${
+                    selectedActivities.includes(activity)
+                      ? "border-primary bg-primary/5 font-medium"
+                      : "border-border hover:border-primary/40"
+                  }`}>
+                  <input
+                    type="checkbox"
+                    checked={selectedActivities.includes(activity)}
+                    onChange={() => toggleActivity(activity)}
+                    className="accent-primary w-4 h-4 flex-shrink-0"
+                  />
+                  {activity}
+                </label>
+              ))}
+            </div>
+
+            <p className="text-xs font-semibold text-accent uppercase tracking-wider mb-2">💰 Pay-To-Use</p>
+            <div className="grid grid-cols-2 gap-2">
+              {PAY_TO_USE_ACTIVITIES.map(activity => (
+                <label key={activity}
+                  className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer text-sm transition ${
+                    selectedActivities.includes(activity)
+                      ? "border-accent bg-accent/5 font-medium"
+                      : "border-border hover:border-accent/40"
+                  }`}>
+                  <input
+                    type="checkbox"
+                    checked={selectedActivities.includes(activity)}
+                    onChange={() => toggleActivity(activity)}
+                    className="accent-accent w-4 h-4 flex-shrink-0"
+                  />
+                  {activity}
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Camping: Checklist ── */}
+      {isCamping && (
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-green-800 text-sm uppercase tracking-wider">🎒 Camp Checklist</h3>
+            <button
+              type="button"
+              onClick={downloadChecklist}
+              className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-full hover:bg-green-800 transition font-medium"
+            >
+              ⬇ Download
+            </button>
+          </div>
+          <p className="text-xs text-green-700 mb-3">Remember to pack the following for your camping experience:</p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            {CAMP_CHECKLIST.map(item => (
+              <li key={item} className="flex items-start gap-2 text-sm text-green-800">
+                <span className="mt-0.5 text-green-500 flex-shrink-0">☐</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-green-600 mt-3 font-medium">
+            A 50% deposit is required to secure your dates. Confirm at least 48 hours before arrival.
+          </p>
+        </div>
+      )}
 
       <div>
         <label className={labelClass}>Additional Notes</label>

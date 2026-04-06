@@ -30,14 +30,14 @@ const CYCLE_INTERVAL = 5000;
 
 const ACTIVITIES = [
   { label: "Camping", slug: "camping", wa: "camping+overnight+stay" },
-  { label: "Pool Party", slug: "party-in-the-woods", wa: "pool+party" },
+  { label: "Pool Party", slug: "pool-party", wa: "pool+party" },
   { label: "Hiking", slug: "krobo-mountain-hike", wa: "hiking+tour" },
   { label: "BBQ & Bonfire", slug: "saturday-bbq", wa: "BBQ+and+bonfire" },
   { label: "Picnic Package", slug: "picnic-packages", wa: "picnic+package" },
   { label: "Private Event", slug: "party-in-the-woods", wa: "private+event+enquiry" },
   { label: "Game Night", slug: "game-night", wa: "game+night" },
   { label: "Tours", slug: "eastern-tour", wa: "tours+enquiry" },
-  { label: "Boat Cruise", slug: "eastern-tour", wa: "boat+cruise+enquiry" },
+  { label: "Boat Cruise", slug: "boat-cruise", wa: "boat+cruise+enquiry" },
   { label: "ATV Ride", slug: "atv-dirt-ride", wa: "ATV+ride+enquiry" },
   { label: "Bike Ride", slug: "bike-ride", wa: "bike+ride+enquiry" },
 ];

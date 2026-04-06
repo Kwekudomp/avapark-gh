@@ -65,14 +65,14 @@ export default function Nav() {
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between md:h-18">
+        <div className="flex h-20 items-center justify-between md:h-24">
           {/* Logo */}
           <Link href="/" onClick={closeMenu} aria-label="Hidden Paradise Nature Park — Home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/hp-logo.svg"
               alt="Hidden Paradise Nature Park"
-              className="h-12 w-auto object-contain"
+              className="h-20 w-auto object-contain md:h-24"
             />
           </Link>
 

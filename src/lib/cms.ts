@@ -1,7 +1,34 @@
 import { createServerSupabase } from "./supabase-server";
 import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner } from "./supabase";
+import { experiences as staticExperiences, getFeaturedExperiences as getStaticFeatured } from "@/data/experiences";
+import type { Experience } from "@/data/experiences";
 
 export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, AccommodationPartner };
+
+/** Convert static Experience → CMSExperience shape so components work with either source */
+function adaptStatic(e: Experience): CMSExperience {
+  return {
+    id: e.slug,
+    slug: e.slug,
+    name: e.name,
+    tagline: e.tagline,
+    description: e.description,
+    schedule: e.schedule,
+    time: e.time,
+    package_includes: e.packageIncludes,
+    activities: e.activities,
+    cover_image_url: e.coverImage || null,
+    images: e.images,
+    category: e.category,
+    is_featured: e.isFeatured,
+    is_active: true,
+    price: e.price,
+    deposit_amount: e.depositAmount,
+    package_tiers: e.packageTiers ?? null,
+    sort_order: 0,
+    whatsapp_message: e.whatsappMessage,
+  };
+}
 
 export async function getCMSExperiences(): Promise<CMSExperience[]> {
   try {
@@ -11,10 +38,10 @@ export async function getCMSExperiences(): Promise<CMSExperience[]> {
       .select("*")
       .eq("is_active", true)
       .order("sort_order", { ascending: true });
-    if (error || !data?.length) return [];
+    if (error || !data?.length) return staticExperiences.map(adaptStatic);
     return data as CMSExperience[];
   } catch {
-    return [];
+    return staticExperiences.map(adaptStatic);
   }
 }
 
@@ -27,10 +54,14 @@ export async function getCMSExperienceBySlug(slug: string): Promise<CMSExperienc
       .eq("slug", slug)
       .eq("is_active", true)
       .single();
-    if (error || !data) return null;
+    if (error || !data) {
+      const fallback = staticExperiences.find(e => e.slug === slug);
+      return fallback ? adaptStatic(fallback) : null;
+    }
     return data as CMSExperience;
   } catch {
-    return null;
+    const fallback = staticExperiences.find(e => e.slug === slug);
+    return fallback ? adaptStatic(fallback) : null;
   }
 }
 
@@ -44,10 +75,10 @@ export async function getFeaturedCMSExperiences(): Promise<CMSExperience[]> {
       .eq("is_active", true)
       .order("sort_order", { ascending: true })
       .limit(6);
-    if (error || !data?.length) return [];
+    if (error || !data?.length) return getStaticFeatured().map(adaptStatic);
     return data as CMSExperience[];
   } catch {
-    return [];
+    return getStaticFeatured().map(adaptStatic);
   }
 }
 
