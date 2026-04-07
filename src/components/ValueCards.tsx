@@ -64,7 +64,7 @@ const values = [
     ),
   },
   {
-    title: "Eastern & Volta Gateway",
+    title: "Eastern / Volta Gateway",
     description:
       "Your front door to the natural beauty of the Eastern and Volta regions. Waterfalls, mountains, rivers, and culture all within reach.",
     icon: (
