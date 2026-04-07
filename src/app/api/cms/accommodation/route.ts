@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const admin = createAdminSupabase();
-  const { data, error } = await admin
+  let query = admin
     .from("accommodation_partners")
     .select("*")
     .order("sort_order", { ascending: true });
+  if (req.nextUrl.searchParams.get("all") !== "1") {
+    query = query.eq("is_active", true);
+  }
+  const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ partners: data });
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
 
@@ -10,13 +13,6 @@ const experiences = [
   { name: "Game Night", slug: "game-night" },
 ];
 
-const stayLinks = [
-  { name: "Tent Rentals", href: "/accommodation" },
-  { name: "Partner Lodges", href: "/accommodation" },
-  { name: "Camping Experience", href: "/experiences/camping" },
-  { name: "List Your Property", href: "/contact" },
-];
-
 const quickLinks = [
   { name: "Attractions", href: "/attractions" },
   { name: "Activities", href: "/activities" },
@@ -26,7 +22,23 @@ const quickLinks = [
   { name: "Gallery", href: "/gallery" },
 ];
 
+interface Partner {
+  id: string;
+  name: string;
+}
+
 export default function Footer() {
+  const [partners, setPartners] = useState<Partner[]>([]);
+
+  useEffect(() => {
+    fetch("/api/cms/accommodation")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.partners) setPartners(data.partners);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <footer className="bg-dark text-white">
       {/* Gold accent line */}
@@ -34,7 +46,7 @@ export default function Footer() {
 
       <div className="mx-auto max-w-[1400px] px-6 py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Column 1 — Brand */}
+          {/* Column 1 */}
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -48,7 +60,7 @@ export default function Footer() {
             <p className="mt-2 text-sm text-white/50">Akuse Road, Okwenya</p>
           </div>
 
-          {/* Column 2 — Experiences */}
+          {/* Column 2 */}
           <div>
             <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
               EXPERIENCES
@@ -67,26 +79,42 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Stay */}
+          {/* Column 3 */}
           <div>
             <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
               WHERE TO STAY
             </h3>
             <ul className="space-y-2">
-              {stayLinks.map((link) => (
-                <li key={link.name}>
+              {partners.map((p) => (
+                <li key={p.id}>
                   <Link
-                    href={link.href}
+                    href="/accommodation"
                     className="text-sm text-white/60 transition hover:text-secondary"
                   >
-                    {link.name}
+                    {p.name}
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/accommodation"
+                  className="text-sm text-white/60 transition hover:text-secondary"
+                >
+                  Tent Rentals
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-sm text-white/60 transition hover:text-secondary"
+                >
+                  List Your Property
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Column 4 — Quick Links */}
+          {/* Column 4 */}
           <div>
             <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
               EXPLORE
@@ -105,7 +133,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4 — Contact */}
+          {/* Column 5 */}
           <div>
             <h3 className="mb-4 text-xs font-semibold tracking-[3px]">
               GET IN TOUCH
