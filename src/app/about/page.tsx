@@ -364,36 +364,34 @@ export default function AboutPage() {
             <p className="text-sm font-bold text-dark">{PHONE_DISPLAY}</p>
           </a>
           <a
-            href="tel:+233547352490"
+            href={`tel:${PHONE_TEL}`}
             className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
           >
-            <span className="text-3xl block mb-2">🧺</span>
+            <span className="text-3xl block mb-2">🍽️</span>
             <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
-              Picnic Line
+              Kitchen Line
             </p>
-            <p className="text-sm font-bold text-dark">+233 (0) 547 352 490</p>
+            <p className="text-sm font-bold text-dark">{PHONE_DISPLAY}</p>
           </a>
           <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`tel:${PHONE_TEL}`}
             className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
           >
-            <span className="text-3xl block mb-2">💬</span>
+            <span className="text-3xl block mb-2">🎧</span>
             <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
-              WhatsApp
+              Customer Service
             </p>
-            <p className="text-sm font-bold text-dark">+233 (0) 540 879 700</p>
+            <p className="text-sm font-bold text-dark">{PHONE_DISPLAY}</p>
           </a>
           <a
-            href={`mailto:${EMAIL}`}
+            href={`tel:${PHONE_TEL}`}
             className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
           >
-            <span className="text-3xl block mb-2">✉️</span>
+            <span className="text-3xl block mb-2">🚨</span>
             <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
-              Email
+              24hr Hotline
             </p>
-            <p className="text-sm font-bold text-dark">{EMAIL}</p>
+            <p className="text-sm font-bold text-dark">{PHONE_DISPLAY}</p>
           </a>
         </div>
       </section>

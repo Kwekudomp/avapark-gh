@@ -98,18 +98,19 @@ export default function HeroCarousel() {
           className="text-center"
         >
           {/* Tag */}
-          <p className="text-xl md:text-3xl tracking-[4px] uppercase text-secondary-light font-semibold">
-            Where Nature{" "}
+          <div className="flex flex-col items-center">
             <svg
               viewBox="0 0 500 878"
               fill="currentColor"
-              className="inline-block align-middle w-14 h-24 md:w-20 md:h-36 mx-2"
+              className="w-14 h-24 md:w-20 md:h-36 text-secondary-light"
               aria-hidden="true"
             >
               <path d="M 260 2 C 187 2 83 37 127 214 C 148 297 198 362 239 421 L 24 409 C 30 435 30 461 24 487 L 239 475 L 224 874 C 253 865 277 868 299 874 L 286 475 L 480 487 C 474 461 473 435 480 409 L 286 421 C 322 357 373 300 391 206 C 427 16 330 2 263 2 C 262 2 261 2 260 2 z M 258 51 C 335 50 414 161 264 385 C 106 163 181 51 258 51 z" />
             </svg>
-            {" "}Heals
-          </p>
+            <p className="text-xl md:text-3xl tracking-[4px] uppercase text-secondary-light font-semibold -mt-6 md:-mt-10">
+              Where Nature Heals
+            </p>
+          </div>
 
           {/* Headline */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mt-4 leading-tight">
