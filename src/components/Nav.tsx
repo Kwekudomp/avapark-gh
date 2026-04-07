@@ -23,10 +23,11 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
   {
     label: "Explore",
     items: [
-      { label: "Experiences", href: "/experiences" },
-      { label: "Gallery", href: "/gallery" },
-      { label: "Weekly Schedule", href: "/#schedule" },
-      { label: "How to Get Here", href: "/#directions" },
+      { label: "Attractions", href: "/attractions" },
+      { label: "Activities", href: "/activities" },
+      { label: "Eastern Volta Tours", href: "/tours" },
+      { label: "Events", href: "/events" },
+      { label: "Festivals", href: "/festivals" },
     ],
   },
   { label: "Accommodation", href: "/accommodation" },
