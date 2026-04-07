@@ -154,9 +154,13 @@ export async function getAccommodationPartners(): Promise<AccommodationPartner[]
       .select("*")
       .eq("is_active", true)
       .order("sort_order", { ascending: true });
-    if (error || !data?.length) return [];
-    return data as AccommodationPartner[];
-  } catch {
+    if (error) {
+      console.error("[cms] accommodation_partners error:", error.message);
+      return [];
+    }
+    return (data ?? []) as AccommodationPartner[];
+  } catch (err) {
+    console.error("[cms] accommodation_partners exception:", err);
     return [];
   }
 }
