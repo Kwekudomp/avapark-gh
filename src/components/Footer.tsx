@@ -11,19 +11,19 @@ const experiences = [
 ];
 
 const stayLinks = [
-  { name: "Akuse River Lodge", href: "/#stay" },
-  { name: "Volta Forest Retreat", href: "/#stay" },
-  { name: "Okwenya Guesthouse", href: "/#stay" },
-  { name: "Eastern Hills Camp", href: "/#stay" },
+  { name: "Tent Rentals", href: "/accommodation" },
+  { name: "Partner Lodges", href: "/accommodation" },
+  { name: "Camping Experience", href: "/experiences/camping" },
   { name: "List Your Property", href: "/contact" },
 ];
 
 const quickLinks = [
-  { name: "All Experiences", href: "/experiences" },
+  { name: "Attractions", href: "/attractions" },
+  { name: "Activities", href: "/activities" },
+  { name: "Eastern-Volta Tours", href: "/tours" },
+  { name: "Events", href: "/events" },
+  { name: "Festivals", href: "/festivals" },
   { name: "Gallery", href: "/gallery" },
-  { name: "How to Get Here", href: "/#directions" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export default function Footer() {
