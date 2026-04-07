@@ -39,7 +39,7 @@ const ACTIVITIES = [
     icon: "🏹",
   },
   {
-    name: "Paintball & Shooting Range",
+    name: "Paintball Shooting Range",
     description: "Tactical paintball sessions and target shooting on our outdoor course. All gear provided.",
     icon: "🔫",
   },
