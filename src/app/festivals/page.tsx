@@ -77,10 +77,10 @@ const VOLTA_FESTIVALS = [
   },
   {
     name: "Gbidukor Festival",
-    people: "Avenor (Volta Region)",
+    people: "Hohoe (Volta Region)",
     timing: "November",
     description:
-      "A war drumming and cultural festival of the Avenor people in the Volta region. Features powerful traditional war drum performances, warrior dances, and historical re-enactments that celebrate the bravery and resilience of the Avenor ancestors.",
+      "A traditional war drumming festival celebrated by the people of Hohoe in the Volta region. Features intense war drum performances, warrior dances, and cultural displays that honour the history and fighting spirit of the Hohoe people.",
     icon: "🪘",
   },
   {
