@@ -122,6 +122,128 @@ export default function AccommodationPage() {
       .catch(() => {});
   }, []);
 
+  async function downloadChecklist() {
+    const { jsPDF } = await import("jspdf");
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const W = 210;
+    const green  = [22, 101, 52]  as [number, number, number];
+    const olive  = [74, 107, 34]  as [number, number, number];
+    const orange = [194, 82, 15]  as [number, number, number];
+    const cream  = [252, 248, 240] as [number, number, number];
+    const white  = [255, 255, 255] as [number, number, number];
+
+    doc.setFillColor(...cream);
+    doc.rect(0, 0, 210, 297, "F");
+
+    doc.setFillColor(...green);
+    doc.rect(0, 0, 210, 42, "F");
+
+    try {
+      const img = new Image();
+      img.src = "/hp-logo.svg";
+      await new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        setTimeout(resolve, 2000);
+      });
+      if (img.complete && img.naturalWidth > 0) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 120; canvas.height = 120;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, 120, 120);
+        const dataUrl = canvas.toDataURL("image/png");
+        doc.addImage(dataUrl, "PNG", 10, 4, 34, 34);
+      }
+    } catch { /* skip logo */ }
+
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    doc.text("HIDDEN PARADISE", 52, 18);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    doc.text("NATURE PARK", 52, 26);
+    doc.setFontSize(9);
+    doc.setTextColor(200, 230, 200);
+    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern Region", 52, 35);
+
+    doc.setFillColor(...olive);
+    doc.roundedRect(15, 50, W - 30, 14, 3, 3, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("THE CAMPING EXPERIENCE - PACK LIST", 105, 59.5, { align: "center" });
+
+    doc.setTextColor(...green);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.text("Everything you need for an unforgettable weekend under the stars.", 105, 73, { align: "center" });
+
+    const colLeft = 20;
+    const colRight = 115;
+    const startY = 82;
+    const rowH = 11;
+
+    const half = Math.ceil(CAMP_CHECKLIST.length / 2);
+    const leftItems = CAMP_CHECKLIST.slice(0, half);
+    const rightItems = CAMP_CHECKLIST.slice(half);
+
+    doc.setFillColor(...olive);
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.roundedRect(colLeft - 2, startY - 7, 85, 7, 2, 2, "F");
+    doc.text("WHAT TO BRING", colLeft + 2, startY - 2);
+    doc.roundedRect(colRight - 2, startY - 7, 85, 7, 2, 2, "F");
+    doc.text("WHAT TO BRING (cont.)", colRight + 2, startY - 2);
+
+    [...leftItems, ...rightItems].forEach((item, i) => {
+      const isRight = i >= leftItems.length;
+      const x = isRight ? colRight : colLeft;
+      const y = startY + (isRight ? i - leftItems.length : i) * rowH;
+      if ((isRight ? i - leftItems.length : i) % 2 === 0) {
+        doc.setFillColor(232, 245, 232);
+        doc.rect(x - 2, y - 4.5, 85, rowH, "F");
+      }
+      doc.setDrawColor(...green);
+      doc.setLineWidth(0.4);
+      doc.rect(x, y - 3.5, 4.5, 4.5);
+      doc.setTextColor(30, 30, 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(item, x + 7, y);
+    });
+
+    const afterList = startY + Math.max(leftItems.length, rightItems.length) * rowH + 8;
+
+    doc.setFillColor(...green);
+    doc.roundedRect(15, afterList, W - 30, 28, 4, 4, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text("BOOKING DETAILS", 105, afterList + 9, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("A 50% deposit is required to secure your dates.", 105, afterList + 17, { align: "center" });
+    doc.text("Confirm your booking at least 48 hours before arrival.", 105, afterList + 23, { align: "center" });
+
+    const footerY = 272;
+    doc.setFillColor(...orange);
+    doc.rect(0, footerY, 210, 25, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text("+233 (0) 540 879 700", 20, footerY + 9);
+    doc.text("info@hiddenparadisegh.com", 20, footerY + 17);
+    doc.setFont("helvetica", "normal");
+    doc.text("www.hiddenparadisegh.com", 105, footerY + 9, { align: "center" });
+    doc.text("@hiddenparadisegh", 105, footerY + 17, { align: "center" });
+    doc.setFont("helvetica", "bold");
+    doc.text("Terms & Conditions Apply", 190, footerY + 13, { align: "right" });
+
+    doc.save("Hidden-Paradise-Camping-Checklist.pdf");
+  }
+
   const tentEnquiryUrl = (tentName: string) =>
     `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
       `Hi, I'd like to book the ${tentName} at Hidden Paradise. Can you share availability and pricing?`
@@ -277,9 +399,23 @@ export default function AccommodationPage() {
 
                 {/* Camping checklist */}
                 <div>
-                  <h3 className="font-display text-lg font-bold text-dark mb-1">
-                    Camping Checklist
-                  </h3>
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      Camping Checklist
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={downloadChecklist}
+                      className="text-xs bg-primary text-white px-3 py-1.5 rounded-full hover:bg-primary/80 transition font-medium flex items-center gap-1.5"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                      </svg>
+                      Download PDF
+                    </button>
+                  </div>
                   <p className="text-xs text-text-secondary mb-3">
                     Remember to pack the following for your stay:
                   </p>
