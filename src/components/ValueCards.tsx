@@ -64,9 +64,9 @@ const values = [
     ),
   },
   {
-    title: "Gateway to the East",
+    title: "Eastern & Volta Gateway",
     description:
-      "Your base camp for exploring the Eastern and Volta regions, from Akosombo Dam to Krobo Mountain and beyond.",
+      "Your front door to the natural beauty of the Eastern and Volta regions. Waterfalls, mountains, rivers, and culture all within reach.",
     icon: (
       <svg
         className="w-10 h-10 text-accent"
