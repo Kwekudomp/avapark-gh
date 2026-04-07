@@ -29,7 +29,7 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
       { label: "How to Get Here", href: "/#directions" },
     ],
   },
-  { label: "Accommodation", href: "/#stay" },
+  { label: "Accommodation", href: "/accommodation" },
   { label: "Experiences", href: "/experiences" },
   { label: "Blog", href: "/blog" },
   { label: "Gallery", href: "/gallery" },
