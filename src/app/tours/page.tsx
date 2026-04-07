@@ -3,7 +3,7 @@ import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 
 export const metadata = {
-  title: "Eastern Volta Tours | Hidden Paradise Nature Park",
+  title: "Eastern and Volta Tours | Hidden Paradise Nature Park",
   description:
     "Guided tours from Hidden Paradise — Akosombo Dam, Shai Hills, Boti Falls, Krobo Mountain, bead markets, and the Volta River. Day trips and multi-day packages.",
 };
@@ -53,7 +53,7 @@ const TOURS = [
 
 export default function ToursPage() {
   const enquiryUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    "Hi, I'm interested in booking an Eastern Volta tour from Hidden Paradise. Can you share details?"
+    "Hi, I'm interested in booking an Eastern and Volta tour from Hidden Paradise. Can you share details?"
   )}`;
 
   return (
@@ -61,7 +61,7 @@ export default function ToursPage() {
       <SectionHeader
         tag="EASTERN VOLTA TOURS"
         title="Explore Beyond the Park"
-        description="Hidden Paradise is your base camp for the best of the Eastern Volta region. We organise guided tours to top attractions — just show up, we handle the rest."
+        description="Hidden Paradise is your base camp for the best of the Eastern and Volta region. We organise guided tours to top attractions — just show up, we handle the rest."
       />
 
       <div className="max-w-[1000px] mx-auto space-y-6">
