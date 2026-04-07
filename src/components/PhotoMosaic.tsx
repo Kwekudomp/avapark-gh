@@ -70,7 +70,7 @@ export default function PhotoMosaic() {
     <section className="tropical-gradient py-24 px-[5%]">
       <SectionHeader
         tag="OUR GROUNDS"
-        title="Experience the Beauty"
+        title="See It For Yourself"
         description="From sunrise campouts to moonlit pool parties, explore our lush grounds on the banks of the Volta."
       />
 
