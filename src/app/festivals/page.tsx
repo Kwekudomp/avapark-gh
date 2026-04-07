@@ -48,14 +48,6 @@ const EASTERN_FESTIVALS = [
       "Celebrated by the Shai people near the Shai Hills Reserve, this festival marks the migration of the Dangme from the Shai caves. Features traditional warrior dances, storytelling, and a pilgrimage to the ancestral caves.",
     icon: "🗿",
   },
-  {
-    name: "Homowo Festival",
-    people: "Ga people (Accra & surrounds)",
-    timing: "August / September",
-    description:
-      "Literally 'hooting at hunger', this is Accra's most famous festival featuring the sprinkling of kpokpoi, traditional drumming, and family reunions. An easy day trip from the park to experience Ga culture firsthand.",
-    icon: "🎊",
-  },
 ];
 
 const VOLTA_FESTIVALS = [
@@ -98,6 +90,14 @@ const VOLTA_FESTIVALS = [
     description:
       "Celebrated by the Avatime people in the hills near Ho, this rice harvest festival features drumming, traditional dancing, and a durbar. The Avatime hills offer some of the most scenic landscapes in the Volta region.",
     icon: "🌾",
+  },
+  {
+    name: "Gbidukor Festival",
+    people: "Avenor (Volta Region)",
+    timing: "November",
+    description:
+      "A war drumming and cultural festival of the Avenor people in the Volta region. Features powerful traditional war drum performances, warrior dances, and historical re-enactments that celebrate the bravery and resilience of the Avenor ancestors.",
+    icon: "🪘",
   },
   {
     name: "Yeke Yeke Festival",
