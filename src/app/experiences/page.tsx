@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Our Experiences",
   description:
-    "Explore all experiences at Hidden Paradise — camping, hiking tours, pool parties, BBQ nights, picnics, game nights, and special events. Book your adventure today.",
+    "Explore all experiences at Hidden Paradise including camping, hiking tours, pool parties, BBQ nights, picnics, game nights, and special events. Book your adventure today.",
 };
 
 export default async function ExperiencesPage() {
@@ -21,7 +21,7 @@ export default async function ExperiencesPage() {
           Our Experiences
         </h1>
         <p className="text-text-secondary text-lg mt-6 max-w-2xl mx-auto">
-          From weekly events to special adventures — find your perfect Hidden Paradise
+          From weekly events to special adventures, find your perfect Hidden Paradise
           experience.
         </p>
       </section>

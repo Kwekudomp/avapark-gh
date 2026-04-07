@@ -4,7 +4,7 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 export const metadata = {
   title: "Festivals | Hidden Paradise Nature Park",
   description:
-    "Experience Ghana's vibrant festivals from Hidden Paradise — Ngmayem, Homowo, Dipo, and more. We organise festival packages with accommodation, transport, and guides.",
+    "Experience Ghana's vibrant festivals from Hidden Paradise, including Ngmayem, Homowo, Dipo, and more. We organise festival packages with accommodation, transport, and guides.",
 };
 
 const FESTIVALS = [
@@ -21,7 +21,7 @@ const FESTIVALS = [
     people: "Ga people (Accra & surrounds)",
     timing: "August – September",
     description:
-      "Literally 'hooting at hunger' — Accra's most famous festival featuring the sprinkling of kpokpoi, traditional drumming, and family reunions. Easy day trip from the park.",
+      "Literally 'hooting at hunger', this is Accra's most famous festival featuring the sprinkling of kpokpoi, traditional drumming, and family reunions. It's an easy day trip from the park.",
     icon: "🎊",
   },
   {
@@ -29,7 +29,7 @@ const FESTIVALS = [
     people: "Krobo",
     timing: "April",
     description:
-      "A sacred rite-of-passage ceremony for young Krobo women. Features traditional bead-wearing, dance, and cultural performances at Krobo Mountain — just 25 minutes from us.",
+      "A sacred rite-of-passage ceremony for young Krobo women. Features traditional bead-wearing, dance, and cultural performances at Krobo Mountain, just 25 minutes from us.",
     icon: "💃",
   },
   {
@@ -45,7 +45,7 @@ const FESTIVALS = [
     people: "Akuapem (Akropong)",
     timing: "September – October",
     description:
-      "Purification and thanksgiving festival of the Akuapem people. Features a procession along the Akuapem ridge — one of Ghana's most scenic cultural events.",
+      "Purification and thanksgiving festival of the Akuapem people. Features a procession along the Akuapem ridge, one of Ghana's most scenic cultural events.",
     icon: "🏔️",
   },
   {
@@ -53,7 +53,7 @@ const FESTIVALS = [
     people: "All guests",
     timing: "March/April & December",
     description:
-      "Our own holiday specials — camping, bonfires, live music, and community feasts at the park. The perfect Ghanaian holiday getaway.",
+      "Our own holiday specials with camping, bonfires, live music, and community feasts at the park. The perfect Ghanaian holiday getaway.",
     icon: "🎄",
   },
 ];
@@ -68,7 +68,7 @@ export default function FestivalsPage() {
       <SectionHeader
         tag="CULTURE & CELEBRATIONS"
         title="Festivals Near Hidden Paradise"
-        description="Ghana's Eastern Region is alive with festivals year-round. Stay with us and experience the culture up close — we'll arrange transport, guides, and the best viewing spots."
+        description="Ghana's Eastern Region is alive with festivals year-round. Stay with us and experience the culture up close. We'll arrange transport, guides, and the best viewing spots."
       />
 
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

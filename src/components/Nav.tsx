@@ -130,7 +130,7 @@ export default function Nav() {
             <Link
               href="/"
               onClick={closeMenu}
-              aria-label="Hidden Paradise Nature Park — Home"
+              aria-label="Hidden Paradise Nature Park - Home"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

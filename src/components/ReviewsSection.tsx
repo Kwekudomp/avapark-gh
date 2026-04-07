@@ -112,7 +112,7 @@ export default function ReviewsSection({ initialReviews }: { initialReviews: Rev
             </button>
           ) : (
             <div className="bg-green-50 border border-green-200 rounded-2xl px-5 py-3 text-sm text-green-700 font-medium">
-              ✓ Review submitted — pending approval
+              ✓ Review submitted, pending approval
             </div>
           )}
         </div>

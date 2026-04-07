@@ -124,7 +124,7 @@ export default function HeroCarousel() {
 
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/80 mt-6 max-w-2xl mx-auto">
-            Just an hour from Accra — camping, hiking, pool parties, bonfires
+            Just an hour from Accra. Camping, hiking, pool parties, bonfires
             &amp; unforgettable experiences.
           </p>
 

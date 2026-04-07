@@ -3,7 +3,7 @@ import SectionHeader from "@/components/SectionHeader";
 export const metadata = {
   title: "Blog | Hidden Paradise Nature Park",
   description:
-    "Stories, tips, and updates from Hidden Paradise Nature Park — your guide to Ghana's best nature retreat.",
+    "Stories, tips, and updates from Hidden Paradise Nature Park. Your guide to Ghana's best nature retreat.",
 };
 
 export default function BlogPage() {
@@ -12,7 +12,7 @@ export default function BlogPage() {
       <SectionHeader
         tag="OUR BLOG"
         title="Stories & Updates"
-        description="Stay tuned — we're working on sharing stories, tips, and behind-the-scenes moments from Hidden Paradise."
+        description="Stay tuned! We're working on sharing stories, tips, and behind-the-scenes moments from Hidden Paradise."
       />
       <div className="max-w-2xl mx-auto text-center mt-8">
         <div className="bg-bg-alt rounded-2xl border border-border p-12">

@@ -26,12 +26,12 @@ export default function EmailSignup() {
           Get the Weekend Lineup
         </h2>
         <p className="text-white/70 mt-3 text-sm">
-          Events, new experiences, and exclusive offers — straight to your inbox. No spam, ever.
+          Events, new experiences, and exclusive offers straight to your inbox. No spam, ever.
         </p>
 
         {status === "success" ? (
           <div className="mt-8 inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium">
-            <span className="text-secondary text-base">✓</span> You're on the list — see you soon!
+            <span className="text-secondary text-base">✓</span> You're on the list! See you soon.
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">

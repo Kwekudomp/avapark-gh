@@ -42,7 +42,7 @@ export default async function BookPage(
           </div>
         ) : (
           <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 mb-8">
-            <p className="text-sm text-text">Free entry — just let us know you&apos;re coming!</p>
+            <p className="text-sm text-text">Free entry, just let us know you&apos;re coming!</p>
           </div>
         )}
 

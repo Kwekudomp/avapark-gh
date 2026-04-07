@@ -5,7 +5,7 @@ const DIRECTIONS = [
   { step: "1", label: "From Accra, take the N2 motorway heading east towards Tema." },
   { step: "2", label: "Continue past Tema and Ashaiman onto the Accra–Aflao highway." },
   { step: "3", label: "Drive through Akuse and look for the Hidden Paradise signage on Akuse Road." },
-  { step: "4", label: "Turn onto Okwenya road — the park entrance is 500m ahead on your left." },
+  { step: "4", label: "Turn onto Okwenya road. The park entrance is 500m ahead on your left." },
 ];
 
 export default function HowToGetHere() {

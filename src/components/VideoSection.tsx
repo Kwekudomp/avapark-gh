@@ -79,7 +79,7 @@ export default function VideoSection({ videos }: { videos: CMSVideo[] }) {
       <SectionHeader
         tag="EXPERIENCE IT FIRST"
         title="See Hidden Paradise in Action"
-        description="Watch our highlights, events, and nature moments — straight from the park."
+        description="Watch our highlights, events, and nature moments straight from the park."
       />
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {videos.map(v => (

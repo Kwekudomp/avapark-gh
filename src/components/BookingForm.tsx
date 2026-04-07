@@ -155,7 +155,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     doc.setTextColor(...white);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
-    doc.text("THE CAMPING EXPERIENCE — PACK LIST", 105, 59.5, { align: "center" });
+    doc.text("THE CAMPING EXPERIENCE - PACK LIST", 105, 59.5, { align: "center" });
 
     // ── Subtitle ──
     doc.setTextColor(...green);
@@ -369,7 +369,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           package_tier_name: tierName,
           subtotal: totalDeposit * 2,
           deposit_amount: 0,
-          notes: buildNotes(form.notes ? `[Pay at venue — GHC ${totalDeposit} due on arrival] ${form.notes}` : `Pay at venue — GHC ${totalDeposit} due on arrival`),
+          notes: buildNotes(form.notes ? `[Pay at venue - GHC ${totalDeposit} due on arrival] ${form.notes}` : `Pay at venue - GHC ${totalDeposit} due on arrival`),
         }),
       });
       const data = await res.json();
@@ -473,7 +473,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
         <div className="space-y-4">
           <div>
             <label className={labelClass}>Which activities are you interested in?</label>
-            <p className="text-xs text-text-secondary mb-3">Select all that apply — helps us prepare for your stay.</p>
+            <p className="text-xs text-text-secondary mb-3">Select all that apply - helps us prepare for your stay.</p>
 
             <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">✅ Complimentary</p>
             <div className="grid grid-cols-2 gap-2 mb-4">
@@ -587,7 +587,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
             disabled={loading}
             className="w-full bg-accent text-white py-4 rounded-full font-semibold text-base hover:bg-accent-dark hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
           >
-            {loading ? "Processing..." : `Pay Deposit Now — GHC ${totalDeposit}`}
+            {loading ? "Processing..." : `Pay Deposit Now - GHC ${totalDeposit}`}
           </button>
           <button
             type="button"
@@ -595,7 +595,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
             disabled={loading}
             className="w-full bg-white border-2 border-primary text-primary py-4 rounded-full font-semibold text-base hover:bg-primary hover:text-white transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? "Processing..." : "Reserve — Pay at Venue"}
+            {loading ? "Processing..." : "Reserve - Pay at Venue"}
           </button>
           <p className="text-center text-xs text-text-secondary">
             Pay online now to secure your spot, or reserve and pay GHC {totalDeposit} on arrival.

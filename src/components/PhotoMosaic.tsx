@@ -71,7 +71,7 @@ export default function PhotoMosaic() {
       <SectionHeader
         tag="OUR GROUNDS"
         title="Experience the Beauty"
-        description="From sunrise campouts to moonlit pool parties — explore our lush grounds on the banks of the Volta."
+        description="From sunrise campouts to moonlit pool parties, explore our lush grounds on the banks of the Volta."
       />
 
       {/* Desktop mosaic grid (md and up) */}

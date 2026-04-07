@@ -5,7 +5,7 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 export const metadata = {
   title: "Attractions | Hidden Paradise Nature Park",
   description:
-    "Explore tourist attractions around Hidden Paradise — the Volta River, Akosombo Dam, Shai Hills, Boti Falls, and more. Experience them all through us.",
+    "Explore tourist attractions around Hidden Paradise, including the Volta River, Akosombo Dam, Shai Hills, Boti Falls, and more. Experience them all through us.",
 };
 
 const ATTRACTIONS = [
@@ -20,7 +20,7 @@ const ATTRACTIONS = [
     name: "Akosombo Dam",
     distance: "~30 min drive",
     description:
-      "One of the largest hydroelectric dams in West Africa. Guided tours available — see the engineering marvel that powers Ghana.",
+      "One of the largest hydroelectric dams in West Africa. Guided tours let you see the engineering marvel that powers Ghana up close.",
     icon: "🏗️",
   },
   {
@@ -48,7 +48,7 @@ const ATTRACTIONS = [
     name: "Cedi Bead Factory (Krobo Beads)",
     distance: "~20 min drive",
     description:
-      "Watch traditional glass beads being made by hand — a living cultural heritage of the Krobo people. Shop for unique souvenirs.",
+      "Watch traditional glass beads being made by hand, a living cultural heritage of the Krobo people. Shop for unique souvenirs.",
     icon: "📿",
   },
 ];
@@ -63,7 +63,7 @@ export default function AttractionsPage() {
       <SectionHeader
         tag="EXPLORE THE REGION"
         title="Attractions Near Us"
-        description="Hidden Paradise is your gateway to the best of the Eastern Volta region. Explore these attractions through us — we'll arrange transport, guides, and packages."
+        description="Hidden Paradise is your gateway to the best of the Eastern and Volta region. Explore these attractions through us and we'll arrange transport, guides, and packages."
       />
 
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

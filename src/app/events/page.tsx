@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Events | Hidden Paradise Nature Park",
   description:
-    "Upcoming events and weekly schedule at Hidden Paradise — Party in the Woods, BBQ nights, Game Night, Family Day, and special events.",
+    "Upcoming events and weekly schedule at Hidden Paradise including Party in the Woods, BBQ nights, Game Night, Family Day, and special events.",
 };
 
 export default async function EventsPage() {
@@ -22,7 +22,7 @@ export default async function EventsPage() {
         <SectionHeader
           tag="WHAT'S COMING UP"
           title="Events at Hidden Paradise"
-          description="From weekly favourites to special one-off events — there's always something happening at the park."
+          description="Whether it's our weekly favourites or a special one-off, there's always something happening at the park."
         />
       </section>
 
@@ -33,7 +33,7 @@ export default async function EventsPage() {
           <div className="bg-bg-alt rounded-2xl border border-border p-10">
             <p className="text-4xl mb-3">🎉</p>
             <p className="text-text-secondary text-sm">
-              No upcoming special events right now — but our weekly events run every week! See the schedule below.
+              No upcoming special events right now, but our weekly events run every week! See the schedule below.
             </p>
           </div>
         </div>

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Accommodation | Hidden Paradise Nature Park",
   description:
-    "Stay at Hidden Paradise — rent tents on-site for the full camping experience, or choose from trusted partner lodges and guest houses nearby.",
+    "Stay at Hidden Paradise. Rent tents on-site for the full camping experience, or choose from trusted partner lodges and guest houses nearby.",
 };
 
 const TENT_OPTIONS = [
@@ -79,7 +79,7 @@ export default async function AccommodationPage() {
               Ready to book a tent?
             </h3>
             <p className="text-sm text-text-secondary mt-1">
-              Message us on WhatsApp with your dates and group size — we&apos;ll
+              Message us on WhatsApp with your dates and group size and we&apos;ll
               get your spot reserved.
             </p>
           </div>

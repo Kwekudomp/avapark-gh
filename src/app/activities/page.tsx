@@ -4,7 +4,7 @@ import SectionHeader from "@/components/SectionHeader";
 export const metadata = {
   title: "Activities | Hidden Paradise Nature Park",
   description:
-    "Things to do at Hidden Paradise — hiking, swimming, horse riding, ATV rides, archery, boat cruises, and more on 300 acres of nature.",
+    "Things to do at Hidden Paradise including hiking, swimming, horse riding, ATV rides, archery, boat cruises, and more on 300 acres of nature.",
 };
 
 const ACTIVITIES = [
@@ -15,7 +15,7 @@ const ACTIVITIES = [
   },
   {
     name: "Swimming Pool",
-    description: "Cool off in our pool — open daily for guests and day visitors.",
+    description: "Cool off in our pool, open daily for guests and day visitors.",
     icon: "🏊",
   },
   {
@@ -35,7 +35,7 @@ const ACTIVITIES = [
   },
   {
     name: "Biking",
-    description: "Mountain bike trails through the park — bikes available for rent.",
+    description: "Mountain bike trails through the park. Bikes available for rent.",
     icon: "🚴",
   },
   {
@@ -50,12 +50,12 @@ const ACTIVITIES = [
   },
   {
     name: "Sip & Paint",
-    description: "Creative painting sessions with drinks — perfect for groups and couples.",
+    description: "Creative painting sessions with drinks, perfect for groups and couples.",
     icon: "🎨",
   },
   {
     name: "Treasure Hunt",
-    description: "Team-based treasure hunts across the park — great for corporate groups and families.",
+    description: "Team-based treasure hunts across the park, great for corporate groups and families.",
     icon: "🗺️",
   },
   {
@@ -65,7 +65,7 @@ const ACTIVITIES = [
   },
   {
     name: "Outdoor Cinema",
-    description: "Movie nights under the stars on our big screen — part of Friday and Saturday events.",
+    description: "Movie nights under the stars on our big screen, part of Friday and Saturday events.",
     icon: "🎬",
   },
 ];
@@ -76,7 +76,7 @@ export default function ActivitiesPage() {
       <SectionHeader
         tag="THINGS TO DO"
         title="Activities at Hidden Paradise"
-        description="From adventure to relaxation — there's something for everyone on our 300-acre nature park."
+        description="Whether you're here for adventure or relaxation, there's something for everyone on our 300-acre nature park."
       />
 
       <div className="max-w-[1200px] mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">

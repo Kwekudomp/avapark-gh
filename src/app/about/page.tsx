@@ -9,7 +9,7 @@ import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Hidden Paradise — Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
+    "Learn about Hidden Paradise, Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
 };
 
 const amenities = [
@@ -31,7 +31,7 @@ const amenities = [
   {
     title: "The Hidden Grill Restaurant",
     description:
-      "On-site restaurant serving local favourites — from grilled meats to traditional dishes.",
+      "On-site restaurant serving local favourites, from grilled meats to traditional dishes.",
   },
   {
     title: "Hidden Paradise Farm",
@@ -55,7 +55,7 @@ export default function AboutPage() {
             ABOUT US
           </p>
           <h1 className="font-display text-5xl md:text-6xl font-semibold text-primary mt-4">
-            More Than a Park &mdash; An Experience
+            More Than a Park. An Experience
           </h1>
         </div>
       </section>
@@ -79,19 +79,19 @@ export default function AboutPage() {
             <p>
               Hidden Paradise Nature Park is a 300-acre tourism hub and outdoor
               recreation destination on Akuse Road, in Ghana&apos;s Eastern Region
-              &mdash; about an hour&apos;s drive from Accra. Set in lush forest
+              , about an hour&apos;s drive from Accra. Set in lush forest
               land with proximity to the Volta, we&apos;ve built a community where
               adventure, culture, and relaxation come together.
             </p>
             <p>
               Currently operating on 30 acres, our grounds feature camping
               facilities, a LED-lit swimming pool, sunset gardens, a working farm,
-              event spaces, and the Hidden Grill restaurant &mdash; all set against
+              event spaces, and the Hidden Grill restaurant, all set against
               the stunning backdrop of Ghana&apos;s Eastern corridor.
             </p>
             <p>
               Whether you&apos;re planning a weekend camping trip, a mountain
-              hike, a family day, or a corporate event &mdash; Hidden Paradise
+              hike, a family day, or a corporate event, Hidden Paradise
               delivers experiences that reconnect you with nature and community.
               And this is just the beginning: our master plan extends to 300 acres,
               with residential plots, chalets, a marina, and more.
@@ -143,7 +143,7 @@ export default function AboutPage() {
               </p>
               <p>
                 About an hour&apos;s drive east of Accra. Self-drive is
-                recommended. Bus options are available at a fee &mdash; contact
+                recommended. Bus options are available at a fee, so contact
                 us for details.
               </p>
               <p>

@@ -5,7 +5,7 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 export const metadata = {
   title: "Eastern and Volta Tours | Hidden Paradise Nature Park",
   description:
-    "Guided tours from Hidden Paradise — Akosombo Dam, Shai Hills, Boti Falls, Krobo Mountain, bead markets, and the Volta River. Day trips and multi-day packages.",
+    "Guided tours from Hidden Paradise to Akosombo Dam, Shai Hills, Boti Falls, Krobo Mountain, bead markets, and the Volta River. Day trips and multi-day packages.",
 };
 
 const TOURS = [
@@ -45,7 +45,7 @@ const TOURS = [
     name: "Eastern Region Grand Tour",
     duration: "2 days / 1 night",
     description:
-      "The ultimate Eastern Region experience — combining Akosombo, Shai Hills, Krobo Mountain, and Boti Falls with an overnight stay at Hidden Paradise.",
+      "The ultimate Eastern Region experience, combining Akosombo, Shai Hills, Krobo Mountain, and Boti Falls with an overnight stay at Hidden Paradise.",
     highlights: ["All major attractions", "Overnight camping", "All meals", "Personal guide"],
     icon: "🗺️",
   },
@@ -61,7 +61,7 @@ export default function ToursPage() {
       <SectionHeader
         tag="EASTERN VOLTA TOURS"
         title="Explore Beyond the Park"
-        description="Hidden Paradise is your base camp for the best of the Eastern and Volta region. We organise guided tours to top attractions — just show up, we handle the rest."
+        description="Hidden Paradise is your base camp for the best of the Eastern and Volta region. We organise guided tours to top attractions. Just show up and we handle the rest."
       />
 
       <div className="max-w-[1000px] mx-auto space-y-6">
@@ -105,7 +105,7 @@ export default function ToursPage() {
           Book a Tour
         </h3>
         <p className="text-sm text-text-secondary mt-2 max-w-xl mx-auto">
-          All tours depart from Hidden Paradise. Prices vary by group size — message us for a quote and to reserve your spot.
+          All tours depart from Hidden Paradise. Prices vary by group size, so message us for a quote and to reserve your spot.
         </p>
         <div className="flex flex-wrap gap-3 justify-center mt-6">
           <a

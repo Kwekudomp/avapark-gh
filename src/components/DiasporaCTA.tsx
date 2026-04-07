@@ -15,7 +15,7 @@ export default function DiasporaCTA() {
 
         <p className="text-text-secondary text-lg mt-6 leading-relaxed">
           Whether you&apos;re visiting family, exploring the motherland, or
-          celebrating a milestone &mdash; we&apos;ll create an unforgettable
+          celebrating a milestone, we&apos;ll create an unforgettable
           experience just an hour from Accra. Camping, hiking, pool parties, and
           more await.
         </p>

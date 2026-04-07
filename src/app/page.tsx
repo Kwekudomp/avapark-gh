@@ -35,7 +35,7 @@ export default async function Home() {
         <SectionHeader
           tag="OUR EXPERIENCES"
           title="Discover What Awaits"
-          description="From camping under the stars to thrilling hiking tours — explore our most popular experiences."
+          description="From camping under the stars to thrilling hiking tours, explore our most popular experiences."
         />
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featured.map((exp, i) => (
@@ -70,7 +70,7 @@ export default async function Home() {
         <SectionHeader
           tag="WHY HIDDEN PARADISE"
           title="What Makes Us Special"
-          description="More than a park — it's an experience you'll never forget."
+          description="More than a park. It's an experience you'll never forget."
         />
         <ValueCards />
       </section>

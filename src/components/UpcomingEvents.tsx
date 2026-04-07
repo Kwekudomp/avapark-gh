@@ -76,7 +76,7 @@ export default function UpcomingEvents({ events }: { events: CMSEvent[] }) {
       <SectionHeader
         tag="WHAT'S COMING UP"
         title="Upcoming Events"
-        description="Don't miss out — from special nights to seasonal celebrations, there's always something happening at Hidden Paradise."
+        description="Don't miss out! From special nights to seasonal celebrations, there's always something happening at Hidden Paradise."
       />
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {events.map(ev => (

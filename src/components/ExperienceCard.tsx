@@ -65,7 +65,7 @@ export default function ExperienceCard({
           )}
           <Link href={`/book/${slug}`}
             className="mt-4 block w-full text-center bg-accent text-white py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition">
-            {deposit_amount ? `Book — GHC ${deposit_amount} deposit` : "Reserve Spot"}
+            {deposit_amount ? `Book Now - GHC ${deposit_amount} deposit` : "Reserve Spot"}
           </Link>
         </div>
       </div>

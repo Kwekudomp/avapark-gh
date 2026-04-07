@@ -197,7 +197,7 @@ export default async function ExperiencePage({
                 href={`/book/${slug}`}
                 className="block w-full text-center bg-primary text-white py-4 rounded-full font-medium hover:bg-primary-light transition-all"
               >
-                {deposit_amount ? `Book Now — GHC ${deposit_amount} deposit` : "Reserve Your Spot"}
+                {deposit_amount ? `Book Now - GHC ${deposit_amount} deposit` : "Reserve Your Spot"}
               </Link>
 
               <a
