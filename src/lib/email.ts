@@ -1,6 +1,17 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let _resend: Resend | null = null;
+function getResend() {
+  if (!_resend) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) {
+      console.warn("[email] RESEND_API_KEY not set, emails will be skipped");
+      return null;
+    }
+    _resend = new Resend(key);
+  }
+  return _resend;
+}
 
 const FROM = "Hidden Paradise <noreply@hiddenparadisegh.com>";
 
@@ -27,6 +38,8 @@ export async function sendBookingNotification(booking: BookingData) {
       ? `GHC ${booking.deposit_amount} to pay at venue`
       : "Free entry";
 
+  const resend = getResend();
+  if (!resend) return;
   await resend.emails.send({
     from: FROM,
     to: "bookings@hiddenparadisegh.com",
@@ -72,6 +85,8 @@ export async function sendBookingConfirmation(booking: BookingData) {
     paymentNote = `Please have GHC ${booking.deposit_amount} ready to pay at the venue on arrival.`;
   }
 
+  const resend = getResend();
+  if (!resend) return;
   await resend.emails.send({
     from: FROM,
     to: booking.guest_email,
@@ -139,6 +154,8 @@ interface EnquiryData {
 }
 
 export async function sendEnquiryNotification(enquiry: EnquiryData) {
+  const resend = getResend();
+  if (!resend) return;
   await resend.emails.send({
     from: FROM,
     to: "info@hiddenparadisegh.com",
