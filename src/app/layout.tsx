@@ -61,7 +61,7 @@ export default function RootLayout({
               telephone: "+233540879700",
               email: "info@hiddenparadisegh.com",
               url: "https://www.hiddenparadisegh.com",
-              sameAs: ["https://instagram.com/hiddenparadisegh"],
+              sameAs: ["https://instagram.com/hiddenparadise_gh"],
             }),
           }}
         />

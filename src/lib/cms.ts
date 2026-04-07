@@ -170,7 +170,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     phone_primary: "+233 (0) 540 879 700",
     phone_picnic: "+233 (0) 547 352 490",
     email: "info@hiddenparadisegh.com",
-    instagram_handle: "hiddenparadisegh",
+    instagram_handle: "hiddenparadise_gh",
     whatsapp_number: "233540879700",
     location_address: "Akuse Road, Okwenya, Eastern Region, Ghana",
     location_description: "About an hour east of Accra",

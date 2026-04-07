@@ -184,7 +184,7 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                   className="hover:text-accent transition"
                 >
-                  @hiddenparadisegh
+                  @hiddenparadise_gh
                 </a>
               </li>
               <li>
