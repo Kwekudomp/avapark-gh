@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendEnquiryNotification } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, email, phone, experience, dates, message } = body;
 
-    // Validate required fields
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Name, email, and message are required" },
@@ -13,10 +13,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For now, log the inquiry (in production, this would send an email via Resend or similar)
-    console.log("New inquiry received:", { name, email, phone, experience, dates, message });
-
-    // TODO: Send email via Resend API to info@hiddenparadisegh.com
+    // Send email notification to info@ (non-blocking)
+    sendEnquiryNotification({ name, email, phone, experience, dates, message }).catch(
+      (err) => console.error("Enquiry notification email failed:", err)
+    );
 
     return NextResponse.json({ success: true });
   } catch {

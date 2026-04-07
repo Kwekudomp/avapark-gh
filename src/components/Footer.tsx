@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL } from "@/data/constants";
+import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL, TIKTOK_URL } from "@/data/constants";
 
 const experiences = [
   { name: "Camping", slug: "camping" },
@@ -182,6 +182,17 @@ export default function Footer() {
                   </svg>
                 </a>
                 <a
+                  href={TIKTOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on TikTok @hiddenparadise_gh"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white/60 transition-all hover:border-white hover:bg-black hover:text-white"
+                >
+                  <svg width="16" height="18" viewBox="0 0 448 512" fill="currentColor">
+                    <path d="M448 209.9a210.1 210.1 0 01-122.8-39.3v178.8A162.6 162.6 0 11185 188.3v89.9a74.6 74.6 0 1052.2 71.2V0h88a121 121 0 00122.8 120.1v89.8z" />
+                  </svg>
+                </a>
+                <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -193,14 +204,12 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-2 text-sm text-white/60 hover:text-secondary transition"
-              >
-                @hiddenparadise_gh
-              </a>
+              <div className="flex gap-3 mt-2">
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+                  className="text-sm text-white/60 hover:text-secondary transition">
+                  @hiddenparadise_gh
+                </a>
+              </div>
             </div>
           </div>
         </div>

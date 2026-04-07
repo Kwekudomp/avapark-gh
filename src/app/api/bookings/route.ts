@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminSupabase } from "@/lib/supabase-server";
+import { sendBookingNotification, sendBookingConfirmation } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,6 +48,28 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) throw error;
+
+    // Send email notifications (non-blocking so booking response isn't delayed)
+    const emailData = {
+      guest_name, guest_email, guest_phone,
+      experience_name, booking_date,
+      adults: adults || 1, children: children || 0,
+      deposit_amount: deposit_amount || 0,
+      package_tier_name: package_tier_name || null,
+      paystack_reference: paystack_reference || null,
+      notes: notes || null,
+    };
+
+    // Fire and forget - don't block the response
+    Promise.all([
+      sendBookingNotification(emailData).catch((err) =>
+        console.error("Booking notification email failed:", err)
+      ),
+      sendBookingConfirmation(emailData).catch((err) =>
+        console.error("Guest confirmation email failed:", err)
+      ),
+    ]);
+
     return NextResponse.json({ booking: data });
   } catch (err) {
     console.error("Create booking error:", err);

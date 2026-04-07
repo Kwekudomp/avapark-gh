@@ -3,5 +3,7 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export const PHONE_DISPLAY = "+233 (0) 540 879 700";
 export const PHONE_TEL = "+233540879700";
 export const EMAIL = "info@hiddenparadisegh.com";
+export const BOOKINGS_EMAIL = "bookings@hiddenparadisegh.com";
 export const INSTAGRAM_URL = "https://www.instagram.com/hiddenparadise_gh";
+export const TIKTOK_URL = "https://www.tiktok.com/@hiddenparadise_gh";
 export const SITE_URL = "https://www.hiddenparadisegh.com";
