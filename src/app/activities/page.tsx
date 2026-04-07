@@ -29,18 +29,18 @@ const ACTIVITIES = [
     icon: "🏍️",
   },
   {
-    name: "Boat Cruise",
-    description: "Cruise the Volta River at sunset or take a fishing trip with local guides.",
+    name: "Boat Cruise & Fishing",
+    description: "Cruise the Volta River at sunset or cast a line with local fishing guides.",
     icon: "⛵",
   },
   {
-    name: "Archery & Darts",
-    description: "Test your aim at our archery range or the dartboard. Equipment and coaching provided.",
+    name: "Archery & Dart Board",
+    description: "Test your aim at our archery range or the dart board. Equipment and coaching provided.",
     icon: "🏹",
   },
   {
-    name: "Paintball",
-    description: "Tactical paintball sessions on our outdoor course. Gear provided, just bring your team.",
+    name: "Paintball & Shooting Range",
+    description: "Tactical paintball sessions and target shooting on our outdoor course. All gear provided.",
     icon: "🔫",
   },
   {
