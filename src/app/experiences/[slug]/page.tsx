@@ -6,6 +6,7 @@ import { getCMSExperienceBySlug, getCMSExperiences } from "@/lib/cms";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 import SectionHeader from "@/components/SectionHeader";
 import ExperienceCard from "@/components/ExperienceCard";
+import CampgroundPolicies from "@/components/CampgroundPolicies";
 
 export const dynamic = "force-dynamic";
 
@@ -241,6 +242,9 @@ export default async function ExperiencePage({
           </div>
         </section>
       )}
+
+      {/* ── Campground Policies (camping only) ─────────────────────────── */}
+      {slug === "camping" && <CampgroundPolicies />}
 
       {/* ── Other Experiences ───────────────────────────────────────────── */}
       {otherExperiences.length > 0 && (
