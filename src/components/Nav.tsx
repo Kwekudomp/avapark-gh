@@ -155,7 +155,7 @@ export default function Nav() {
                     <button
                       type="button"
                       onClick={() => setExploreOpen((p) => !p)}
-                      className={`flex items-center gap-1 text-sm font-bold transition-colors duration-200 ${
+                      className={`flex items-center gap-1 text-base font-bold transition-colors duration-200 ${
                         exploreOpen
                           ? "text-accent"
                           : "text-dark hover:text-accent"
@@ -215,7 +215,7 @@ export default function Nav() {
                   <Link
                     key={item.href + item.label}
                     href={item.href}
-                    className={`text-sm font-bold transition-colors duration-200 ${
+                    className={`text-base font-bold transition-colors duration-200 ${
                       pathname === item.href
                         ? "text-accent"
                         : "text-dark hover:text-accent"
@@ -230,7 +230,7 @@ export default function Nav() {
               <button
                 type="button"
                 onClick={() => setBookingOpen(true)}
-                className="bg-accent text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-accent-dark transition-colors duration-200"
+                className="bg-accent text-white px-6 py-2.5 rounded-full text-base font-bold hover:bg-accent-dark transition-colors duration-200"
               >
                 Book Now
               </button>
