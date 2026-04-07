@@ -56,10 +56,12 @@ export default function HeroCarousel() {
     return () => clearInterval(interval);
   }, [nextSlide]);
 
-  const handleFinder = () => {
-    if (!selectedActivity) return;
-    const activity = ACTIVITIES.find((a) => a.slug === selectedActivity);
-    if (activity) router.push(`/experiences/${activity.slug}`);
+  const handleSelect = (slug: string) => {
+    if (!slug) return;
+    setSelectedActivity(slug);
+    setTimeout(() => {
+      router.push(`/experiences/${slug}`);
+    }, 300);
   };
 
 
@@ -129,26 +131,17 @@ export default function HeroCarousel() {
           </p>
 
           {/* Activity Finder */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-4 max-w-xl mx-auto">
-            <div className="flex items-center gap-3 flex-1 w-full">
-              <span className="text-white/70 text-sm font-medium whitespace-nowrap hidden sm:block">I want to…</span>
-              <select
-                value={selectedActivity}
-                onChange={(e) => setSelectedActivity(e.target.value)}
-                className="flex-1 bg-transparent text-white text-sm font-medium outline-none cursor-pointer w-full"
-              >
-                <option value="" className="text-dark">What would you like to do?</option>
-                {ACTIVITIES.map((a) => (
-                  <option key={a.slug} value={a.slug} className="text-dark">{a.label}</option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={handleFinder}
-              className="w-full sm:w-auto bg-accent text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-accent-dark transition-all"
+          <div className="mt-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-4 max-w-md mx-auto">
+            <select
+              value={selectedActivity}
+              onChange={(e) => handleSelect(e.target.value)}
+              className="w-full bg-transparent text-white text-sm font-medium outline-none cursor-pointer"
             >
-              Explore
-            </button>
+              <option value="" className="text-dark">Choose an activity...</option>
+              {ACTIVITIES.map((a) => (
+                <option key={a.slug} value={a.slug} className="text-dark">{a.label}</option>
+              ))}
+            </select>
           </div>
 
           {/* Secondary CTA */}
