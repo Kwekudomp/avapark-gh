@@ -55,7 +55,7 @@ export default function RootLayout({
                 "@type": "PostalAddress",
                 streetAddress: "Akuse Road",
                 addressLocality: "Okwenya",
-                addressRegion: "Eastern Region",
+                addressRegion: "Eastern/Volta Region",
                 addressCountry: "GH",
               },
               telephone: "+233540879700",

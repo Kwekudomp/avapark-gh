@@ -117,7 +117,7 @@ export async function sendBookingConfirmation(booking: BookingData) {
 
           <h3 style="color: #1B4332; font-size: 16px; margin-top: 24px;">Getting Here</h3>
           <p style="font-size: 14px; color: #555;">
-            Hidden Paradise Nature Park, Akuse Road, Okwenya, Eastern Region.<br>
+            Hidden Paradise Nature Park, Akuse Road, Okwenya, Eastern/Volta Region.<br>
             About an hour's drive east of Accra.
           </p>
 

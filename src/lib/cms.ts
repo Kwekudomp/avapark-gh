@@ -172,7 +172,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     email: "info@hiddenparadisegh.com",
     instagram_handle: "hiddenparadise_gh",
     whatsapp_number: "233540879700",
-    location_address: "Akuse Road, Okwenya, Eastern Region, Ghana",
+    location_address: "Akuse Road, Okwenya, Eastern/Volta Region, Ghana",
     location_description: "About an hour east of Accra",
     hours_weekday: "9:00 AM – 1:00 AM",
     hours_weekend: "9:00 AM – 3:00 AM",

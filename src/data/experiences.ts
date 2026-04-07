@@ -331,9 +331,9 @@ export const experiences: Experience[] = [
   {
     slug: "eastern-tour",
     name: "Eastern/Volta Tours",
-    tagline: "Discover the Eastern Region",
+    tagline: "Discover the Eastern/Volta Region",
     description:
-      "Explore the best of Ghana's Eastern Region in one packed day. Visit the Volta Lake for a boat cruise, cross the iconic Adome Bridge, tour the Akwamu Museum, hike at Shai Hills Reserve, and finish with lunch at Hidden Paradise. Transportation, snacks, a tour guide, and a photoshoot are all included.",
+      "Explore the best of Ghana's Eastern/Volta region in one packed day. Visit the Volta Lake for a boat cruise, cross the iconic Adome Bridge, tour the Akwamu Museum, hike at Shai Hills Reserve, and finish with lunch at Hidden Paradise. Transportation, snacks, a tour guide, and a photoshoot are all included.",
     schedule: "Weekends",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [

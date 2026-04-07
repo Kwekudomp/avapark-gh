@@ -147,7 +147,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     // ── Tagline ──
     doc.setFontSize(9);
     doc.setTextColor(200, 230, 200);
-    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern Region", 52, 35);
+    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern/Volta Region", 52, 35);
 
     // ── Title block ──
     doc.setFillColor(...olive);

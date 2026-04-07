@@ -165,7 +165,7 @@ export default function AccommodationPage() {
     doc.text("NATURE PARK", 52, 26);
     doc.setFontSize(9);
     doc.setTextColor(200, 230, 200);
-    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern Region", 52, 35);
+    doc.text("Your Escape Into Nature  •  Akuse Road, Okwenya, Eastern/Volta Region", 52, 35);
 
     doc.setFillColor(...olive);
     doc.roundedRect(15, 50, W - 30, 14, 3, 3, "F");

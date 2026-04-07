@@ -78,7 +78,7 @@ export default function AboutPage() {
           <div className="text-text-secondary leading-relaxed space-y-6">
             <p>
               Hidden Paradise Nature Park is a 300-acre tourism hub and outdoor
-              recreation destination on Akuse Road, in Ghana&apos;s Eastern Region
+              recreation destination on Akuse Road, in Ghana&apos;s Eastern/Volta region
               , about an hour&apos;s drive from Accra. Set in lush forest
               land with proximity to the Volta, we&apos;ve built a community where
               adventure, culture, and relaxation come together.
@@ -137,7 +137,7 @@ export default function AboutPage() {
               <p>
                 Hidden Paradise, Akuse Road
                 <br />
-                Okwenya, Eastern Region
+                Okwenya, Eastern/Volta Region
                 <br />
                 Ghana
               </p>

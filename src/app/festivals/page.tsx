@@ -4,56 +4,118 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 export const metadata = {
   title: "Festivals | Hidden Paradise Nature Park",
   description:
-    "Experience Ghana's vibrant festivals from Hidden Paradise, including Ngmayem, Homowo, Dipo, and more. We organise festival packages with accommodation, transport, and guides.",
+    "Experience Ghana's vibrant festivals from Hidden Paradise, including Ngmayem, Homowo, Dipo, Hogbetsotso, Asogli Yam Festival, and more. We organise festival packages with accommodation, transport, and guides.",
 };
 
-const FESTIVALS = [
+const EASTERN_FESTIVALS = [
   {
     name: "Ngmayem Festival",
     people: "Krobo (Manya & Yilo)",
-    timing: "October – November",
+    timing: "October / November",
     description:
-      "The biggest harvest festival in the Eastern Region. A week of drumming, dancing, durbar of chiefs, and thanksgiving. Hidden Paradise is the closest nature stay to the celebrations.",
+      "The biggest harvest festival in the Eastern/Volta region. A week of drumming, dancing, durbar of chiefs, and thanksgiving celebrations. Hidden Paradise is the closest nature stay to the festivities, just minutes from the heart of Krobo land.",
     icon: "🥁",
-  },
-  {
-    name: "Homowo Festival",
-    people: "Ga people (Accra & surrounds)",
-    timing: "August – September",
-    description:
-      "Literally 'hooting at hunger', this is Accra's most famous festival featuring the sprinkling of kpokpoi, traditional drumming, and family reunions. It's an easy day trip from the park.",
-    icon: "🎊",
   },
   {
     name: "Dipo Festival",
     people: "Krobo",
     timing: "April",
     description:
-      "A sacred rite-of-passage ceremony for young Krobo women. Features traditional bead-wearing, dance, and cultural performances at Krobo Mountain, just 25 minutes from us.",
+      "A sacred rite-of-passage ceremony for young Krobo women. Features traditional bead-wearing, dance, and cultural performances at Krobo Mountain, just 25 minutes from us. One of the most visually striking cultural events in Ghana.",
     icon: "💃",
-  },
-  {
-    name: "Asogli Yam Festival",
-    people: "Ewe (Ho & Volta Region)",
-    timing: "September",
-    description:
-      "Celebration of the yam harvest in Ho. Features a grand durbar, cultural performances, and feasting. A scenic drive from Hidden Paradise into the Volta Region.",
-    icon: "🍠",
   },
   {
     name: "Odwira Festival",
     people: "Akuapem (Akropong)",
-    timing: "September – October",
+    timing: "September / October",
     description:
-      "Purification and thanksgiving festival of the Akuapem people. Features a procession along the Akuapem ridge, one of Ghana's most scenic cultural events.",
+      "A purification and thanksgiving festival of the Akuapem people held along the scenic Akuapem ridge. Features a grand procession of chiefs, traditional music, and feasting. The ridge itself offers stunning views of the Eastern plains.",
     icon: "🏔️",
   },
   {
-    name: "Easter & Christmas at Hidden Paradise",
-    people: "All guests",
-    timing: "March/April & December",
+    name: "Ohum Festival",
+    people: "Akyem (Akyem Abuakwa)",
+    timing: "August",
     description:
-      "Our own holiday specials with camping, bonfires, live music, and community feasts at the park. The perfect Ghanaian holiday getaway.",
+      "A week-long harvest and purification festival of the Akyem people in Kibi. Highlights include a river-cleansing ceremony, a durbar of chiefs, and traditional dances. The town sits near the foothills of the Atewa Range.",
+    icon: "🌾",
+  },
+  {
+    name: "Papa Festival",
+    people: "Shai (Dangme)",
+    timing: "March / April",
+    description:
+      "Celebrated by the Shai people near the Shai Hills Reserve, this festival marks the migration of the Dangme from the Shai caves. Features traditional warrior dances, storytelling, and a pilgrimage to the ancestral caves.",
+    icon: "🗿",
+  },
+  {
+    name: "Homowo Festival",
+    people: "Ga people (Accra & surrounds)",
+    timing: "August / September",
+    description:
+      "Literally 'hooting at hunger', this is Accra's most famous festival featuring the sprinkling of kpokpoi, traditional drumming, and family reunions. An easy day trip from the park to experience Ga culture firsthand.",
+    icon: "🎊",
+  },
+];
+
+const VOLTA_FESTIVALS = [
+  {
+    name: "Asogli Yam Festival (Te Za)",
+    people: "Ewe (Ho)",
+    timing: "September",
+    description:
+      "The grandest yam festival in the Volta region, celebrated by the Asogli state in Ho. A week of cultural displays culminates in a spectacular durbar of chiefs. The ceremonial eating of new yam marks the beginning of the harvest season.",
+    icon: "🍠",
+  },
+  {
+    name: "Hogbetsotso Festival",
+    people: "Anlo Ewe (Anloga)",
+    timing: "November",
+    description:
+      "One of the largest festivals in the Volta region, commemorating the Ewe migration from Notsie in modern-day Togo. Features a grand durbar at Anloga, war dances, drumming, and the famous Borborbor social dance.",
+    icon: "🎭",
+  },
+  {
+    name: "Agbamevoza Festival",
+    people: "Ewe (Kpalime / Volta)",
+    timing: "November",
+    description:
+      "A thanksgiving and unity festival celebrated by the Ewe people. Brings together communities for traditional drumming, Kente cloth displays, libation pouring, and cultural performances that showcase the richness of Ewe heritage.",
+    icon: "🤝",
+  },
+  {
+    name: "Golokwati Festival",
+    people: "Avatime (Volta Region)",
+    timing: "October",
+    description:
+      "Celebrated by the Avatime people in the hills near Ho, this rice harvest festival features drumming, traditional dancing, and a durbar. The Avatime hills offer some of the most scenic landscapes in the Volta region.",
+    icon: "🌾",
+  },
+  {
+    name: "Yeke Yeke Festival",
+    people: "Nzema / Volta communities",
+    timing: "December",
+    description:
+      "An end-of-year celebration featuring masquerade performances, traditional drumming, and community feasting. A colourful way to close out the year with deep cultural roots.",
+    icon: "🎉",
+  },
+];
+
+const HP_SPECIALS = [
+  {
+    name: "Easter at Hidden Paradise",
+    people: "All guests",
+    timing: "March / April",
+    description:
+      "Our annual Easter weekend celebration with camping, bonfire nights, live music, and community feasts. A perfect family getaway over the long weekend.",
+    icon: "🐣",
+  },
+  {
+    name: "Christmas at Hidden Paradise",
+    people: "All guests",
+    timing: "December",
+    description:
+      "End the year at the park with our special Christmas programme. Camping, BBQ, games, and celebrations under the stars with friends, family, and fellow nature lovers.",
     icon: "🎄",
   },
 ];
@@ -68,35 +130,103 @@ export default function FestivalsPage() {
       <SectionHeader
         tag="CULTURE & CELEBRATIONS"
         title="Festivals Near Hidden Paradise"
-        description="Ghana's Eastern Region is alive with festivals year-round. Stay with us and experience the culture up close. We'll arrange transport, guides, and the best viewing spots."
+        description="The Eastern and Volta regions are alive with festivals year-round. Stay with us and experience the culture up close. We'll arrange transport, guides, and the best viewing spots."
       />
 
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {FESTIVALS.map((f) => (
-          <div
-            key={f.name}
-            className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow flex flex-col"
-          >
-            <span className="text-4xl mb-3">{f.icon}</span>
-            <h3 className="font-display text-lg font-bold text-dark">
-              {f.name}
-            </h3>
-            <div className="flex flex-wrap gap-2 mt-1.5 mb-3">
-              <span className="text-xs font-semibold tracking-wider text-accent uppercase">
-                {f.timing}
-              </span>
-              <span className="text-xs text-text-secondary">
-                · {f.people}
-              </span>
+      {/* Eastern Region Festivals */}
+      <div className="max-w-[1200px] mx-auto mb-16">
+        <h2 className="font-display text-2xl font-bold text-primary mb-6 text-center">
+          Eastern Region Festivals
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {EASTERN_FESTIVALS.map((f) => (
+            <div
+              key={f.name}
+              className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow flex flex-col"
+            >
+              <span className="text-4xl mb-3">{f.icon}</span>
+              <h3 className="font-display text-lg font-bold text-dark">
+                {f.name}
+              </h3>
+              <div className="flex flex-wrap gap-2 mt-1.5 mb-3">
+                <span className="text-xs font-semibold tracking-wider text-accent uppercase">
+                  {f.timing}
+                </span>
+                <span className="text-xs text-text-secondary">
+                  · {f.people}
+                </span>
+              </div>
+              <p className="text-sm text-text-secondary flex-1">
+                {f.description}
+              </p>
             </div>
-            <p className="text-sm text-text-secondary flex-1">
-              {f.description}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-6 sm:p-8 text-center">
+      {/* Volta Region Festivals */}
+      <div className="max-w-[1200px] mx-auto mb-16">
+        <h2 className="font-display text-2xl font-bold text-primary mb-6 text-center">
+          Volta Region Festivals
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {VOLTA_FESTIVALS.map((f) => (
+            <div
+              key={f.name}
+              className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow flex flex-col"
+            >
+              <span className="text-4xl mb-3">{f.icon}</span>
+              <h3 className="font-display text-lg font-bold text-dark">
+                {f.name}
+              </h3>
+              <div className="flex flex-wrap gap-2 mt-1.5 mb-3">
+                <span className="text-xs font-semibold tracking-wider text-accent uppercase">
+                  {f.timing}
+                </span>
+                <span className="text-xs text-text-secondary">
+                  · {f.people}
+                </span>
+              </div>
+              <p className="text-sm text-text-secondary flex-1">
+                {f.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Hidden Paradise Specials */}
+      <div className="max-w-[800px] mx-auto mb-16">
+        <h2 className="font-display text-2xl font-bold text-primary mb-6 text-center">
+          Hidden Paradise Specials
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {HP_SPECIALS.map((f) => (
+            <div
+              key={f.name}
+              className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow flex flex-col"
+            >
+              <span className="text-4xl mb-3">{f.icon}</span>
+              <h3 className="font-display text-lg font-bold text-dark">
+                {f.name}
+              </h3>
+              <div className="flex flex-wrap gap-2 mt-1.5 mb-3">
+                <span className="text-xs font-semibold tracking-wider text-accent uppercase">
+                  {f.timing}
+                </span>
+                <span className="text-xs text-text-secondary">
+                  · {f.people}
+                </span>
+              </div>
+              <p className="text-sm text-text-secondary flex-1">
+                {f.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto bg-primary/5 border border-primary/20 rounded-2xl p-6 sm:p-8 text-center">
         <h3 className="font-display text-xl font-bold text-primary">
           Festival Packages
         </h3>

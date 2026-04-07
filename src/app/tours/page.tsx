@@ -42,10 +42,10 @@ const TOURS = [
     icon: "📿",
   },
   {
-    name: "Eastern Region Grand Tour",
+    name: "Eastern/Volta Grand Tour",
     duration: "2 days / 1 night",
     description:
-      "The ultimate Eastern Region experience, combining Akosombo, Shai Hills, Krobo Mountain, and Boti Falls with an overnight stay at Hidden Paradise.",
+      "The ultimate Eastern/Volta experience, combining Akosombo, Shai Hills, Krobo Mountain, and Boti Falls with an overnight stay at Hidden Paradise.",
     highlights: ["All major attractions", "Overnight camping", "All meals", "Personal guide"],
     icon: "🗺️",
   },

@@ -51,7 +51,7 @@ export default function HowToGetHere() {
                 <h3 className="font-semibold text-dark mb-1">Address</h3>
                 <p className="text-text-secondary text-sm leading-relaxed">
                   Akuse Road, Okwenya<br />
-                  Eastern Region, Ghana<br />
+                  Eastern/Volta Region, Ghana<br />
                   <span className="text-xs text-accent font-medium">~1 hour east of Accra</span>
                 </p>
               </div>
