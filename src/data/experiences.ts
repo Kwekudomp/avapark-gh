@@ -330,7 +330,7 @@ export const experiences: Experience[] = [
   },
   {
     slug: "eastern-tour",
-    name: "Eastern Tour",
+    name: "Eastern/Volta Tours",
     tagline: "Discover the Eastern Region",
     description:
       "Explore the best of Ghana's Eastern Region in one packed day. Visit the Volta Lake for a boat cruise, cross the iconic Adome Bridge, tour the Akwamu Museum, hike at Shai Hills Reserve, and finish with lunch at Hidden Paradise. Transportation, snacks, a tour guide, and a photoshoot are all included.",
@@ -366,7 +366,7 @@ export const experiences: Experience[] = [
     images: ["/images/experiences/eastern-tour.jpeg"],
     category: "tour",
     isFeatured: false,
-    whatsappMessage: whatsappMsg("Eastern Tour"),
+    whatsappMessage: whatsappMsg("Eastern/Volta Tours"),
     price: 300,
     depositAmount: 150,
   },

@@ -59,7 +59,7 @@ export default function ToursPage() {
   return (
     <main className="pt-28 pb-24 px-[5%]">
       <SectionHeader
-        tag="EASTERN VOLTA TOURS"
+        tag="EASTERN / VOLTA TOURS"
         title="Explore Beyond the Park"
         description="Hidden Paradise is your base camp for the best of the Eastern and Volta region. We organise guided tours to top attractions. Just show up and we handle the rest."
       />

@@ -4,7 +4,7 @@ import SectionHeader from "@/components/SectionHeader";
 export const metadata = {
   title: "Activities | Hidden Paradise Nature Park",
   description:
-    "Things to do at Hidden Paradise including hiking, swimming, horse riding, ATV rides, archery, boat cruises, and more on 300 acres of nature.",
+    "Things to do at Hidden Paradise including hiking, swimming, horse riding, ATV and bike rides, archery, paintball, mini golf, boat cruises, and more on 300 acres of nature.",
 };
 
 const ACTIVITIES = [
@@ -24,8 +24,8 @@ const ACTIVITIES = [
     icon: "🐴",
   },
   {
-    name: "ATV & Dirt Rides",
-    description: "Hit the trails on an ATV for an adrenaline-pumping off-road adventure.",
+    name: "ATV & Bike Rides",
+    description: "Hit the trails on an ATV or mountain bike for an off-road adventure. Bikes available for rent.",
     icon: "🏍️",
   },
   {
@@ -34,14 +34,34 @@ const ACTIVITIES = [
     icon: "⛵",
   },
   {
-    name: "Biking",
-    description: "Mountain bike trails through the park. Bikes available for rent.",
-    icon: "🚴",
+    name: "Archery & Darts",
+    description: "Test your aim at our archery range or the dartboard. Equipment and coaching provided.",
+    icon: "🏹",
   },
   {
-    name: "Archery",
-    description: "Test your aim at our archery range. Equipment and coaching provided.",
-    icon: "🏹",
+    name: "Paintball",
+    description: "Tactical paintball sessions on our outdoor course. Gear provided, just bring your team.",
+    icon: "🔫",
+  },
+  {
+    name: "Table Tennis",
+    description: "Challenge your friends to a game of ping pong. Tables set up and ready to play.",
+    icon: "🏓",
+  },
+  {
+    name: "Pool / Snooker Table",
+    description: "Rack up and play pool or snooker in our recreation area.",
+    icon: "🎱",
+  },
+  {
+    name: "Mini Golf Course",
+    description: "Fun for all ages on our outdoor mini golf course set among the gardens.",
+    icon: "⛳",
+  },
+  {
+    name: "Soccer & Volleyball",
+    description: "Join a pickup game on our soccer pitch or volleyball court. Open to all guests.",
+    icon: "⚽",
   },
   {
     name: "Board Games & Bonfire",

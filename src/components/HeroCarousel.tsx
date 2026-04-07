@@ -36,10 +36,9 @@ const ACTIVITIES = [
   { label: "Picnic Package", slug: "picnic-packages", wa: "picnic+package" },
   { label: "Private Event", slug: "party-in-the-woods", wa: "private+event+enquiry" },
   { label: "Game Night", slug: "game-night", wa: "game+night" },
-  { label: "Tours", slug: "eastern-tour", wa: "tours+enquiry" },
+  { label: "Eastern/Volta Tours", slug: "eastern-tour", wa: "tours+enquiry" },
   { label: "Boat Cruise", slug: "boat-cruise", wa: "boat+cruise+enquiry" },
-  { label: "ATV Ride", slug: "atv-dirt-ride", wa: "ATV+ride+enquiry" },
-  { label: "Bike Ride", slug: "bike-ride", wa: "bike+ride+enquiry" },
+  { label: "ATV & Bike Rides", slug: "atv-dirt-ride", wa: "ATV+and+bike+ride" },
 ];
 
 export default function HeroCarousel() {
