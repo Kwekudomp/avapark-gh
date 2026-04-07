@@ -206,52 +206,179 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Park Rules & Regulations */}
+      {/* Campground Policies */}
       <section className="py-24 px-[5%]">
-        <SectionHeader tag="KNOW BEFORE YOU VISIT" title="Park Rules & Regulations" />
-        <div className="max-w-[900px] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            "No smoking in restricted areas",
-            "No outside alcohol (drinks available at the bar)",
-            "Children under 12 must be supervised by an adult at all times",
-            "No pets allowed on the premises",
-            "No loud music after 12am (midnight) on weekdays",
-            "All guests must check in at reception upon arrival",
-            "Swimming pool hours: 9am to 10pm (no lifeguard after 8pm)",
-            "Campfires only in designated bonfire areas",
-            "Please dispose of waste in the bins provided",
-          ].map((rule) => (
-            <div
-              key={rule}
-              className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border"
-            >
-              <span className="text-accent font-bold text-sm mt-0.5">●</span>
-              <p className="text-sm text-text-secondary">{rule}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <SectionHeader
+          tag="KNOW BEFORE YOU VISIT"
+          title="Campground Policies"
+          description="Please make sure anyone staying at Hidden Paradise knows and understands what is allowed. Anyone failing to follow these rules may be asked to leave. Parents are responsible for their children's safety at all times while on the grounds."
+        />
+        <div className="max-w-[900px] mx-auto space-y-10">
 
-      {/* Safety & Property Damages */}
-      <section className="py-24 px-[5%] bg-bg-alt">
-        <SectionHeader tag="YOUR SAFETY MATTERS" title="Safety & Property Damages" />
-        <div className="max-w-[900px] mx-auto space-y-4">
-          {[
-            "Hidden Paradise is not liable for loss or theft of personal belongings. Please keep your valuables secure.",
-            "Guests are responsible for any damage to tents, equipment, or property during their stay.",
-            "A damage deposit may be required for certain equipment rentals.",
-            "First aid is available at the reception area.",
-            "In case of emergency, contact park security or call the front desk immediately.",
-            "All adventure activities (ATV, hiking, horse riding) are done at your own risk. Safety briefings are provided before each activity.",
-          ].map((item) => (
-            <div
-              key={item}
-              className="flex items-start gap-3 bg-white rounded-xl p-5 border border-border"
-            >
-              <span className="text-primary font-bold text-sm mt-0.5">⚠</span>
-              <p className="text-sm text-text-secondary">{item}</p>
+          {/* General */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">General</h3>
+            <div className="space-y-3">
+              {[
+                "You must be 18 and above to rent a campsite.",
+                "Unauthorised weapons are not allowed on the premises.",
+                "We reserve the right to ask any camper or guest whose conduct is causing a disturbance, endangering life, or breaking campground rules to leave. Refunds will not be granted in these cases.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Health & Safety */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-2">Health & Safety</h3>
+            <p className="text-sm text-text-secondary mb-4">
+              Our top priority is protecting the health, safety, and well-being of our visitors and staff. We actively monitor the park to make sure everyone is safe and enjoying their stay.
+            </p>
+          </div>
+
+          {/* Reservation & Deposit */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Reservation & Deposit</h3>
+            <div className="space-y-3">
+              {[
+                "2-night minimum required. Holidays require a 3-night stay. If available, 1-night stays may be made on the day of the reservation before noon.",
+                "Deposits become non-refundable 14 days before your arrival date.",
+                "The remaining balance is due at check-in.",
+                "If you don't arrive by noon the day after your scheduled arrival (without notifying us), your reservation will be cancelled with no refund or credit.",
+                "In some cases we may need to move your reservation to a comparable site for occupancy reasons. We will notify you of any changes.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Terms of Change */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-2">Terms of Change</h3>
+            <p className="text-sm text-text-secondary">
+              Changes can be made by contacting us at least 1 day before your scheduled arrival. Reservations with a departure date more than 3 months out cannot be changed for 18 days after the booking was made. There is no fee for changes unless the reservation is cancelled.
+            </p>
+          </div>
+
+          {/* Cancellation Policy */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Cancellation Policy</h3>
+            <div className="space-y-3">
+              {[
+                "14 days before arrival, we will refund your deposit minus GHC 400 for changes or cancellations.",
+                "Camping is an outdoor experience. We do not give refunds for discomfort, acts of nature, bad weather, or any other reason within 14 days of your arrival date.",
+                "To cancel, simply contact us before your scheduled arrival.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Site Occupancy */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Site Occupancy</h3>
+            <div className="space-y-3">
+              {[
+                "Maximum of 50 people per group.",
+                "2 adults can book a slot within the 50 slots available over the weekend.",
+                "Groups are welcome to book the entire campsite for events and exclusive programmes.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Visitor Policy */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Visitor Policy</h3>
+            <div className="space-y-3">
+              {[
+                "All visitors must register at the office. Only two visitors are allowed per campsite per day.",
+                "All visitors must leave the campground before 10:00 PM.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quiet Hours */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Quiet Hours</h3>
+            <div className="space-y-3">
+              {[
+                "Quiet hours are 10:00 PM to 7:00 AM.",
+                "Please keep noise levels low and lights at a minimum intensity.",
+                "If staff notifies a site of a quiet hour violation and any occupant refuses to cooperate, all occupants of that site may be asked to leave without refund.",
+                "\"Quiet Cove\" is a 24-hour quiet area. Please keep voices low and do not play music.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pet Policy */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Pet Policy</h3>
+            <div className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+              <span className="text-accent font-bold text-sm mt-0.5">●</span>
+              <p className="text-sm text-text-secondary">Pets must be kept on a handheld leash no longer than 5 feet and must be well-behaved at all times.</p>
+            </div>
+          </div>
+
+          {/* Campfire */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Campfire Rules</h3>
+            <div className="space-y-3">
+              {[
+                "Fires must be completely out and doused with water at the end of the evening or anytime you leave your site, including at checkout.",
+                "Please observe any fire condition notices posted around the campground.",
+                "Do not move fire pits from their designated locations.",
+                "Do not burn trash in fire pits.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Trash */}
+          <div>
+            <h3 className="font-display text-lg font-bold text-primary mb-4">Trash & Cleanliness</h3>
+            <div className="space-y-3">
+              {[
+                "Please sort your returnable bottles and cans.",
+                "Do not put trash in fire pits. Doing so will incur a GHC 30 cleaning fee.",
+                "Please leave your campsite the way you found it. Picnic tables must not be removed from sites.",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border">
+                  <span className="text-accent font-bold text-sm mt-0.5">●</span>
+                  <p className="text-sm text-text-secondary">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
