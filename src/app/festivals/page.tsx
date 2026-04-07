@@ -10,10 +10,10 @@ export const metadata = {
 const EASTERN_FESTIVALS = [
   {
     name: "Ngmayem Festival",
-    people: "Krobo (Manya & Yilo)",
+    people: "Manya Krobo",
     timing: "October / November",
     description:
-      "The biggest harvest festival in the Eastern/Volta region. A week of drumming, dancing, durbar of chiefs, and thanksgiving celebrations. Hidden Paradise is the closest nature stay to the festivities, just minutes from the heart of Krobo land.",
+      "The biggest harvest festival in the Eastern/Volta region. Expect a full week of drumming, dancing, durbar of chiefs, and thanksgiving. We're the closest nature stay to the celebrations, just minutes from the heart of Krobo land.",
     icon: "🥁",
   },
   {
@@ -21,7 +21,7 @@ const EASTERN_FESTIVALS = [
     people: "Krobo",
     timing: "April",
     description:
-      "A sacred rite-of-passage ceremony for young Krobo women. Features traditional bead-wearing, dance, and cultural performances at Krobo Mountain, just 25 minutes from us. One of the most visually striking cultural events in Ghana.",
+      "A sacred coming-of-age ceremony for young Krobo women. You'll see traditional bead-wearing, dance, and cultural performances at Krobo Mountain, just 25 minutes from us. Easily one of the most striking cultural events in Ghana.",
     icon: "💃",
   },
   {
@@ -29,24 +29,16 @@ const EASTERN_FESTIVALS = [
     people: "Akuapem (Akropong)",
     timing: "September / October",
     description:
-      "A purification and thanksgiving festival of the Akuapem people held along the scenic Akuapem ridge. Features a grand procession of chiefs, traditional music, and feasting. The ridge itself offers stunning views of the Eastern plains.",
+      "The Akuapem people gather along the scenic Akuapem ridge for this purification and thanksgiving festival. A grand procession of chiefs, traditional music, and feasting. The ridge views alone are worth the trip.",
     icon: "🏔️",
   },
   {
     name: "Ohum Festival",
     people: "Akyem (Akyem Abuakwa)",
-    timing: "August",
+    timing: "September / October",
     description:
-      "A week-long harvest and purification festival of the Akyem people in Kibi. Highlights include a river-cleansing ceremony, a durbar of chiefs, and traditional dances. The town sits near the foothills of the Atewa Range.",
+      "A harvest and purification festival of the Akyem people in Kibi. You'll witness a river-cleansing ceremony, durbar of chiefs, and traditional dances. The town sits near the foothills of the Atewa Range.",
     icon: "🌾",
-  },
-  {
-    name: "Papa Festival",
-    people: "Shai (Dangme)",
-    timing: "March / April",
-    description:
-      "Celebrated by the Shai people near the Shai Hills Reserve, this festival marks the migration of the Dangme from the Shai caves. Features traditional warrior dances, storytelling, and a pilgrimage to the ancestral caves.",
-    icon: "🗿",
   },
 ];
 
@@ -56,40 +48,32 @@ const VOLTA_FESTIVALS = [
     people: "Ewe (Ho)",
     timing: "September",
     description:
-      "The grandest yam festival in the Volta region, celebrated by the Asogli state in Ho. A week of cultural displays culminates in a spectacular durbar of chiefs. The ceremonial eating of new yam marks the beginning of the harvest season.",
+      "The biggest yam festival in the Volta region, celebrated by the Asogli state in Ho. A full week of cultural displays builds up to a spectacular durbar of chiefs. The ceremonial eating of new yam marks the start of the harvest season.",
     icon: "🍠",
   },
   {
     name: "Agotime Kente Festival",
     people: "Agotime (Kpetoe)",
-    timing: "September",
+    timing: "August",
     description:
-      "A vibrant celebration of Ewe kente weaving heritage in the town of Kpetoe, one of the oldest kente-weaving communities in the Volta region. The festival showcases spectacular kente displays, with locals and visitors wearing their finest cloth. Highlights include weaving competitions, a durbar of chiefs, and cultural performances that honour the artisans keeping this centuries-old craft alive.",
+      "Kpetoe is one of the oldest kente-weaving communities in the Volta region, and this festival puts that heritage on full display. Locals and visitors wear their finest cloth. You'll see weaving competitions, a durbar of chiefs, and performances honouring the artisans who keep this craft alive.",
     icon: "🧵",
   },
   {
-    name: "Golokwati Festival",
-    people: "Avatime (Volta Region)",
-    timing: "October",
+    name: "Amu (Rice) Festival",
+    people: "Avatime",
+    timing: "November",
     description:
-      "Celebrated by the Avatime people in the hills near Ho, this rice harvest festival features drumming, traditional dancing, and a durbar. The Avatime hills offer some of the most scenic landscapes in the Volta region.",
+      "The Avatime people celebrate their rice harvest in the scenic hills near Ho. Traditional drumming, dancing, durbar of chiefs, and communal feasting. The Avatime hills are some of the most beautiful landscapes in the Volta region.",
     icon: "🌾",
   },
   {
-    name: "Gbidukor Festival",
-    people: "Hohoe (Volta Region)",
+    name: "Gbidukorza Festival",
+    people: "Gbi people (Hohoe / Peki)",
     timing: "November",
     description:
-      "A traditional war drumming festival celebrated by the people of Hohoe in the Volta region. Features intense war drum performances, warrior dances, and cultural displays that honour the history and fighting spirit of the Hohoe people.",
+      "A war drumming festival of the Gbi people, rotating between Hohoe and Peki. Expect powerful drum performances, warrior dances, and cultural displays honouring the history and fighting spirit of the Gbi people.",
     icon: "🪘",
-  },
-  {
-    name: "Yeke Yeke Festival",
-    people: "Nzema / Volta communities",
-    timing: "December",
-    description:
-      "An end-of-year celebration featuring masquerade performances, traditional drumming, and community feasting. A colourful way to close out the year with deep cultural roots.",
-    icon: "🎉",
   },
 ];
 

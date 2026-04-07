@@ -34,7 +34,7 @@ const EASTERN_ATTRACTIONS = [
     name: "Boti Falls",
     distance: "~1.5 hr drive",
     description:
-      "A stunning twin waterfall near the town of Boti in the Eastern hills. During the rainy season, the male and female falls merge into one powerful cascade. Nearby, visit the famous Umbrella Rock and the sacred three-headed palm tree.",
+      "A twin waterfall near the town of Boti in the Eastern hills. During the rainy season, the male and female falls merge into one powerful flow. While you're there, check out the famous Umbrella Rock and the sacred three-headed palm tree.",
     icon: "💧",
   },
   {
@@ -48,7 +48,7 @@ const EASTERN_ATTRACTIONS = [
     name: "Cedi Bead Factory (Krobo Beads)",
     distance: "~20 min drive",
     description:
-      "Watch master craftsmen transform recycled glass powder into Ghana's iconic Krobo beads using centuries-old techniques. Each bead is hand-painted and kiln-fired. Shop directly from the artisans for authentic pieces you won't find anywhere else.",
+      "Watch craftsmen transform recycled glass powder into Ghana's iconic Krobo beads using techniques passed down for generations. Each bead is hand-painted and kiln-fired. Shop directly from the artisans for authentic pieces you won't find anywhere else.",
     icon: "📿",
   },
   {
@@ -65,7 +65,7 @@ const VOLTA_ATTRACTIONS = [
     name: "Wli Agumatsa Waterfall",
     distance: "~3.5 hr drive",
     description:
-      "The tallest waterfall in West Africa, cascading roughly 80 metres into a pool surrounded by lush forest. The hike to the lower falls is a gentle 45-minute walk through a fruit bat colony. The upper falls require a more challenging climb but reward you with jaw-dropping views.",
+      "The tallest waterfall in West Africa, dropping about 80 metres into a pool surrounded by forest. The hike to the lower falls is a gentle 45-minute walk through a fruit bat colony. The upper falls take more effort to reach but the views are incredible.",
     icon: "🌊",
   },
   {
@@ -79,21 +79,21 @@ const VOLTA_ATTRACTIONS = [
     name: "Amedzofe & Mount Gemi",
     distance: "~3 hr drive",
     description:
-      "A cool mountain village sitting at over 700 metres elevation, making it one of the highest settlements in Ghana. Hike to the summit of Mount Gemi to see the famous cross monument and enjoy breathtaking views of the surrounding valleys and the Volta region below.",
+      "A cool mountain village sitting at over 700 metres, making it one of the highest settlements in Ghana. Hike to the summit of Mount Gemi to see the famous cross monument and take in views of the surrounding valleys and the Volta region below.",
     icon: "🏞️",
   },
   {
     name: "Amedzofe Canopy Walkway",
     distance: "~3 hr drive",
     description:
-      "A thrilling 30-metre-high suspended walkway stretching through the forest canopy near Amedzofe. Walk among the treetops with views over the Volta landscape. One of only a few canopy walkways in Ghana and far less crowded than Kakum.",
+      "A 30-metre-high walkway suspended through the forest canopy near Amedzofe. Walk among the treetops with views over the Volta landscape. One of only a few canopy walkways in Ghana and far less crowded than Kakum.",
     icon: "🌿",
   },
   {
     name: "Tagbo Falls",
     distance: "~3.5 hr drive",
     description:
-      "A beautiful waterfall near Liati Wote in the Volta region, cascading over a rock face surrounded by dense tropical forest. The hike to the falls passes through cocoa farms and local villages, giving you a taste of rural Volta life along the way.",
+      "A beautiful waterfall near Liati Wote in the Volta region, pouring over a rock face surrounded by dense tropical forest. The hike passes through cocoa farms and local villages, so you get a real feel for rural Volta life.",
     icon: "💦",
   },
   {
@@ -121,7 +121,7 @@ const VOLTA_ATTRACTIONS = [
     name: "Kyabobo National Park",
     distance: "~4.5 hr drive",
     description:
-      "Ghana's newest national park, covering 360 sq km of rugged terrain along the Togo border. Home to forest elephants, buffalo, and rare primates. The park is remote and wild, ideal for adventurous travellers seeking an off-the-beaten-path experience.",
+      "Ghana's newest national park, covering 360 sq km of rugged terrain along the Togo border. Home to forest elephants, buffalo, and rare primates. Remote and wild, perfect if you want something truly off the beaten path.",
     icon: "🌳",
   },
 ];
