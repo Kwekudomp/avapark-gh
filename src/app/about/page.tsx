@@ -206,6 +206,198 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Park Rules & Regulations */}
+      <section className="py-24 px-[5%]">
+        <SectionHeader tag="KNOW BEFORE YOU VISIT" title="Park Rules & Regulations" />
+        <div className="max-w-[900px] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            "No smoking in restricted areas",
+            "No outside alcohol (drinks available at the bar)",
+            "Children under 12 must be supervised by an adult at all times",
+            "No pets allowed on the premises",
+            "No loud music after 12am (midnight) on weekdays",
+            "All guests must check in at reception upon arrival",
+            "Swimming pool hours: 9am to 10pm (no lifeguard after 8pm)",
+            "Campfires only in designated bonfire areas",
+            "Please dispose of waste in the bins provided",
+          ].map((rule) => (
+            <div
+              key={rule}
+              className="flex items-start gap-3 bg-bg-alt rounded-xl p-4 border border-border"
+            >
+              <span className="text-accent font-bold text-sm mt-0.5">●</span>
+              <p className="text-sm text-text-secondary">{rule}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Safety & Property Damages */}
+      <section className="py-24 px-[5%] bg-bg-alt">
+        <SectionHeader tag="YOUR SAFETY MATTERS" title="Safety & Property Damages" />
+        <div className="max-w-[900px] mx-auto space-y-4">
+          {[
+            "Hidden Paradise is not liable for loss or theft of personal belongings. Please keep your valuables secure.",
+            "Guests are responsible for any damage to tents, equipment, or property during their stay.",
+            "A damage deposit may be required for certain equipment rentals.",
+            "First aid is available at the reception area.",
+            "In case of emergency, contact park security or call the front desk immediately.",
+            "All adventure activities (ATV, hiking, horse riding) are done at your own risk. Safety briefings are provided before each activity.",
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex items-start gap-3 bg-white rounded-xl p-5 border border-border"
+            >
+              <span className="text-primary font-bold text-sm mt-0.5">⚠</span>
+              <p className="text-sm text-text-secondary">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-[5%]">
+        <SectionHeader tag="GOT QUESTIONS?" title="Frequently Asked Questions" />
+        <div className="max-w-[900px] mx-auto space-y-4">
+          {[
+            {
+              q: "What are the opening hours?",
+              a: "Mon to Wed: 9am to 1am (Weekday Sanctuary, free entry). Thursday: 5pm to 11pm (Game Night). Friday: 5pm to 3am (Party in the Woods). Saturday: 6:30pm to 2am (BBQ & Cinema). Sunday: 9am to 5pm (Family Day).",
+            },
+            {
+              q: "Is there an entry fee?",
+              a: "It varies by day and event. Check our Experiences page for current pricing, or message us on WhatsApp for details.",
+            },
+            {
+              q: "Can I bring my own food?",
+              a: "Outside food is allowed, but we highly recommend trying The Hidden Grill for local favourites and grilled meats.",
+            },
+            {
+              q: "Is there parking?",
+              a: "Yes, free parking is available on-site for all guests.",
+            },
+            {
+              q: "How do I book?",
+              a: "You can book through our website, send us a message on WhatsApp, or simply walk in. For camping and special events, we recommend booking ahead.",
+            },
+            {
+              q: "Is the park child-friendly?",
+              a: "Absolutely. Sundays are dedicated Family Day with activities for kids of all ages, including the Kids Zone, horse riding, and a traditional buffet.",
+            },
+            {
+              q: "Do you host private events?",
+              a: "Yes! We host corporate retreats, weddings, birthdays, and private parties. Contact us to discuss your event and we'll put together a package for you.",
+            },
+            {
+              q: "Is there WiFi?",
+              a: "Limited WiFi is available around the restaurant area. But honestly, we encourage you to disconnect and enjoy the nature around you.",
+            },
+          ].map((faq) => (
+            <details
+              key={faq.q}
+              className="group bg-white rounded-xl border border-border overflow-hidden"
+            >
+              <summary className="flex items-center justify-between cursor-pointer p-5 text-sm font-bold text-dark hover:text-accent transition">
+                {faq.q}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="shrink-0 ml-4 transition-transform group-open:rotate-180"
+                >
+                  <path
+                    d="M4 6L8 10L12 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </summary>
+              <div className="px-5 pb-5 text-sm text-text-secondary leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* Park Map */}
+      <section className="py-24 px-[5%] bg-bg-alt">
+        <SectionHeader tag="FIND YOUR WAY" title="Park Map" />
+        <div className="max-w-[900px] mx-auto">
+          <div className="bg-white rounded-2xl border border-border p-8 sm:p-12 text-center">
+            <span className="text-5xl block mb-4">🗺️</span>
+            <h3 className="font-display text-xl font-bold text-primary mb-2">
+              Site Map Coming Soon
+            </h3>
+            <p className="text-sm text-text-secondary max-w-md mx-auto mb-6">
+              We&apos;re putting together a detailed map of the park grounds showing
+              camping areas, the pool, restaurant, event spaces, trails, and more.
+              It will be available to view and download here shortly.
+            </p>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-accent text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition"
+            >
+              Ask Us for Directions on WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Numbers */}
+      <section className="py-24 px-[5%]">
+        <SectionHeader tag="REACH US" title="Contact Numbers" />
+        <div className="max-w-[900px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <a
+            href={`tel:${PHONE_TEL}`}
+            className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-2">📞</span>
+            <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
+              Main Line
+            </p>
+            <p className="text-sm font-bold text-dark">{PHONE_DISPLAY}</p>
+          </a>
+          <a
+            href="tel:+233547352490"
+            className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-2">🧺</span>
+            <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
+              Picnic Line
+            </p>
+            <p className="text-sm font-bold text-dark">+233 (0) 547 352 490</p>
+          </a>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-2">💬</span>
+            <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
+              WhatsApp
+            </p>
+            <p className="text-sm font-bold text-dark">+233 (0) 540 879 700</p>
+          </a>
+          <a
+            href={`mailto:${EMAIL}`}
+            className="bg-white rounded-2xl border border-border p-6 text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-2">✉️</span>
+            <p className="text-xs font-semibold tracking-wider text-accent uppercase mb-1">
+              Email
+            </p>
+            <p className="text-sm font-bold text-dark">{EMAIL}</p>
+          </a>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-dark text-white py-24 px-[5%] text-center">
         <p className="text-xs tracking-[3px] uppercase font-semibold text-secondary-light">
