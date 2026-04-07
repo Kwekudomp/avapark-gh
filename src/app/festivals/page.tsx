@@ -76,6 +76,14 @@ const VOLTA_FESTIVALS = [
     icon: "🎭",
   },
   {
+    name: "Agotime Kente Festival",
+    people: "Agotime (Kpetoe)",
+    timing: "September",
+    description:
+      "A vibrant celebration of Ewe kente weaving heritage in the town of Kpetoe, one of the oldest kente-weaving communities in the Volta region. The festival showcases spectacular kente displays, with locals and visitors wearing their finest cloth. Highlights include weaving competitions, a durbar of chiefs, and cultural performances that honour the artisans keeping this centuries-old craft alive.",
+    icon: "🧵",
+  },
+  {
     name: "Agbamevoza Festival",
     people: "Ewe (Kpalime / Volta)",
     timing: "November",
