@@ -64,9 +64,9 @@ const values = [
     ),
   },
   {
-    title: "Camp Under Stars",
+    title: "Gateway to the East",
     description:
-      "Fall asleep to the sounds of nature in our comfortable tent camping setup.",
+      "Your base camp for exploring the Eastern and Volta regions, from Akosombo Dam to Krobo Mountain and beyond.",
     icon: (
       <svg
         className="w-10 h-10 text-accent"
