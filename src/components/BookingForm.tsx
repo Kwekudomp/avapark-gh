@@ -229,7 +229,7 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(9);
     doc.text("+233 (0) 540 879 700", 20, footerY + 9);
-    doc.text("info@hiddenparadise_gh.com", 20, footerY + 17);
+    doc.text("info@hiddenparadisegh.com", 20, footerY + 17);
     doc.setFont("helvetica", "normal");
     doc.text("www.hiddenparadisegh.com", 105, footerY + 9, { align: "center" });
     doc.text("@hiddenparadise_gh", 105, footerY + 17, { align: "center" });

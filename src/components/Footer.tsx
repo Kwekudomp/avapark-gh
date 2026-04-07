@@ -204,12 +204,6 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
-              <div className="flex gap-3 mt-2">
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-                  className="text-sm text-white/60 hover:text-secondary transition">
-                  @hiddenparadise_gh
-                </a>
-              </div>
             </div>
           </div>
         </div>
