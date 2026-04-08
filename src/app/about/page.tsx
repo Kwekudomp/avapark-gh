@@ -4,6 +4,8 @@ import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import ValueCards from "@/components/ValueCards";
 import { WHATSAPP_URL } from "@/data/constants";
+import { Tent, HelpCircle, MapPin, Phone, Navigation } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
@@ -11,12 +13,12 @@ export const metadata: Metadata = {
     "Learn about Hidden Paradise, Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
 };
 
-const QUICK_LINKS = [
-  { label: "Amenities", href: "/about/amenities", icon: "🏕️", desc: "Pool, camping, restaurant, gardens, farm, and event spaces." },
-  { label: "FAQ", href: "/about/faq", icon: "❓", desc: "Opening hours, booking, parking, kids, private events, and more." },
-  { label: "Park Map", href: "/about/map", icon: "🗺️", desc: "Find your way around the park grounds." },
-  { label: "Contact Numbers", href: "/about/contact-numbers", icon: "📞", desc: "Main line, kitchen, customer service, and 24hr hotline." },
-  { label: "How to Get Here", href: "/about/directions", icon: "📍", desc: "Directions from Accra, transport options, and address." },
+const QUICK_LINKS: { label: string; href: string; Icon: LucideIcon; desc: string }[] = [
+  { label: "Amenities", href: "/about/amenities", Icon: Tent, desc: "Pool, camping, restaurant, gardens, farm, and event spaces." },
+  { label: "FAQ", href: "/about/faq", Icon: HelpCircle, desc: "Opening hours, booking, parking, kids, private events, and more." },
+  { label: "Park Map", href: "/about/map", Icon: MapPin, desc: "Find your way around the park grounds." },
+  { label: "Contact Numbers", href: "/about/contact-numbers", Icon: Phone, desc: "Main line, kitchen, customer service, and 24hr hotline." },
+  { label: "How to Get Here", href: "/about/directions", Icon: Navigation, desc: "Directions from Accra, transport options, and address." },
 ];
 
 export default function AboutPage() {
@@ -88,7 +90,9 @@ export default function AboutPage() {
               href={link.href}
               className="bg-white rounded-2xl border border-border p-6 hover:shadow-md hover:-translate-y-1 transition-all flex flex-col"
             >
-              <span className="text-3xl mb-3">{link.icon}</span>
+              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                <link.Icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
+              </div>
               <h3 className="font-display text-lg font-bold text-dark">
                 {link.label}
               </h3>
