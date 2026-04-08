@@ -6,7 +6,7 @@ import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 import type { AccommodationPartner } from "@/lib/supabase";
-import { Tent, TreePine, Backpack, Building } from "lucide-react";
+import { Tent, TreePine, Backpack, Building, MapPin, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 function getEnquiryLink(partner: AccommodationPartner) {
@@ -134,8 +134,8 @@ export default function AccommodationSection({ partners }: { partners: Accommoda
                     {tent.name}
                   </h3>
                   <div className="flex items-center gap-3 mt-2 text-xs text-text-secondary">
-                    <span>📍 On-site</span>
-                    <span>👥 {tent.guests}</span>
+                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> On-site</span>
+                    <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {tent.guests}</span>
                   </div>
                   <ul className="mt-3 space-y-1">
                     {tent.highlights.map((h) => (
@@ -206,8 +206,8 @@ export default function AccommodationSection({ partners }: { partners: Accommoda
                         {partner.name}
                       </h3>
                       <div className="flex items-center gap-3 mt-2 text-xs text-text-secondary">
-                        <span>📍 {partner.distance}</span>
-                        <span>👥 {partner.guests}</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {partner.distance}</span>
+                        <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {partner.guests}</span>
                       </div>
                       {partner.highlights.length > 0 && (
                         <ul className="mt-3 space-y-1">

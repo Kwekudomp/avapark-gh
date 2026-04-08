@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
-import { Tent, TreePine, Backpack, Building } from "lucide-react";
+import { Tent, TreePine, Backpack, Building, MapPin, Users, Banknote } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 /* ── Types ──────────────────────────────────────────────── */
@@ -333,7 +333,7 @@ export default function AccommodationPage() {
                     {tent.name}
                   </h3>
                   <p className="text-xs text-text-secondary mt-1">
-                    👥 {tent.guests}
+                    <Users className="w-3.5 h-3.5 inline" /> {tent.guests}
                   </p>
                   <p className="mt-auto pt-4 text-accent text-sm font-semibold">
                     View Details &rarr;
@@ -501,8 +501,8 @@ export default function AccommodationPage() {
                         {partner.name}
                       </h3>
                       <div className="flex items-center gap-3 mt-2 text-xs text-text-secondary">
-                        <span>📍 {partner.distance}</span>
-                        <span>👥 {partner.guests}</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {partner.distance}</span>
+                        <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {partner.guests}</span>
                       </div>
                       <p className="mt-auto pt-4 text-accent text-sm font-semibold">
                         View Details &rarr;
@@ -576,21 +576,21 @@ export default function AccommodationPage() {
                 {/* Quick info */}
                 <div className="flex flex-wrap gap-4">
                   <div className="bg-bg-alt rounded-xl px-4 py-3 flex items-center gap-2">
-                    <span className="text-lg">📍</span>
+                    <MapPin className="w-5 h-5 text-accent" />
                     <div>
                       <p className="text-xs text-text-secondary">Distance</p>
                       <p className="text-sm font-semibold text-dark">{activeLodge.distance}</p>
                     </div>
                   </div>
                   <div className="bg-bg-alt rounded-xl px-4 py-3 flex items-center gap-2">
-                    <span className="text-lg">👥</span>
+                    <Users className="w-5 h-5 text-accent" />
                     <div>
                       <p className="text-xs text-text-secondary">Capacity</p>
                       <p className="text-sm font-semibold text-dark">{activeLodge.guests}</p>
                     </div>
                   </div>
                   <div className="bg-bg-alt rounded-xl px-4 py-3 flex items-center gap-2">
-                    <span className="text-lg">💰</span>
+                    <Banknote className="w-5 h-5 text-accent" />
                     <div>
                       <p className="text-xs text-text-secondary">Starting from</p>
                       <p className="text-sm font-semibold text-dark">{activeLodge.price_from} / night</p>
