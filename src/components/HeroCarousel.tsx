@@ -103,7 +103,7 @@ export default function HeroCarousel() {
             <svg
               viewBox="0 0 500 878"
               fill="currentColor"
-              className="inline-block align-baseline w-10 h-[1.1em] md:w-14 md:h-[1.1em] -mb-[0.15em]"
+              className="inline-block align-middle w-14 h-24 md:w-20 md:h-36 mx-[0.25em]"
               aria-hidden="true"
             >
               <path d="M 260 2 C 187 2 83 37 127 214 C 148 297 198 362 239 421 L 24 409 C 30 435 30 461 24 487 L 239 475 L 224 874 C 253 865 277 868 299 874 L 286 475 L 480 487 C 474 461 473 435 480 409 L 286 421 C 322 357 373 300 391 206 C 427 16 330 2 263 2 C 262 2 261 2 260 2 z M 258 51 C 335 50 414 161 264 385 C 106 163 181 51 258 51 z" />
