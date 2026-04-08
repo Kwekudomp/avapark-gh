@@ -6,6 +6,8 @@ import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 import type { AccommodationPartner } from "@/lib/supabase";
+import { Tent, TreePine, Backpack, Building } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 function getEnquiryLink(partner: AccommodationPartner) {
   if (partner.enquiry_url) return partner.enquiry_url;
@@ -27,14 +29,14 @@ function badgeClass(badge: string | null) {
   return BADGE_COLORS[badge] ?? "bg-dark text-white";
 }
 
-const TENT_OPTIONS = [
+const TENT_OPTIONS: { id: string; name: string; type: string; guests: string; highlights: string[]; Icon: LucideIcon }[] = [
   {
     id: "tent-standard",
     name: "Standard Tent",
     type: "On-site Tent Rental",
     guests: "2 guests",
     highlights: ["Sleeping mats included", "Lantern provided", "Manicured lawn"],
-    icon: "⛺",
+    Icon: Tent,
   },
   {
     id: "tent-family",
@@ -42,7 +44,7 @@ const TENT_OPTIONS = [
     type: "On-site Tent Rental",
     guests: "4-6 guests",
     highlights: ["Extra spacious", "Perfect for groups", "Under the stars"],
-    icon: "🏕️",
+    Icon: TreePine,
   },
   {
     id: "tent-byo",
@@ -50,7 +52,7 @@ const TENT_OPTIONS = [
     type: "On-site Camping Spot",
     guests: "Any size",
     highlights: ["Lawn access", "Facility use", "Bring your own gear"],
-    icon: "🎒",
+    Icon: Backpack,
   },
 ];
 
@@ -117,7 +119,9 @@ export default function AccommodationSection({ partners }: { partners: Accommoda
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
               >
                 <div className="relative h-44 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <span className="text-5xl">{tent.icon}</span>
+                  <div className="w-14 h-14 rounded-xl bg-white/60 flex items-center justify-center">
+                    <tent.Icon className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                  </div>
                   <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-primary text-white">
                     On-site
                   </span>
@@ -184,7 +188,9 @@ export default function AccommodationSection({ partners }: { partners: Accommoda
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={partner.image_url} alt={partner.name} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-4xl">🏡</span>
+                        <div className="w-14 h-14 rounded-xl bg-white/60 flex items-center justify-center">
+                          <Building className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                        </div>
                       )}
                       {partner.badge && (
                         <span className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full ${badgeClass(partner.badge)}`}>
@@ -234,7 +240,9 @@ export default function AccommodationSection({ partners }: { partners: Accommoda
               </div>
             ) : (
               <div className="max-w-md mx-auto text-center bg-white rounded-2xl border border-border p-10">
-                <p className="text-4xl mb-3">🏡</p>
+                <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Building className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                </div>
                 <p className="text-text-secondary text-sm">
                   Partner lodge listings are being updated. Contact us for accommodation enquiries.
                 </p>

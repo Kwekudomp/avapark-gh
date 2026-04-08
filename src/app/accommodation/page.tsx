@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
+import { Tent, TreePine, Backpack, Building } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /* ── Types ──────────────────────────────────────────────── */
 
@@ -30,7 +32,7 @@ const TENT_OPTIONS = [
     name: "Standard Tent",
     type: "On-site Tent Rental",
     guests: "2 guests",
-    icon: "⛺",
+    Icon: Tent,
     includes: [
       "2-person tent setup on manicured lawn",
       "Sleeping mats and lantern",
@@ -44,7 +46,7 @@ const TENT_OPTIONS = [
     name: "Family Tent",
     type: "On-site Tent Rental",
     guests: "4-6 guests",
-    icon: "🏕️",
+    Icon: TreePine,
     includes: [
       "Spacious family-size tent",
       "Sleeping mats and lanterns",
@@ -59,7 +61,7 @@ const TENT_OPTIONS = [
     name: "Bring Your Own Tent",
     type: "On-site Camping Spot",
     guests: "Any size",
-    icon: "🎒",
+    Icon: Backpack,
     includes: [
       "Reserved lawn spot",
       "Access to washrooms and showers",
@@ -316,7 +318,9 @@ export default function AccommodationPage() {
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col text-left cursor-pointer"
               >
                 <div className="relative h-44 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <span className="text-6xl">{tent.icon}</span>
+                  <div className="w-14 h-14 rounded-xl bg-white/60 flex items-center justify-center">
+                    <tent.Icon className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                  </div>
                   <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-primary text-white">
                     On-site
                   </span>
@@ -364,7 +368,9 @@ export default function AccommodationPage() {
             <div className="bg-white rounded-2xl border border-border overflow-hidden">
               {/* Header */}
               <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 text-center">
-                <span className="text-6xl block mb-3">{activeTent.icon}</span>
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
+                  <activeTent.Icon className="w-8 h-8 text-primary" strokeWidth={1.5} />
+                </div>
                 <h2 className="font-display text-2xl font-bold text-primary">
                   {activeTent.name}
                 </h2>
@@ -477,7 +483,9 @@ export default function AccommodationPage() {
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={partner.image_url} alt={partner.name} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-5xl">🏡</span>
+                        <div className="w-14 h-14 rounded-xl bg-white/60 flex items-center justify-center">
+                          <Building className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                        </div>
                       )}
                       {partner.badge && (
                         <span className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full ${badgeClass(partner.badge)}`}>
@@ -505,7 +513,9 @@ export default function AccommodationPage() {
               </div>
             ) : (
               <div className="max-w-md mx-auto text-center bg-bg-alt rounded-2xl border border-border p-10">
-                <p className="text-4xl mb-3">🏡</p>
+                <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Building className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                </div>
                 <p className="text-text-secondary text-sm">
                   Partner lodge listings are being updated. Contact us for accommodation enquiries.
                 </p>
@@ -542,7 +552,9 @@ export default function AccommodationPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={activeLodge.image_url} alt={activeLodge.name} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-6xl">🏡</span>
+                  <div className="w-16 h-16 rounded-2xl bg-white/60 flex items-center justify-center">
+                    <Building className="w-8 h-8 text-primary" strokeWidth={1.5} />
+                  </div>
                 )}
                 {activeLodge.badge && (
                   <span className={`absolute top-4 left-4 text-xs font-semibold px-3 py-1.5 rounded-full ${badgeClass(activeLodge.badge)}`}>
