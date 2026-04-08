@@ -3,7 +3,7 @@ import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 import {
   Waves, Building2, Binoculars, Droplets, Mountain, Gem, PawPrint,
-  Droplet, MountainSnow, Eye, TreePine, Wind, Monkey, Scissors,
+  Droplet, MountainSnow, Eye, TreePine, Wind, Squirrel, Scissors,
   Skull, Trees,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -114,7 +114,7 @@ const VOLTA_ATTRACTIONS: Attraction[] = [
     distance: "~2.5 hr drive",
     description:
       "A community-managed sanctuary protecting the sacred Mona monkeys that the people of Tafi Atome have lived alongside for centuries. The monkeys are friendly and accustomed to visitors. A guided forest walk brings you face-to-face with them in their natural habitat.",
-    Icon: Monkey,
+    Icon: Squirrel,
   },
   {
     name: "Tafi Abuife Kente Village",

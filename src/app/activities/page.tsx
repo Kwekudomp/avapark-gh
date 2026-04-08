@@ -1,8 +1,8 @@
 import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import {
-  Footprints, Waves, Horse, Bike, Ship, Target, Crosshair,
-  TableTennis, Circle, Flag, Dribbble, Flame, Palette, Map,
+  Footprints, Waves, Ribbon, Bike, Ship, Target, Crosshair,
+  Trophy, Circle, Flag, Goal, Flame, Palette, Map,
   Baby, Film,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -27,7 +27,7 @@ const ACTIVITIES: { name: string; description: string; Icon: LucideIcon }[] = [
   {
     name: "Horse Riding",
     description: "Scenic horseback rides across the grounds, suitable for beginners and experienced riders.",
-    Icon: Horse,
+    Icon: Ribbon,
   },
   {
     name: "ATV & Bike Rides",
@@ -52,7 +52,7 @@ const ACTIVITIES: { name: string; description: string; Icon: LucideIcon }[] = [
   {
     name: "Table Tennis",
     description: "Challenge your friends to a game of ping pong. Tables set up and ready to play.",
-    Icon: TableTennis,
+    Icon: Trophy,
   },
   {
     name: "Pool / Snooker Table",
@@ -67,7 +67,7 @@ const ACTIVITIES: { name: string; description: string; Icon: LucideIcon }[] = [
   {
     name: "Soccer & Volleyball",
     description: "Join a pickup game on our soccer pitch or volleyball court. Open to all guests.",
-    Icon: Dribbble,
+    Icon: Goal,
   },
   {
     name: "Board Games & Bonfire",
