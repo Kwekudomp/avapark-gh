@@ -1,5 +1,6 @@
 import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_URL } from "@/data/constants";
+import { MapPin } from "lucide-react";
 
 export const metadata = {
   title: "Park Map | Hidden Paradise Nature Park",
@@ -13,7 +14,9 @@ export default function MapPage() {
       <SectionHeader tag="FIND YOUR WAY" title="Park Map" />
       <div className="max-w-[900px] mx-auto">
         <div className="bg-white rounded-2xl border border-border p-8 sm:p-12 text-center">
-          <span className="text-5xl block mb-4">🗺️</span>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+            <MapPin className="w-8 h-8 text-primary" strokeWidth={1.5} />
+          </div>
           <h3 className="font-display text-xl font-bold text-primary mb-2">
             Site Map Coming Soon
           </h3>
