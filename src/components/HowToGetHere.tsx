@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { PHONE_DISPLAY, PHONE_TEL, WHATSAPP_URL } from "@/data/constants";
+import { MapPin, Clock, Car } from "lucide-react";
 
 const DIRECTIONS = [
   { step: "1", label: "From Accra, take the N2 motorway heading east towards Tema." },
@@ -45,7 +45,7 @@ export default function HowToGetHere() {
             {/* Address */}
             <div className="flex gap-4">
               <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-accent text-lg">📍</span>
+                <MapPin className="w-5 h-5 text-accent" strokeWidth={1.5} />
               </div>
               <div>
                 <h3 className="font-semibold text-dark mb-1">Address</h3>
@@ -60,7 +60,7 @@ export default function HowToGetHere() {
             {/* Hours */}
             <div className="flex gap-4">
               <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-accent text-lg">🕒</span>
+                <Clock className="w-5 h-5 text-accent" strokeWidth={1.5} />
               </div>
               <div>
                 <h3 className="font-semibold text-dark mb-1">Opening Hours</h3>
@@ -74,7 +74,7 @@ export default function HowToGetHere() {
             {/* Driving directions */}
             <div className="flex gap-4">
               <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-accent text-lg">🚗</span>
+                <Car className="w-5 h-5 text-accent" strokeWidth={1.5} />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-dark mb-3">Driving from Accra</h3>
