@@ -386,7 +386,6 @@ export default function Nav() {
               </div>
             </div>
           </div>
-        </div>
       </div>
 
       <BookingModal
