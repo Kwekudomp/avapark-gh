@@ -270,13 +270,14 @@ export default function Nav() {
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile drawer */}
-        <div
-          className={`min-[1080px]:hidden fixed inset-0 top-20 z-40 transition-all duration-300 ${
-            isOpen ? "visible opacity-100" : "invisible opacity-0"
-          }`}
-        >
+      {/* Mobile drawer - sibling of nav to escape backdrop-filter stacking context */}
+      <div
+        className={`min-[1080px]:hidden fixed inset-0 top-20 z-[60] transition-all duration-300 ${
+          isOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
+        }`}
+      >
           <div
             className={`absolute inset-0 bg-dark/30 backdrop-blur-sm transition-opacity duration-300 ${
               isOpen ? "opacity-100" : "opacity-0"
@@ -386,7 +387,7 @@ export default function Nav() {
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       <BookingModal
         isOpen={bookingOpen}
