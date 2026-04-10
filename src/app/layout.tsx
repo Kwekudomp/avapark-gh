@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import PublicShell from "@/components/PublicShell";
 import "./globals.css";
@@ -16,6 +16,11 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#FEFAF4",
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
   title: {
