@@ -1,18 +1,18 @@
 import SectionHeader from "@/components/SectionHeader";
 import { PHONE_TEL, PHONE_DISPLAY } from "@/data/constants";
-import { Phone, ChefHat, Headphones, ShieldAlert } from "lucide-react";
+import { Headphones, ChefHat, ShieldAlert, Shield } from "lucide-react";
 
 export const metadata = {
   title: "Contact Numbers | Hidden Paradise Nature Park",
   description:
-    "Reach Hidden Paradise by phone. Main line, kitchen line, customer service, and 24-hour hotline.",
+    "Reach Hidden Paradise by phone. Customer service, kitchen line, 24-hour hotline, and security line.",
 };
 
 const LINES = [
-  { label: "Main Line", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: Phone },
-  { label: "Kitchen Line", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: ChefHat },
   { label: "Customer Service", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: Headphones },
+  { label: "Kitchen Line", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: ChefHat },
   { label: "24hr Hotline", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: ShieldAlert },
+  { label: "Security Line", number: PHONE_DISPLAY, tel: PHONE_TEL, Icon: Shield },
 ];
 
 export default function ContactNumbersPage() {

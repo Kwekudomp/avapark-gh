@@ -81,8 +81,8 @@ export const experiences: Experience[] = [
     name: "The Camping Experience",
     tagline: "2 nights under the stars",
     description:
-      "Escape the city and spend two unforgettable nights under the stars at Hidden Paradise. Enjoy a full weekend of outdoor adventure, delicious meals, and great company surrounded by nature on the Akuse Road.",
-    schedule: "Weekends",
+      "Escape the city and spend two unforgettable nights under the stars at Hidden Paradise. Enjoy a full weekend or holiday of outdoor adventure, delicious meals, and great company surrounded by nature on the Akuse Road.",
+    schedule: "Weekends & Holidays",
     time: "Friday – Sunday",
     packageIncludes: [
       "Tent accommodation",
@@ -246,7 +246,7 @@ export const experiences: Experience[] = [
     tagline: "Conquer the Krobo Mountain",
     description:
       "Take on the Krobo Mountain with a guided hiking tour. The adventure includes snacks on the trail, a hearty lunch back at Hidden Paradise, and time to unwind with board games, swimming, and soccer. You will also take home a goody bag.",
-    schedule: "Saturdays",
+    schedule: "Saturdays & Holidays",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [
       "Hike the Krobo Mountain",
@@ -274,7 +274,7 @@ export const experiences: Experience[] = [
     tagline: "Explore the Yogaga trail",
     description:
       "Hike the scenic Yogaga Mountain and return to Hidden Paradise for a well-deserved lunch. The full-day package includes snacks on the trail, shower and washroom facilities, and a goody bag. Wind down with board games, swimming, and soccer.",
-    schedule: "Saturdays",
+    schedule: "Saturdays & Holidays",
     time: "9:00 AM – 5:00 PM",
     packageIncludes: [
       "Hike the Yogaga Mountain",

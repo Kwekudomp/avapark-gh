@@ -17,7 +17,7 @@ const QUICK_LINKS: { label: string; href: string; Icon: LucideIcon; desc: string
   { label: "Amenities", href: "/about/amenities", Icon: Tent, desc: "Pool, camping, restaurant, gardens, farm, and event spaces." },
   { label: "FAQ", href: "/about/faq", Icon: HelpCircle, desc: "Opening hours, booking, parking, kids, private events, and more." },
   { label: "Park Map", href: "/about/map", Icon: MapPin, desc: "Find your way around the park grounds." },
-  { label: "Contact Numbers", href: "/about/contact-numbers", Icon: Phone, desc: "Main line, kitchen, customer service, and 24hr hotline." },
+  { label: "Contact Numbers", href: "/about/contact-numbers", Icon: Phone, desc: "Customer service, kitchen line, 24hr hotline, and security line." },
   { label: "How to Get Here", href: "/about/directions", Icon: Navigation, desc: "Directions from Accra, transport options, and address." },
 ];
 
