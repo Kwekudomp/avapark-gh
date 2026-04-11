@@ -7,6 +7,7 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 import SectionHeader from "@/components/SectionHeader";
 import ExperienceCard from "@/components/ExperienceCard";
 import CampgroundPolicies from "@/components/CampgroundPolicies";
+import VendorSpotBanner from "@/components/VendorSpotBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -245,6 +246,9 @@ export default async function ExperiencePage({
 
       {/* ── Campground Policies (camping only) ─────────────────────────── */}
       {slug === "camping" && <CampgroundPolicies />}
+
+      {/* ── Vendor Spot Banner (night market only) ──────────────────────── */}
+      {slug === "night-market" && <VendorSpotBanner />}
 
       {/* ── Other Experiences ───────────────────────────────────────────── */}
       {otherExperiences.length > 0 && (

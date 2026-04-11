@@ -609,7 +609,7 @@ export const experiences: Experience[] = [
     name: "Night Market",
     tagline: "Shop, vibe, and unwind",
     description:
-      "Hidden Paradise's Night Market is a free-entry evening event with music, a bonfire, movies in the park, arts & crafts sales, flea market finds, and fresh farm produce. A perfect way to spend the night with great vibes and good company.",
+      "Hidden Paradise's Night Market is a free-entry evening event with music, a bonfire, movies in the park, arts & crafts sales, flea market finds, and fresh farm produce. Vendor spots are available for third-party brands and makers to showcase and sell their products. A perfect way to spend the night with great vibes and good company.",
     schedule: "Special events",
     time: "7:00 PM – 12:00 AM",
     packageIncludes: [
@@ -622,6 +622,7 @@ export const experiences: Experience[] = [
       "Arts & crafts sale",
       "Flea market sales",
       "Fresh farm produce sale",
+      "Vendor spots available for third parties",
     ],
     activities: [
       "Music & DJ",
@@ -631,6 +632,7 @@ export const experiences: Experience[] = [
       "Arts & crafts sale",
       "Flea market sales",
       "Fresh farm produce sale",
+      "Vendor showcase (3rd-party brands)",
     ],
     coverImage: "/images/experiences/night-market.jpeg",
     images: ["/images/experiences/night-market.jpeg"],
