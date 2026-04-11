@@ -17,7 +17,7 @@ const quickLinks = [
   { name: "Attractions", href: "/attractions" },
   { name: "Activities", href: "/activities" },
   { name: "Eastern/Volta Tours", href: "/tours" },
-  { name: "Events", href: "/events" },
+  { name: "Event Calendar", href: "/event-calendar" },
   { name: "Festivals", href: "/festivals" },
   { name: "Gallery", href: "/gallery" },
 ];
