@@ -14,7 +14,7 @@ export const metadata = {
     "Find out what's happening at Hidden Paradise. Weekly events, special celebrations, and an interactive calendar showing every event coming up.",
 };
 
-const WEEKLY: { day: string; name: string; time: string; description: string; Icon: LucideIcon; color: string }[] = [
+const WEEKLY: { day: string; name: string; time: string; description: string; Icon: LucideIcon; color: string; href: string }[] = [
   {
     day: "Thursday",
     name: "Game Night",
@@ -22,6 +22,7 @@ const WEEKLY: { day: string; name: string; time: string; description: string; Ic
     description: "Snooker, board games, video games, truth or dare, and bonfire vibes. Win prizes and meet new people.",
     Icon: Dice5,
     color: "bg-primary",
+    href: "/experiences/game-night",
   },
   {
     day: "Friday",
@@ -30,6 +31,7 @@ const WEEKLY: { day: string; name: string; time: string; description: string; Ic
     description: "Our biggest weekly party. Live DJs, dancing under the trees, and the freedom of the great outdoors.",
     Icon: PartyPopper,
     color: "bg-accent",
+    href: "/experiences/party-in-the-woods",
   },
   {
     day: "Saturday",
@@ -38,6 +40,7 @@ const WEEKLY: { day: string; name: string; time: string; description: string; Ic
     description: "Smoke and cinema. Fresh grilled meats, drinks, and movies on the big screen under the stars.",
     Icon: Flame,
     color: "bg-secondary",
+    href: "/experiences/saturday-bbq",
   },
   {
     day: "Sunday",
@@ -46,6 +49,7 @@ const WEEKLY: { day: string; name: string; time: string; description: string; Ic
     description: "Bring the whole family. Traditional buffet, horse riding, kids zone, and a relaxed park atmosphere.",
     Icon: Users,
     color: "bg-primary-light",
+    href: "/experiences/family-fun-day",
   },
 ];
 
@@ -77,9 +81,10 @@ export default async function EventCalendarPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {WEEKLY.map((w) => (
-              <div
+              <Link
                 key={w.name}
-                className="bg-white rounded-2xl border border-border overflow-hidden hover:shadow-md transition-shadow"
+                href={w.href}
+                className="group bg-white rounded-2xl border border-border overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all"
               >
                 <div className={`${w.color} h-2`} />
                 <div className="p-5">
@@ -89,15 +94,18 @@ export default async function EventCalendarPage() {
                   <p className="text-xs font-semibold tracking-wider text-accent uppercase">
                     {w.day}
                   </p>
-                  <h3 className="font-display text-lg font-bold text-dark mt-1">
+                  <h3 className="font-display text-lg font-bold text-dark mt-1 group-hover:text-accent transition-colors">
                     {w.name}
                   </h3>
                   <p className="text-xs text-text-secondary mt-1 mb-3">{w.time}</p>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     {w.description}
                   </p>
+                  <p className="text-accent text-xs font-semibold mt-4">
+                    View Details &rarr;
+                  </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
