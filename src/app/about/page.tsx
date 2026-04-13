@@ -4,7 +4,23 @@ import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import ValueCards from "@/components/ValueCards";
 import { WHATSAPP_URL } from "@/data/constants";
-import { Tent, HelpCircle, MapPin, Phone, Navigation, BookOpen } from "lucide-react";
+import {
+  Tent,
+  HelpCircle,
+  MapPin,
+  Phone,
+  Navigation,
+  BookOpen,
+  Eye,
+  Target,
+  Sparkles,
+  Mountain,
+  HeartPulse,
+  Briefcase,
+  Users,
+  Leaf,
+  Palette,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -12,6 +28,39 @@ export const metadata: Metadata = {
   description:
     "Learn about Hidden Paradise, Ghana's premier outdoor recreation destination. Camping, hiking, events, and more on the banks of the Volta, just an hour from Accra.",
 };
+
+const OFFERINGS: { title: string; description: string; Icon: LucideIcon }[] = [
+  {
+    title: "Outdoor Adventures",
+    description: "Hiking, camping, picnics, outdoor games, and trail walks across our 150+ acres of green space.",
+    Icon: Mountain,
+  },
+  {
+    title: "Wellness Focus",
+    description: "Relaxation spaces, mental wellness programs, yoga, and meditation in a serene natural setting.",
+    Icon: HeartPulse,
+  },
+  {
+    title: "Corporate & Church Retreats",
+    description: "Customised experiences to enhance team collaboration, wellness, and productivity.",
+    Icon: Briefcase,
+  },
+  {
+    title: "Family & Group Packages",
+    description: "Activities and venues designed for bonding, fun, and relaxation with people you love.",
+    Icon: Users,
+  },
+  {
+    title: "Eco-Friendly Environment",
+    description: "A commitment to sustainability and creating a peaceful space that respects the land.",
+    Icon: Leaf,
+  },
+  {
+    title: "Arts & Cultural Experience",
+    description: "Live music, art shows, pottery, and cultural celebrations that connect you to Ghana's creativity.",
+    Icon: Palette,
+  },
+];
 
 const QUICK_LINKS: { label: string; href: string; Icon: LucideIcon; desc: string }[] = [
   { label: "Our Story", href: "#our-story", Icon: BookOpen, desc: "How Hidden Paradise began and where we're headed." },
@@ -34,6 +83,9 @@ export default function AboutPage() {
           <h1 className="font-display text-5xl md:text-6xl font-semibold text-primary mt-4">
             More Than a Park. An Experience
           </h1>
+          <p className="text-xs tracking-[4px] uppercase text-text-secondary font-semibold mt-6">
+            Where Nature Heals
+          </p>
         </div>
       </section>
 
@@ -53,16 +105,19 @@ export default function AboutPage() {
           <div className="text-text-secondary leading-relaxed space-y-6">
             <p>
               Hidden Paradise Nature Park is a 300-acre tourism hub and outdoor
-              recreation destination on Akuse Road, in Ghana&apos;s Eastern/Volta region
-              , about an hour&apos;s drive from Accra. Set in lush forest
-              land with proximity to the Volta, we&apos;ve built a community where
+              recreation destination on Akuse Road, in Ghana&apos;s Eastern/Volta region,
+              about an hour&apos;s drive from Accra. Set in lush forest land with views
+              of the Akwapem-Togo Range, the Volta Lake, the Kpong Dam, and the
+              Krobo, Yogaga, and Osudoku Mountains, we&apos;ve built a community where
               adventure, culture, and relaxation come together.
             </p>
             <p>
               Currently operating on 30 acres, our grounds feature camping
               facilities, a LED-lit swimming pool, sunset gardens, a working farm,
               event spaces, and the Hidden Grill restaurant, all set against
-              the stunning backdrop of Ghana&apos;s Eastern corridor.
+              the stunning backdrop of Ghana&apos;s Eastern corridor. From a quiet
+              stroll on a trail to a fitness class or pottery session, there&apos;s
+              something here for everyone.
             </p>
             <p>
               Whether you&apos;re planning a weekend camping trip, a mountain
@@ -75,10 +130,76 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* Vision · Mission · Motto */}
       <section className="py-24 px-[5%] bg-bg-alt">
-        <SectionHeader tag="WHAT WE STAND FOR" title="Our Values" />
+        <SectionHeader tag="OUR PURPOSE" title="Vision, Mission & Motto" />
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+          <div className="bg-white rounded-2xl border border-border p-8">
+            <div className="w-12 h-12 mb-5 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+              <Eye className="w-6 h-6 text-accent" strokeWidth={1.5} />
+            </div>
+            <p className="text-xs font-semibold tracking-[2px] uppercase text-accent mb-2">
+              Our Vision
+            </p>
+            <p className="text-text-secondary leading-relaxed">
+              To connect people and communities through the power of nature,
+              wellness, and recreational activities.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl border border-border p-8">
+            <div className="w-12 h-12 mb-5 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+              <Target className="w-6 h-6 text-accent" strokeWidth={1.5} />
+            </div>
+            <p className="text-xs font-semibold tracking-[2px] uppercase text-accent mb-2">
+              Our Mission
+            </p>
+            <p className="text-text-secondary leading-relaxed">
+              To provide quality year-round recreational activities, facilities,
+              and services that are safe, fun, and enhance the quality of life
+              for all.
+            </p>
+          </div>
+          <div className="bg-gradient-to-br from-primary to-accent text-white rounded-2xl p-8">
+            <div className="w-12 h-12 mb-5 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
+              <Sparkles className="w-6 h-6" strokeWidth={1.5} />
+            </div>
+            <p className="text-xs font-semibold tracking-[2px] uppercase text-white/80 mb-2">
+              Our Motto
+            </p>
+            <p className="font-display text-3xl font-semibold leading-tight">
+              Where Nature Heals
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-24 px-[5%]">
+        <SectionHeader tag="WHAT WE STAND FOR" title="Our Core Values" />
         <ValueCards />
+      </section>
+
+      {/* What We Offer */}
+      <section className="py-24 px-[5%] bg-bg-alt">
+        <SectionHeader tag="WHAT WE OFFER" title="Experiences That Restore" />
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4">
+          {OFFERINGS.map((item) => (
+            <div
+              key={item.title}
+              className="bg-white rounded-2xl border border-border p-6 hover:shadow-md hover:-translate-y-1 transition-all"
+            >
+              <div className="w-12 h-12 mb-4 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                <item.Icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
+              </div>
+              <h3 className="font-display text-lg font-bold text-dark mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Quick Links to Subpages */}
