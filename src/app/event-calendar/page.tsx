@@ -60,7 +60,7 @@ export default async function EventCalendarPage() {
 
       {/* Weekly Events */}
       <section className="px-[5%] mb-20">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1000px] mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold tracking-[3px] uppercase text-accent mb-2">
               EVERY WEEK
@@ -70,7 +70,7 @@ export default async function EventCalendarPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {WEEKLY.map((w) => (
               <Link
                 key={w.name}

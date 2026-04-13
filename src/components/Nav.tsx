@@ -24,10 +24,10 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
     items: [
       { label: "Our Story", href: "/about" },
       { label: "Amenities", href: "/about/amenities" },
-      { label: "FAQ", href: "/about/faq" },
+      { label: "How to Get Here", href: "/about/directions" },
       { label: "Park Map", href: "/about/map" },
       { label: "Contact Numbers", href: "/about/contact-numbers" },
-      { label: "How to Get Here", href: "/about/directions" },
+      { label: "FAQ", href: "/about/faq" },
     ],
   },
   {
