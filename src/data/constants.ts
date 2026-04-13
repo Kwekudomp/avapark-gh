@@ -6,4 +6,6 @@ export const EMAIL = "info@hiddenparadisegh.com";
 export const BOOKINGS_EMAIL = "bookings@hiddenparadisegh.com";
 export const INSTAGRAM_URL = "https://www.instagram.com/hiddenparadise_gh";
 export const TIKTOK_URL = "https://www.tiktok.com/@hiddenparadise_gh";
+export const SNAPCHAT_URL = "https://www.snapchat.com/add/hiddenp_gh";
+export const TWITTER_URL = "https://twitter.com/hiddenp_gh";
 export const SITE_URL = "https://www.hiddenparadisegh.com";
