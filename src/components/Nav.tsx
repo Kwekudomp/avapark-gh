@@ -131,7 +131,7 @@ export default function Nav() {
         }`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between md:h-24">
+          <div className="flex h-28 items-center justify-between md:h-32">
             {/* Logo */}
             <Link
               href="/"
@@ -142,7 +142,7 @@ export default function Nav() {
               <img
                 src="/hp-logo.png"
                 alt="Hidden Paradise Nature Park"
-                className="h-20 w-auto object-contain md:h-24"
+                className="h-28 w-auto object-contain md:h-32"
               />
             </Link>
 

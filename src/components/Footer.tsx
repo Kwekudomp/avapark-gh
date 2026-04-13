@@ -52,7 +52,7 @@ export default function Footer() {
             <img
               src="/hp-logo.png"
               alt="Hidden Paradise Nature Park"
-              className="h-16 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
             <p className="mt-3 text-sm italic text-white/60">
               Your Escape Into Nature
