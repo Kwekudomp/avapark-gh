@@ -94,7 +94,7 @@ export default function ArtsCulturePage() {
       <SectionHeader
         tag="ART & CULTURE"
         title="Where Heritage Comes Alive"
-        description="Hidden Paradise is more than nature \u2014 it's a stage for Ghanaian art, music, and storytelling. From bonfire tales to live drumming and rotating art exhibitions, our cultural programming celebrates the people, traditions, and creativity of the Eastern and Volta regions."
+        description="Hidden Paradise is more than nature — it's a stage for Ghanaian art, music, and storytelling. From bonfire tales to live drumming and rotating art exhibitions, our cultural programming celebrates the people, traditions, and creativity of the Eastern and Volta regions."
       />
 
       <div className="max-w-[1200px] mx-auto mb-16">
