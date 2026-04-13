@@ -139,9 +139,18 @@ export async function getApprovedReviews(): Promise<Review[]> {
       .select("id, guest_name, experience_name, rating, comment, created_at")
       .eq("status", "approved")
       .order("created_at", { ascending: false });
-    if (error || !data?.length) return [];
+    if (error) {
+      console.error("[getApprovedReviews] Supabase error:", error.message, error.code);
+      return [];
+    }
+    if (!data?.length) {
+      console.warn("[getApprovedReviews] No approved reviews returned (data length 0)");
+      return [];
+    }
+    console.info(`[getApprovedReviews] Returned ${data.length} approved review(s)`);
     return data as Review[];
-  } catch {
+  } catch (e) {
+    console.error("[getApprovedReviews] Threw:", e instanceof Error ? e.message : e);
     return [];
   }
 }
