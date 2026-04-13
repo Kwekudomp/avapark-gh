@@ -3,7 +3,7 @@ import SectionHeader from "@/components/SectionHeader";
 import UpcomingEvents from "@/components/UpcomingEvents";
 import CalendarGrid from "@/components/CalendarGrid";
 import { getUpcomingEvents } from "@/lib/cms";
-import { Dice5, PartyPopper, Flame, Users } from "lucide-react";
+import { Dice5, PartyPopper, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -41,15 +41,6 @@ const WEEKLY: { day: string; name: string; time: string; description: string; Ic
     Icon: Flame,
     color: "bg-secondary",
     href: "/experiences/saturday-bbq",
-  },
-  {
-    day: "Sunday",
-    name: "Family Day",
-    time: "9:00 AM to 5:00 PM",
-    description: "Bring the whole family. Traditional buffet, horse riding, kids zone, and a relaxed park atmosphere.",
-    Icon: Users,
-    color: "bg-primary-light",
-    href: "/experiences/family-fun-day",
   },
 ];
 

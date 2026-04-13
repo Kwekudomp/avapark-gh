@@ -4,7 +4,7 @@ import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import ValueCards from "@/components/ValueCards";
 import { WHATSAPP_URL } from "@/data/constants";
-import { Tent, HelpCircle, MapPin, Phone, Navigation } from "lucide-react";
+import { Tent, HelpCircle, MapPin, Phone, Navigation, BookOpen } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -14,11 +14,12 @@ export const metadata: Metadata = {
 };
 
 const QUICK_LINKS: { label: string; href: string; Icon: LucideIcon; desc: string }[] = [
+  { label: "Our Story", href: "#our-story", Icon: BookOpen, desc: "How Hidden Paradise began and where we're headed." },
   { label: "Amenities", href: "/about/amenities", Icon: Tent, desc: "Pool, camping, restaurant, gardens, farm, and event spaces." },
-  { label: "FAQ", href: "/about/faq", Icon: HelpCircle, desc: "Opening hours, booking, parking, kids, private events, and more." },
+  { label: "How to Get Here", href: "/about/directions", Icon: Navigation, desc: "Directions from Accra, transport options, and address." },
   { label: "Park Map", href: "/about/map", Icon: MapPin, desc: "Find your way around the park grounds." },
   { label: "Contact Numbers", href: "/about/contact-numbers", Icon: Phone, desc: "Customer service, kitchen line, 24hr hotline, and security line." },
-  { label: "How to Get Here", href: "/about/directions", Icon: Navigation, desc: "Directions from Accra, transport options, and address." },
+  { label: "FAQ", href: "/about/faq", Icon: HelpCircle, desc: "Opening hours, booking, parking, kids, private events, and more." },
 ];
 
 export default function AboutPage() {
@@ -37,7 +38,7 @@ export default function AboutPage() {
       </section>
 
       {/* Brand Story */}
-      <section className="py-24 px-[5%]">
+      <section id="our-story" className="py-24 px-[5%] scroll-mt-24">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <Image

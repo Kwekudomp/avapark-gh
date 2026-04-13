@@ -12,7 +12,6 @@ const WEEKLY_EVENTS: { day: number; name: string; color: string }[] = [
   { day: 4, name: "Game Night", color: "bg-primary" },
   { day: 5, name: "Party in the Woods", color: "bg-accent" },
   { day: 6, name: "BBQ & Cinema", color: "bg-secondary" },
-  { day: 0, name: "Family Day", color: "bg-primary-light" },
 ];
 
 export default function CalendarGrid({ events }: CalendarGridProps) {
@@ -238,10 +237,6 @@ export default function CalendarGrid({ events }: CalendarGridProps) {
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded bg-secondary" />
           BBQ & Cinema
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded bg-primary-light" />
-          Family Day
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded bg-dark" />
