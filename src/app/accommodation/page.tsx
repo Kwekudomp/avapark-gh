@@ -142,7 +142,7 @@ export default function AccommodationPage() {
 
     try {
       const img = new Image();
-      img.src = "/hp-logo.svg";
+      img.src = "/hp-logo.png";
       await new Promise<void>((resolve) => {
         img.onload = () => resolve();
         img.onerror = () => resolve();

@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/hp-logo.jpeg" alt="Hidden Paradise" className="h-16 w-auto mx-auto mb-4" />
+          <img src="/hp-logo.png" alt="Hidden Paradise" className="h-16 w-auto mx-auto mb-4" />
           <h1 className="font-display text-2xl font-semibold text-primary">Admin Portal</h1>
           <p className="text-text-secondary text-sm mt-1">Hidden Paradise Nature Park</p>
         </div>

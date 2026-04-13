@@ -140,7 +140,7 @@ export default function Nav() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/hp-logo.svg"
+                src="/hp-logo.png"
                 alt="Hidden Paradise Nature Park"
                 className="h-20 w-auto object-contain md:h-24"
               />

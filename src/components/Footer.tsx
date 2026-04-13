@@ -50,7 +50,7 @@ export default function Footer() {
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/hp-logo.svg"
+              src="/hp-logo.png"
               alt="Hidden Paradise Nature Park"
               className="h-16 w-auto object-contain"
             />

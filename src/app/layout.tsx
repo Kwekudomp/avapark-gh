@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   description:
     "Camping, hiking, pool parties, BBQ nights and more, just an hour from Accra. Hidden Paradise is Ghana's premier nature park and outdoor recreation destination on the Akuse Road.",
   icons: {
-    icon: "/hp-logo.svg",
+    icon: "/hp-logo.png",
   },
   openGraph: {
     siteName: "Hidden Paradise Nature Park",

@@ -77,7 +77,7 @@ export default function AdminDashboardClient({
       <header className="bg-primary text-white px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/hp-logo.svg" alt="" className="h-8 w-auto" />
+          <img src="/hp-logo.png" alt="" className="h-8 w-auto" />
           <div>
             <h1 className="font-semibold text-sm">Hidden Paradise</h1>
             <p className="text-white/60 text-xs">Admin Dashboard</p>
