@@ -39,7 +39,7 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
       { label: "Activities", href: "/activities" },
       { label: "Art & Culture", href: "/arts-culture" },
       { label: "Eastern/Volta Tours", href: "/tours" },
-      { label: "Festivals", href: "/festivals" },
+      { label: "Festivals & Concerts", href: "/festivals" },
     ],
   },
   { label: "Event Calendar", href: "/event-calendar" },

@@ -48,8 +48,8 @@ const FAQS = [
     a: "Please call 0230 555 500 for all park facility bookings. Reservations can also be made in person at the Hidden Paradise Nature Park Office in Okwenya.",
   },
   {
-    q: "Where can I find a list of upcoming festivals and cultural events?",
-    a: "Check out the Festivals page under the Explore menu, or visit our Event Calendar for the latest listings.",
+    q: "Where can I find a list of upcoming festivals and concerts?",
+    a: "Check out the Festivals & Concerts page under the Explore menu, or visit our Event Calendar for the latest listings.",
   },
   {
     q: "Can I play music in the park?",

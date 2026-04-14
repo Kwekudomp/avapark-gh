@@ -7,9 +7,9 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = {
-  title: "Festivals | Hidden Paradise Nature Park",
+  title: "Festivals & Concerts | Hidden Paradise Nature Park",
   description:
-    "Experience Ghana's vibrant festivals from Hidden Paradise, including Ngmayem, Dipo, Asogli Yam Festival, Agotime Kente, and more. We organise festival packages with accommodation, transport, and guides.",
+    "Experience Ghana's vibrant festivals and live concerts from Hidden Paradise, including Ngmayem, Dipo, Asogli Yam Festival, Agotime Kente, and more. We organise packages with accommodation, transport, and guides.",
 };
 
 interface Festival {
@@ -136,8 +136,8 @@ export default function FestivalsPage() {
     <main className="pt-28 pb-24 px-[5%]">
       <SectionHeader
         tag="CULTURE & CELEBRATIONS"
-        title="Festivals Near Hidden Paradise"
-        description="The Eastern and Volta regions are alive with festivals year-round. Stay with us and experience the culture up close. We'll arrange transport, guides, and the best viewing spots."
+        title="Festivals & Concerts Near Hidden Paradise"
+        description="The Eastern and Volta regions are alive with festivals and live concerts year-round. Stay with us and experience the culture up close. We'll arrange transport, guides, and the best viewing spots."
       />
 
       <div className="max-w-[1200px] mx-auto mb-16">
