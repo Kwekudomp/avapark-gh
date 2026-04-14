@@ -27,6 +27,7 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
       { label: "How to Get Here", href: "/about/directions" },
       { label: "Park Map", href: "/about/map" },
       { label: "Contact Numbers", href: "/about/contact-numbers" },
+      { label: "Rules & Safety", href: "/about/rules" },
       { label: "FAQ", href: "/about/faq" },
     ],
   },

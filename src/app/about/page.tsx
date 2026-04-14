@@ -11,6 +11,7 @@ import {
   Phone,
   Navigation,
   BookOpen,
+  Shield,
   Eye,
   Target,
   Sparkles,
@@ -68,6 +69,7 @@ const QUICK_LINKS: { label: string; href: string; Icon: LucideIcon; desc: string
   { label: "How to Get Here", href: "/about/directions", Icon: Navigation, desc: "Directions from Accra, transport options, and address." },
   { label: "Park Map", href: "/about/map", Icon: MapPin, desc: "Find your way around the park grounds." },
   { label: "Contact Numbers", href: "/about/contact-numbers", Icon: Phone, desc: "Customer service, kitchen line, 24hr hotline, and security line." },
+  { label: "Rules & Safety", href: "/about/rules", Icon: Shield, desc: "Park rules, safety guidelines, and emergency information." },
   { label: "FAQ", href: "/about/faq", Icon: HelpCircle, desc: "Opening hours, booking, parking, kids, private events, and more." },
 ];
 
