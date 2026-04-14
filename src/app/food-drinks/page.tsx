@@ -20,13 +20,19 @@ import {
   Clock,
   MapPin,
   CheckCircle2,
+  Sunrise,
+  Sun,
+  Moon,
+  Infinity as InfinityIcon,
+  Drumstick,
+  Carrot,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = {
   title: "Food & Drinks | Hidden Paradise Nature Park",
   description:
-    "The full Hidden Paradise kitchen menu. Ghanaian starters, grilled meats, soups, stews, sides, salads, desserts, natural juices, local drinks, and a Saturday breakfast buffet.",
+    "The full Hidden Paradise kitchen menu organised by meal: Saturday breakfast buffet, lunch, supper, and all-day items. Ghanaian cooking, flame grills, soups, stews, and fresh drinks.",
 };
 
 type DietTag = "spicy" | "seafood";
@@ -43,169 +49,9 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-/* ── A LA CARTE MAIN MENU ────────────────────────────── */
-
-const MAIN_MENU: MenuSection[] = [
-  {
-    title: "Starters",
-    Icon: ChefHat,
-    items: [
-      { name: "Samosa" },
-      { name: "Spring Rolls" },
-      { name: "Kelewele", tags: ["spicy"] },
-      { name: "Pork", subnote: "Domedo" },
-      { name: "Spicy Hot Chicken Wings", tags: ["spicy"] },
-      { name: "Spicy Snails", tags: ["spicy"] },
-      { name: "Spicy Gizzard", tags: ["spicy"] },
-      { name: "Suya", tags: ["spicy"] },
-    ],
-  },
-  {
-    title: "Grills",
-    Icon: Flame,
-    items: [
-      { name: "Tilapia", tags: ["seafood"] },
-      { name: "Chicken" },
-      { name: "Goat Khebab" },
-      { name: "Chicken Khebab" },
-      { name: "Duck" },
-      { name: "Rabbit" },
-      { name: "Lamb" },
-      { name: "Guinea Fowl" },
-      { name: "Pork" },
-      { name: "Sausage" },
-    ],
-  },
-  {
-    title: "Soups",
-    Icon: Soup,
-    items: [
-      { name: "Goat Light Soup" },
-      { name: "Local Chicken Light Soup" },
-      { name: "Groundnut Soup" },
-      { name: "Palmnut Soup" },
-      { name: "Okro Soup" },
-      { name: "Dry Fish Light Soup", tags: ["seafood"] },
-      { name: "Fresh Tilapia Light Soup", tags: ["seafood"] },
-    ],
-  },
-  {
-    title: "Stews",
-    Icon: UtensilsCrossed,
-    items: [
-      { name: "Local Chicken Stew" },
-      { name: "Beans Stew" },
-      { name: "Koobi & Egg Stew", tags: ["seafood"] },
-      { name: "Okro Stew" },
-      { name: "Palava Sauce" },
-      { name: "Abobi Tadzi", subnote: "Dry Anchovies", tags: ["seafood"] },
-      { name: "Tomato Gravey", subnote: "Goat, Fish" },
-      { name: "Cabbage Stew" },
-      { name: "Garden Egg Stew" },
-      { name: "Beef Sauce" },
-      { name: "Chicken Sauce" },
-    ],
-  },
-  {
-    title: "Sides",
-    Icon: Wheat,
-    items: [
-      { name: "Fried Rice" },
-      { name: "Jollof Rice" },
-      { name: "Plain Rice" },
-      { name: "Special Herb Rice" },
-      { name: "Waakye" },
-      { name: "Banku" },
-      { name: "Fufu" },
-      { name: "Konkonte" },
-      { name: "Ewo Kple" },
-      { name: "Ga Kenkey" },
-      { name: "Fante Kenkey" },
-      { name: "Fried Yam" },
-      { name: "Fried Sweet Potato" },
-      { name: "Fried Cocoyam" },
-      { name: "Ampesi", subnote: "Yam, Plantain, Cocoyam" },
-      { name: "Eba" },
-      { name: "Angwamo" },
-      { name: "Abolo" },
-      { name: "Omo Tuo", subnote: "Rice Balls" },
-    ],
-  },
-  {
-    title: "Salads",
-    Icon: Salad,
-    items: [
-      { name: "Ghana Salad" },
-      { name: "Tuna Salad", tags: ["seafood"] },
-      { name: "Chicken Salad" },
-    ],
-  },
-  {
-    title: "Dessert",
-    Icon: Cake,
-    items: [
-      { name: "Fresh Fruit Mix" },
-      { name: "Fresh Coconut" },
-      { name: "Cake Slice" },
-      { name: "Ice Cream" },
-    ],
-  },
-];
-
-/* ── DRINKS ──────────────────────────────────────────── */
-
-const DRINKS: MenuSection[] = [
-  {
-    title: "Natural Juices",
-    Icon: GlassWater,
-    items: [
-      { name: "Pineapple" },
-      { name: "Orange" },
-      { name: "Mango" },
-      { name: "Watermelon" },
-      { name: "Mixed Fruit" },
-    ],
-  },
-  {
-    title: "Local Drinks",
-    Icon: Wine,
-    items: [
-      { name: "Lamugin" },
-      { name: "Bissap" },
-      { name: "Asaana" },
-      { name: "Pitoo" },
-    ],
-  },
-];
-
-/* ── SATURDAY BREAKFAST BUFFET ───────────────────────── */
+/* ── BREAKFAST (Saturday Buffet) ─────────────────────── */
 
 const BREAKFAST_MENU: MenuSection[] = [
-  {
-    title: "Salads",
-    Icon: Salad,
-    items: [
-      { name: "Ghana Salad" },
-      { name: "Tuna Salad", tags: ["seafood"] },
-      { name: "Potato Salad" },
-      { name: "Avocado Salad" },
-      { name: "Vegan Salad" },
-    ],
-  },
-  {
-    title: "Fresh Fruits",
-    Icon: Apple,
-    items: [
-      { name: "Watermelon" },
-      { name: "Orange" },
-      { name: "Pawpaw" },
-      { name: "Banana" },
-      { name: "Pineapple" },
-      { name: "Berries" },
-      { name: "Apple" },
-      { name: "Tangerine" },
-    ],
-  },
   {
     title: "Breakfast Sandwiches",
     Icon: Sandwich,
@@ -236,6 +82,31 @@ const BREAKFAST_MENU: MenuSection[] = [
       { name: "Tombrown" },
       { name: "Rice Porridge" },
       { name: "Oats" },
+    ],
+  },
+  {
+    title: "Breakfast Salads",
+    Icon: Salad,
+    items: [
+      { name: "Ghana Salad" },
+      { name: "Tuna Salad", tags: ["seafood"] },
+      { name: "Potato Salad" },
+      { name: "Avocado Salad" },
+      { name: "Vegan Salad" },
+    ],
+  },
+  {
+    title: "Fresh Fruits",
+    Icon: Apple,
+    items: [
+      { name: "Watermelon" },
+      { name: "Orange" },
+      { name: "Pawpaw" },
+      { name: "Banana" },
+      { name: "Pineapple" },
+      { name: "Berries" },
+      { name: "Apple" },
+      { name: "Tangerine" },
     ],
   },
   {
@@ -275,6 +146,164 @@ const BREAKFAST_MENU: MenuSection[] = [
   },
 ];
 
+/* ── LUNCH ───────────────────────────────────────────── */
+
+const LUNCH_MENU: MenuSection[] = [
+  {
+    title: "Light Grills",
+    Icon: Flame,
+    items: [
+      { name: "Chicken" },
+      { name: "Tilapia", tags: ["seafood"] },
+      { name: "Goat Khebab" },
+      { name: "Chicken Khebab" },
+    ],
+  },
+  {
+    title: "Rice Dishes",
+    Icon: Wheat,
+    items: [
+      { name: "Fried Rice" },
+      { name: "Jollof Rice" },
+      { name: "Plain Rice" },
+      { name: "Special Herb Rice" },
+      { name: "Waakye" },
+    ],
+  },
+  {
+    title: "Fried Sides",
+    Icon: Carrot,
+    items: [
+      { name: "Fried Yam" },
+      { name: "Fried Sweet Potato" },
+      { name: "Fried Cocoyam" },
+      { name: "Ampesi", subnote: "Yam, Plantain, Cocoyam" },
+    ],
+  },
+];
+
+/* ── SUPPER ─────────────────────────────────────────── */
+
+const SUPPER_MENU: MenuSection[] = [
+  {
+    title: "Traditional Soups",
+    Icon: Soup,
+    items: [
+      { name: "Goat Light Soup" },
+      { name: "Local Chicken Light Soup" },
+      { name: "Groundnut Soup" },
+      { name: "Palmnut Soup" },
+      { name: "Okro Soup" },
+      { name: "Dry Fish Light Soup", tags: ["seafood"] },
+      { name: "Fresh Tilapia Light Soup", tags: ["seafood"] },
+    ],
+  },
+  {
+    title: "Stews",
+    Icon: UtensilsCrossed,
+    items: [
+      { name: "Local Chicken Stew" },
+      { name: "Beans Stew" },
+      { name: "Koobi & Egg Stew", tags: ["seafood"] },
+      { name: "Okro Stew" },
+      { name: "Palava Sauce" },
+      { name: "Abobi Tadzi", subnote: "Dry Anchovies", tags: ["seafood"] },
+      { name: "Tomato Gravey", subnote: "Goat, Fish" },
+      { name: "Cabbage Stew" },
+      { name: "Garden Egg Stew" },
+      { name: "Beef Sauce" },
+      { name: "Chicken Sauce" },
+    ],
+  },
+  {
+    title: "Traditional Staples",
+    Icon: Wheat,
+    items: [
+      { name: "Banku" },
+      { name: "Fufu" },
+      { name: "Konkonte" },
+      { name: "Ewo Kple" },
+      { name: "Omo Tuo", subnote: "Rice Balls" },
+      { name: "Eba" },
+      { name: "Ga Kenkey" },
+      { name: "Fante Kenkey" },
+      { name: "Angwamo" },
+      { name: "Abolo" },
+    ],
+  },
+  {
+    title: "Roasts & Hearty Grills",
+    Icon: Drumstick,
+    items: [
+      { name: "Duck" },
+      { name: "Rabbit" },
+      { name: "Lamb" },
+      { name: "Guinea Fowl" },
+      { name: "Pork" },
+      { name: "Sausage" },
+    ],
+  },
+];
+
+/* ── AVAILABLE ALL DAY ──────────────────────────────── */
+
+const ALL_DAY_MENU: MenuSection[] = [
+  {
+    title: "Starters",
+    Icon: ChefHat,
+    items: [
+      { name: "Samosa" },
+      { name: "Spring Rolls" },
+      { name: "Kelewele", tags: ["spicy"] },
+      { name: "Pork", subnote: "Domedo" },
+      { name: "Spicy Hot Chicken Wings", tags: ["spicy"] },
+      { name: "Spicy Snails", tags: ["spicy"] },
+      { name: "Spicy Gizzard", tags: ["spicy"] },
+      { name: "Suya", tags: ["spicy"] },
+    ],
+  },
+  {
+    title: "Salads",
+    Icon: Salad,
+    items: [
+      { name: "Ghana Salad" },
+      { name: "Tuna Salad", tags: ["seafood"] },
+      { name: "Chicken Salad" },
+    ],
+  },
+  {
+    title: "Dessert",
+    Icon: Cake,
+    items: [
+      { name: "Fresh Fruit Mix" },
+      { name: "Fresh Coconut" },
+      { name: "Cake Slice" },
+      { name: "Ice Cream" },
+    ],
+  },
+  {
+    title: "Natural Juices",
+    Icon: GlassWater,
+    items: [
+      { name: "Pineapple" },
+      { name: "Orange" },
+      { name: "Mango" },
+      { name: "Watermelon" },
+      { name: "Mixed Fruit" },
+    ],
+  },
+  {
+    title: "Local Drinks",
+    Icon: Wine,
+    items: [
+      { name: "Lamugin" },
+      { name: "Bissap" },
+      { name: "Asaana" },
+      { name: "Pitoo" },
+    ],
+  },
+];
+
 const TAG_STYLES: Record<DietTag, { label: string; Icon: LucideIcon; className: string }> = {
   spicy: { label: "Spicy", Icon: Flame, className: "bg-red-100 text-red-700" },
   seafood: { label: "Seafood", Icon: Fish, className: "bg-blue-100 text-blue-700" },
@@ -283,14 +312,10 @@ const TAG_STYLES: Record<DietTag, { label: string; Icon: LucideIcon; className: 
 function ItemCard({ item }: { item: MenuItem }) {
   return (
     <div className="bg-white rounded-xl border border-border p-4 hover:shadow-sm transition-shadow">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <p className="font-display font-bold text-dark text-sm leading-tight">{item.name}</p>
-          {item.subnote && (
-            <p className="text-xs text-text-secondary/70 mt-0.5 italic">({item.subnote})</p>
-          )}
-        </div>
-      </div>
+      <p className="font-display font-bold text-dark text-sm leading-tight">{item.name}</p>
+      {item.subnote && (
+        <p className="text-xs text-text-secondary/70 mt-0.5 italic">({item.subnote})</p>
+      )}
       {item.tags && item.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-2.5">
           {item.tags.map((t) => {
@@ -331,11 +356,24 @@ function MenuSectionBlock({ section }: { section: MenuSection }) {
   );
 }
 
-function CategoryHeading({ tag, title }: { tag: string; title: string }) {
+interface MealHeadingProps {
+  tag: string;
+  title: string;
+  Icon: LucideIcon;
+  subtitle?: string;
+}
+
+function MealHeading({ tag, title, Icon, subtitle }: MealHeadingProps) {
   return (
     <div className="text-center mb-10">
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent text-white mb-4">
+        <Icon className="w-7 h-7" strokeWidth={1.7} />
+      </div>
       <p className="text-xs font-bold tracking-[4px] text-accent uppercase mb-2">{tag}</p>
       <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary">{title}</h2>
+      {subtitle && (
+        <p className="text-sm text-text-secondary mt-3 max-w-xl mx-auto">{subtitle}</p>
+      )}
       <div className="mt-4 w-16 h-[2px] bg-accent mx-auto" />
     </div>
   );
@@ -354,7 +392,7 @@ export default function FoodDrinksPage() {
       <SectionHeader
         tag="THE KITCHEN"
         title="Food & Drinks"
-        description="The full Hidden Paradise menu. Authentic Ghanaian cooking, flame grills, fresh juices, local drinks, and a Saturday morning breakfast buffet in the park."
+        description="The full Hidden Paradise menu, organised by meal time. Saturday breakfast buffet, lunch, supper, and our all-day favourites."
       />
 
       {/* Info strip */}
@@ -366,35 +404,9 @@ export default function FoodDrinksPage() {
         </p>
       </div>
 
-      {/* ── MAIN MENU ─────────────────────────────────── */}
+      {/* ── BREAKFAST ─────────────────────────────────── */}
       <div className="max-w-[1200px] mx-auto mb-20">
-        <CategoryHeading tag="A LA CARTE" title="Main Menu" />
-        {MAIN_MENU.map((section) => (
-          <MenuSectionBlock key={section.title} section={section} />
-        ))}
-      </div>
-
-      {/* ── DRINKS ────────────────────────────────────── */}
-      <div className="max-w-[1200px] mx-auto mb-20">
-        <CategoryHeading tag="REFRESHMENTS" title="Drinks" />
-        {DRINKS.map((section) => (
-          <MenuSectionBlock key={section.title} section={section} />
-        ))}
-
-        {/* Open bar mini-banner */}
-        <div className="bg-gradient-to-br from-primary to-accent text-white rounded-2xl p-6 sm:p-8 text-center mt-4">
-          <h3 className="font-display text-xl sm:text-2xl font-semibold mb-2">
-            Open Bar With All Drinks
-          </h3>
-          <p className="text-white/90 text-sm max-w-xl mx-auto">
-            A full selection of local beers, spirits, wines, and cocktails at the park bar.
-          </p>
-        </div>
-      </div>
-
-      {/* ── SATURDAY BREAKFAST BUFFET ─────────────────── */}
-      <div className="max-w-[1200px] mx-auto mb-12">
-        {/* Feature banner */}
+        {/* Saturday buffet feature banner */}
         <div className="relative overflow-hidden rounded-3xl mb-12 bg-gradient-to-br from-primary via-primary to-accent p-8 sm:p-12 text-white">
           <div className="relative max-w-3xl mx-auto text-center">
             <span className="inline-block bg-white text-primary text-xs font-bold tracking-[3px] uppercase px-4 py-1.5 rounded-full mb-5">
@@ -404,7 +416,7 @@ export default function FoodDrinksPage() {
               Breakfast in the Park
             </h2>
             <p className="text-white/90 text-base sm:text-lg mb-6 max-w-xl mx-auto">
-              Every Saturday morning. All meals served buffet style, in the open green surrounded by nature.
+              Every Saturday morning. All meals served buffet style in the open green surrounded by nature.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-sm mb-8">
               <div className="flex items-center gap-2">
@@ -444,11 +456,64 @@ export default function FoodDrinksPage() {
           </div>
         </div>
 
-        {/* Breakfast menu sections */}
-        <CategoryHeading tag="BUFFET LINE-UP" title="What's Served" />
+        <MealHeading
+          tag="Saturday Buffet"
+          title="Breakfast"
+          Icon={Sunrise}
+          subtitle="Everything served buffet style during the Saturday morning session."
+        />
         {BREAKFAST_MENU.map((section) => (
           <MenuSectionBlock key={section.title} section={section} />
         ))}
+      </div>
+
+      {/* ── LUNCH ─────────────────────────────────────── */}
+      <div className="max-w-[1200px] mx-auto mb-20">
+        <MealHeading
+          tag="Midday"
+          title="Lunch"
+          Icon={Sun}
+          subtitle="Quick grills, rice dishes, and lighter fare served at the Hidden Grill through the day."
+        />
+        {LUNCH_MENU.map((section) => (
+          <MenuSectionBlock key={section.title} section={section} />
+        ))}
+      </div>
+
+      {/* ── SUPPER ────────────────────────────────────── */}
+      <div className="max-w-[1200px] mx-auto mb-20">
+        <MealHeading
+          tag="Evening"
+          title="Supper"
+          Icon={Moon}
+          subtitle="Traditional Ghanaian soups, stews, staples, and hearty grills for a full evening meal."
+        />
+        {SUPPER_MENU.map((section) => (
+          <MenuSectionBlock key={section.title} section={section} />
+        ))}
+      </div>
+
+      {/* ── ALL DAY ──────────────────────────────────── */}
+      <div className="max-w-[1200px] mx-auto mb-20">
+        <MealHeading
+          tag="Any Time"
+          title="Available All Day"
+          Icon={InfinityIcon}
+          subtitle="Starters, salads, desserts, and drinks you can order at breakfast, lunch, or supper."
+        />
+        {ALL_DAY_MENU.map((section) => (
+          <MenuSectionBlock key={section.title} section={section} />
+        ))}
+
+        {/* Open bar mini-banner */}
+        <div className="bg-gradient-to-br from-primary to-accent text-white rounded-2xl p-6 sm:p-8 text-center mt-4">
+          <h3 className="font-display text-xl sm:text-2xl font-semibold mb-2">
+            Open Bar With All Drinks
+          </h3>
+          <p className="text-white/90 text-sm max-w-xl mx-auto">
+            A full selection of local beers, spirits, wines, and cocktails at the park bar.
+          </p>
+        </div>
       </div>
 
       {/* Reservation CTA */}
