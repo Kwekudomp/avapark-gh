@@ -14,7 +14,6 @@ import {
   Shield,
   Eye,
   Target,
-  Sparkles,
   Mountain,
   HeartPulse,
   Briefcase,
@@ -152,10 +151,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Vision · Mission · Motto */}
+      {/* Vision · Mission */}
       <section className="py-24 px-[5%] bg-bg-alt">
-        <SectionHeader tag="OUR PURPOSE" title="Vision, Mission & Motto" />
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+        <SectionHeader tag="OUR PURPOSE" title="Vision & Mission" />
+        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div className="bg-white rounded-2xl border border-border p-8">
             <div className="w-12 h-12 mb-5 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
               <Eye className="w-6 h-6 text-accent" strokeWidth={1.5} />
@@ -179,17 +178,6 @@ export default function AboutPage() {
               To provide quality year-round recreational activities, facilities,
               and services that are safe, fun, and enhance the quality of life
               for all.
-            </p>
-          </div>
-          <div className="bg-gradient-to-br from-primary to-accent text-white rounded-2xl p-8">
-            <div className="w-12 h-12 mb-5 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
-              <Sparkles className="w-6 h-6" strokeWidth={1.5} />
-            </div>
-            <p className="text-xs font-semibold tracking-[2px] uppercase text-white/80 mb-2">
-              Our Motto
-            </p>
-            <p className="font-display text-3xl font-semibold leading-tight">
-              Where Nature Heals
             </p>
           </div>
         </div>
