@@ -83,9 +83,29 @@ export default function AboutPage() {
           <h1 className="font-display text-5xl md:text-6xl font-semibold text-primary mt-4">
             More Than a Park. An Experience
           </h1>
-          <p className="text-xs tracking-[4px] uppercase text-text-secondary font-semibold mt-6">
-            Where Nature Heals
+        </div>
+      </section>
+
+      {/* Motto Banner */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-primary via-primary to-accent py-16 md:py-20 px-[5%] text-center">
+        <div
+          className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_30%,white_0%,transparent_40%),radial-gradient(circle_at_80%_70%,white_0%,transparent_40%)]"
+          aria-hidden
+        />
+        <div className="relative max-w-5xl mx-auto">
+          <p className="text-xs md:text-sm tracking-[6px] uppercase text-white/70 font-semibold mb-4">
+            Our Motto
           </p>
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold text-white leading-tight">
+            Where Nature Heals
+          </h2>
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <span className="h-px w-16 bg-white/40" />
+            <span className="text-xs md:text-sm tracking-[3px] uppercase text-white/80">
+              Hidden Paradise Nature Park
+            </span>
+            <span className="h-px w-16 bg-white/40" />
+          </div>
         </div>
       </section>
 
