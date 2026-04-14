@@ -25,7 +25,6 @@ type DietTag = "veg" | "spicy" | "seafood";
 interface MenuItem {
   name: string;
   description: string;
-  price: number;
   tags?: DietTag[];
 }
 
@@ -43,19 +42,16 @@ const MENU: MenuSection[] = [
       {
         name: "Kelewele",
         description: "Spicy fried plantain cubes tossed in ginger, pepper, and traditional spices.",
-        price: 20,
         tags: ["veg", "spicy"],
       },
       {
         name: "Coconut Soup",
         description: "Creamy coconut broth with fresh herbs and a hint of chilli.",
-        price: 30,
         tags: ["veg"],
       },
       {
         name: "Garden Salad",
         description: "Crisp greens from the Hidden Paradise farm with a citrus dressing.",
-        price: 25,
         tags: ["veg"],
       },
     ],
@@ -67,34 +63,28 @@ const MENU: MenuSection[] = [
       {
         name: "Hidden Grill BBQ Plate",
         description: "Signature grill with beef, chicken, sausage, jollof, and grilled vegetables.",
-        price: 120,
       },
       {
         name: "Jollof Rice & Grilled Chicken",
         description: "Our house jollof paired with marinated grilled chicken and shito.",
-        price: 80,
       },
       {
         name: "Banku & Tilapia",
         description: "Grilled whole tilapia served with banku, pepper sauce, and onions.",
-        price: 100,
         tags: ["seafood", "spicy"],
       },
       {
         name: "Waakye Deluxe",
         description: "Rice and beans served with spaghetti, egg, gari, wele, and shito.",
-        price: 60,
       },
       {
         name: "Fufu with Light Soup",
         description: "Pounded fufu in a peppery light soup with your choice of goat or chicken.",
-        price: 70,
         tags: ["spicy"],
       },
       {
         name: "Fried Yam & Pepper Sauce",
         description: "Golden fried yam served with fresh tomato pepper sauce.",
-        price: 45,
         tags: ["veg"],
       },
     ],
@@ -106,19 +96,16 @@ const MENU: MenuSection[] = [
       {
         name: "Plantain Chips",
         description: "Crispy, lightly salted plantain chips.",
-        price: 15,
         tags: ["veg"],
       },
       {
         name: "Fried Plantain",
         description: "Sweet ripe plantain, fried until caramelised.",
-        price: 15,
         tags: ["veg"],
       },
       {
         name: "Mixed Vegetables",
         description: "Farm-fresh seasonal vegetables, lightly sauteed.",
-        price: 25,
         tags: ["veg"],
       },
     ],
@@ -130,22 +117,18 @@ const MENU: MenuSection[] = [
       {
         name: "Fresh Coconut Water",
         description: "Straight from the coconut, chilled and ready to serve.",
-        price: 20,
       },
       {
         name: "Sobolo (Hibiscus)",
         description: "Refreshing hibiscus drink with pineapple and ginger notes.",
-        price: 15,
       },
       {
         name: "Fresh Fruit Juice",
         description: "Seasonal fresh-pressed juice — ask your server for today's choice.",
-        price: 25,
       },
       {
         name: "Bottled Water",
         description: "Still or sparkling.",
-        price: 5,
       },
     ],
   },
@@ -156,17 +139,14 @@ const MENU: MenuSection[] = [
       {
         name: "Local Beer",
         description: "Star, Club, or Guinness — always ice-cold.",
-        price: 25,
       },
       {
         name: "Palm Wine",
         description: "Fresh-tapped palm wine (subject to season and availability).",
-        price: 30,
       },
       {
         name: "Tropical Cocktail",
         description: "House cocktail with fresh fruit and a splash of rum.",
-        price: 50,
       },
     ],
   },
@@ -177,13 +157,11 @@ const MENU: MenuSection[] = [
       {
         name: "Fresh Fruit Platter",
         description: "A selection of ripe seasonal fruits from the farm.",
-        price: 30,
         tags: ["veg"],
       },
       {
         name: "Ice Cream",
         description: "Scoops of vanilla, chocolate, or strawberry.",
-        price: 20,
         tags: ["veg"],
       },
     ],
@@ -196,19 +174,10 @@ const TAG_STYLES: Record<DietTag, { label: string; Icon: LucideIcon; className: 
   seafood: { label: "Seafood", Icon: Fish, className: "bg-blue-100 text-blue-700" },
 };
 
-function formatPrice(price: number) {
-  return `GHC ${price}`;
-}
-
 function ItemCard({ item }: { item: MenuItem }) {
   return (
     <div className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow flex flex-col">
-      <div className="flex items-start justify-between gap-4 mb-2">
-        <h3 className="font-display text-lg font-bold text-dark">{item.name}</h3>
-        <p className="font-display text-lg font-bold text-accent whitespace-nowrap">
-          {formatPrice(item.price)}
-        </p>
-      </div>
+      <h3 className="font-display text-lg font-bold text-dark mb-2">{item.name}</h3>
       <p className="text-sm text-text-secondary flex-1">{item.description}</p>
       {item.tags && item.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-4">
@@ -290,7 +259,7 @@ export default function FoodDrinksPage() {
           </Link>
         </div>
         <p className="text-xs text-text-secondary/70 mt-5">
-          Menu and prices shown are samples and may change. Confirm with your server on the day.
+          Menu items may change based on availability and season. Confirm with your server on the day.
         </p>
       </div>
     </main>
