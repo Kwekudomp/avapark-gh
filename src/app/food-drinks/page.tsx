@@ -2,13 +2,13 @@ import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 import {
-  Soup,
   UtensilsCrossed,
-  Apple,
+  ChefHat,
+  Soup,
+  Wheat,
+  Leaf,
   GlassWater,
   Martini,
-  Cake,
-  Leaf,
   Flame,
   Fish,
 } from "lucide-react";
@@ -17,10 +17,10 @@ import type { LucideIcon } from "lucide-react";
 export const metadata = {
   title: "Food & Drinks | Hidden Paradise Nature Park",
   description:
-    "Explore the Hidden Grill menu at Hidden Paradise Nature Park. Ghanaian classics, grilled specialities, fresh drinks, and desserts served daily.",
+    "The Hidden Paradise kitchen menu. Ghanaian classics including fried rice combos, banku specials, fufu, omotuo, local soups, and fresh natural juices.",
 };
 
-type DietTag = "veg" | "spicy" | "seafood";
+type DietTag = "spicy" | "seafood";
 
 interface MenuItem {
   name: string;
@@ -36,140 +36,152 @@ interface MenuSection {
 
 const MENU: MenuSection[] = [
   {
-    title: "Starters",
-    Icon: Soup,
-    items: [
-      {
-        name: "Kelewele",
-        description: "Spicy fried plantain cubes tossed in ginger, pepper, and traditional spices.",
-        tags: ["veg", "spicy"],
-      },
-      {
-        name: "Coconut Soup",
-        description: "Creamy coconut broth with fresh herbs and a hint of chilli.",
-        tags: ["veg"],
-      },
-      {
-        name: "Garden Salad",
-        description: "Crisp greens from the Hidden Paradise farm with a citrus dressing.",
-        tags: ["veg"],
-      },
-    ],
-  },
-  {
-    title: "Mains & Grill",
+    title: "Rice Dishes",
     Icon: UtensilsCrossed,
     items: [
       {
-        name: "Hidden Grill BBQ Plate",
-        description: "Signature grill with beef, chicken, sausage, jollof, and grilled vegetables.",
+        name: "Fried Rice & Fried Chicken",
+        description: "Our house fried rice with a crispy, golden fried chicken leg.",
       },
       {
-        name: "Jollof Rice & Grilled Chicken",
-        description: "Our house jollof paired with marinated grilled chicken and shito.",
+        name: "Fried Rice & Grilled Chicken",
+        description: "Fragrant fried rice paired with marinated, flame-grilled chicken.",
       },
       {
-        name: "Banku & Tilapia",
-        description: "Grilled whole tilapia served with banku, pepper sauce, and onions.",
+        name: "Fried Rice & Grilled Tilapia",
+        description: "Fried rice served with a fresh, seasoned grilled tilapia from the lake.",
+        tags: ["seafood"],
+      },
+      {
+        name: "Fried Rice & Chicken Sauce",
+        description: "Fried rice topped with a rich tomato-based chicken sauce.",
+      },
+      {
+        name: "Plain Rice & Beef Sauce",
+        description: "Steamed rice served with a slow-cooked beef sauce full of flavour.",
+      },
+      {
+        name: "Plain Rice & Local Chicken Stew",
+        description: "Steamed rice with our signature Ghanaian local chicken stew.",
+      },
+    ],
+  },
+  {
+    title: "Banku Specials",
+    Icon: ChefHat,
+    items: [
+      {
+        name: "Banku & Grilled Tilapia",
+        description: "Warm banku served with a whole grilled tilapia, fresh pepper, and onions.",
         tags: ["seafood", "spicy"],
       },
       {
-        name: "Waakye Deluxe",
-        description: "Rice and beans served with spaghetti, egg, gari, wele, and shito.",
+        name: "Banku & Fried Tilapia",
+        description: "Banku with golden fried tilapia, shito, and fresh pepper sauce.",
+        tags: ["seafood", "spicy"],
       },
       {
-        name: "Fufu with Light Soup",
-        description: "Pounded fufu in a peppery light soup with your choice of goat or chicken.",
+        name: "Banku & Grilled Chicken",
+        description: "Banku paired with flame-grilled chicken and a side of shito.",
+      },
+      {
+        name: "Banku & Shito Lo",
+        description: "Banku served with our house shito and slow-cooked meats.",
         tags: ["spicy"],
       },
       {
-        name: "Fried Yam & Pepper Sauce",
-        description: "Golden fried yam served with fresh tomato pepper sauce.",
-        tags: ["veg"],
+        name: "Banku & Abobi Tadzi Stew",
+        description: "Banku with a traditional seafood stew simmered in palm oil and spices.",
+        tags: ["seafood"],
       },
     ],
   },
   {
-    title: "Sides",
-    Icon: Apple,
+    title: "Traditional Soups & Staples",
+    Icon: Soup,
     items: [
       {
-        name: "Plantain Chips",
-        description: "Crispy, lightly salted plantain chips.",
-        tags: ["veg"],
+        name: "Fufu & Local Chicken Light Soup",
+        description: "Pounded fufu in our peppery light soup with tender local chicken.",
+        tags: ["spicy"],
       },
       {
-        name: "Fried Plantain",
-        description: "Sweet ripe plantain, fried until caramelised.",
-        tags: ["veg"],
+        name: "Omotuo & Groundnut Soup",
+        description: "Rice balls (omotuo) served in a rich, creamy groundnut soup.",
       },
       {
-        name: "Mixed Vegetables",
-        description: "Farm-fresh seasonal vegetables, lightly sauteed.",
-        tags: ["veg"],
+        name: "Ewo Kple & Okro Soup",
+        description: "Traditional Ewe ewokple with a fresh okro soup and meats of the day.",
       },
     ],
   },
   {
-    title: "Soft Drinks & Juices",
+    title: "Yam, Potato & Noodles",
+    Icon: Wheat,
+    items: [
+      {
+        name: "Fried Yam & Grilled Chicken",
+        description: "Golden fried yam served with grilled chicken and fresh pepper sauce.",
+      },
+      {
+        name: "Fried Sweet Potato & Fried Tilapia",
+        description: "Sweet fried potato paired with crispy fried tilapia and shito.",
+        tags: ["seafood"],
+      },
+      {
+        name: "Assorted Noodles",
+        description: "Stir-fried noodles with assorted meats and fresh vegetables.",
+      },
+      {
+        name: "Chicken / Beef Noodles",
+        description: "Stir-fried noodles with your choice of chicken or beef.",
+      },
+    ],
+  },
+  {
+    title: "Small Plates",
+    Icon: Leaf,
+    items: [
+      {
+        name: "Red Red",
+        description: "Classic Ghanaian bean stew in palm oil, served with sweet fried plantain.",
+      },
+      {
+        name: "Abolo Platter",
+        description: "A platter of abolo (steamed corn cakes) served with fried fish and fresh pepper.",
+        tags: ["seafood", "spicy"],
+      },
+    ],
+  },
+  {
+    title: "Natural Juices",
     Icon: GlassWater,
     items: [
       {
-        name: "Fresh Coconut Water",
-        description: "Straight from the coconut, chilled and ready to serve.",
+        name: "Mango",
+        description: "Freshly blended ripe mango juice.",
       },
       {
-        name: "Sobolo (Hibiscus)",
-        description: "Refreshing hibiscus drink with pineapple and ginger notes.",
+        name: "Watermelon",
+        description: "Cool, refreshing watermelon juice.",
       },
       {
-        name: "Fresh Fruit Juice",
-        description: "Seasonal fresh-pressed juice — ask your server for today's choice.",
+        name: "Orange",
+        description: "Fresh-squeezed orange juice.",
       },
       {
-        name: "Bottled Water",
-        description: "Still or sparkling.",
-      },
-    ],
-  },
-  {
-    title: "Beer & Cocktails",
-    Icon: Martini,
-    items: [
-      {
-        name: "Local Beer",
-        description: "Star, Club, or Guinness — always ice-cold.",
+        name: "Pineapple",
+        description: "Sweet, tangy pineapple juice.",
       },
       {
-        name: "Palm Wine",
-        description: "Fresh-tapped palm wine (subject to season and availability).",
-      },
-      {
-        name: "Tropical Cocktail",
-        description: "House cocktail with fresh fruit and a splash of rum.",
-      },
-    ],
-  },
-  {
-    title: "Desserts",
-    Icon: Cake,
-    items: [
-      {
-        name: "Fresh Fruit Platter",
-        description: "A selection of ripe seasonal fruits from the farm.",
-        tags: ["veg"],
-      },
-      {
-        name: "Ice Cream",
-        description: "Scoops of vanilla, chocolate, or strawberry.",
-        tags: ["veg"],
+        name: "Coconut",
+        description: "Fresh coconut water, straight from the fruit.",
       },
     ],
   },
 ];
 
 const TAG_STYLES: Record<DietTag, { label: string; Icon: LucideIcon; className: string }> = {
-  veg: { label: "Vegetarian", Icon: Leaf, className: "bg-green-100 text-green-700" },
   spicy: { label: "Spicy", Icon: Flame, className: "bg-red-100 text-red-700" },
   seafood: { label: "Seafood", Icon: Fish, className: "bg-blue-100 text-blue-700" },
 };
@@ -201,17 +213,18 @@ function ItemCard({ item }: { item: MenuItem }) {
 
 export default function FoodDrinksPage() {
   const reserveUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    "Hi, I'd like to reserve a table at the Hidden Grill."
+    "Hi, I'd like to reserve a table at the Hidden Paradise kitchen."
   )}`;
 
   return (
     <main className="pt-28 pb-24 px-[5%]">
       <SectionHeader
-        tag="HIDDEN GRILL"
+        tag="THE KITCHEN"
         title="Food & Drinks"
-        description="Our on-site kitchen serves Ghanaian classics, grilled specialities, and fresh drinks throughout the day. Everything is prepared with produce from our working farm whenever possible."
+        description="Authentic Ghanaian cooking from our on-site kitchen. Rice combos, banku specials, fufu with light soup, omotuo with groundnut soup, fresh-pressed juices, and a full bar of drinks."
       />
 
+      {/* Info strip */}
       <div className="max-w-[1200px] mx-auto mb-12 bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center">
         <p className="text-sm text-text-secondary">
           <span className="font-semibold text-primary">Hours:</span> 9:00 AM – 11:00 PM daily ·{" "}
@@ -236,8 +249,22 @@ export default function FoodDrinksPage() {
         </div>
       ))}
 
+      {/* Open bar banner */}
+      <div className="max-w-[1200px] mx-auto mb-16 bg-gradient-to-br from-primary to-accent text-white rounded-2xl p-8 sm:p-10 text-center">
+        <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
+          <Martini className="w-7 h-7" strokeWidth={1.8} />
+        </div>
+        <h3 className="font-display text-2xl sm:text-3xl font-semibold mb-3">
+          Open Bar With All Drinks
+        </h3>
+        <p className="text-white/90 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+          Our bar stocks a full selection of local beers, spirits, wines, and cocktails alongside the fresh juices on the menu. Ask your server for today&apos;s specials.
+        </p>
+      </div>
+
+      {/* Reservation CTA */}
       <div className="max-w-[1200px] mx-auto bg-primary/5 border border-primary/20 rounded-2xl p-6 sm:p-8 text-center">
-        <h3 className="font-display text-xl font-bold text-primary">Reserve a table at the Hidden Grill</h3>
+        <h3 className="font-display text-xl font-bold text-primary">Reserve a table</h3>
         <p className="text-sm text-text-secondary mt-2 max-w-xl mx-auto">
           Planning a meal for a group, a special occasion, or a private dinner under the stars? Message us
           and we&apos;ll hold a table for you.
