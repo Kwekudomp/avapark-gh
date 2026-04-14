@@ -34,6 +34,7 @@ const NAV_LINKS: (NavItem | NavDropdown)[] = [
     label: "Explore",
     items: [
       { label: "Attractions", href: "/attractions" },
+      { label: "Food & Drinks", href: "/food-drinks" },
       { label: "Activities", href: "/activities" },
       { label: "Art & Culture", href: "/arts-culture" },
       { label: "Eastern/Volta Tours", href: "/tours" },
