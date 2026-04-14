@@ -3,6 +3,7 @@ import { WHATSAPP_NUMBER } from "@/data/constants";
 import {
   Drum, Sparkles, Crown, Wheat, Shield, Utensils,
   Scissors, Leaf, Music, Gift, TreePine,
+  Mic2, Guitar, Disc3, Speaker,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -90,6 +91,57 @@ const VOLTA_FESTIVALS: Festival[] = [
   },
 ];
 
+const CONCERTS: Festival[] = [
+  {
+    name: "Highlife Live",
+    people: "Live highlife bands",
+    timing: "Monthly",
+    description:
+      "A night dedicated to the timeless sound of Ghanaian highlife. Full live bands perform classics and new favourites under the open sky. A relaxed, all-ages crowd with plenty of space to dance.",
+    Icon: Music,
+  },
+  {
+    name: "Afrobeats Night",
+    people: "Local & touring artists",
+    timing: "Quarterly",
+    description:
+      "Ghana's hottest afrobeats and afropop artists perform live at Hidden Paradise. Expect high-energy sets, special guest appearances, and a proper outdoor concert vibe. Tickets go fast \u2014 follow us for line-up announcements.",
+    Icon: Mic2,
+  },
+  {
+    name: "Acoustic Sessions",
+    people: "Singer-songwriters",
+    timing: "Select weekends",
+    description:
+      "Intimate outdoor performances from Ghana's best acoustic artists and singer-songwriters. Candle-lit seating in the gardens, soft cocktails, and songs you'll want to hear live.",
+    Icon: Guitar,
+  },
+  {
+    name: "Drum & Dance Showcase",
+    people: "Master drummers, Volta region",
+    timing: "Monthly",
+    description:
+      "Traditional drumming and dance ensembles from across the Volta region perform live. Learn the rhythms, try the steps, and experience the heartbeat of Ghanaian culture up close.",
+    Icon: Drum,
+  },
+  {
+    name: "Sunset Jazz",
+    people: "Jazz ensembles",
+    timing: "Seasonal",
+    description:
+      "Smooth jazz evenings in the sunset gardens, featuring local and visiting jazz musicians. The perfect slow Sunday or special-occasion night out away from the city.",
+    Icon: Disc3,
+  },
+  {
+    name: "DJ Night in the Woods",
+    people: "Resident & guest DJs",
+    timing: "Every Friday",
+    description:
+      "Our biggest weekly party. Resident and guest DJs spin afrobeats, amapiano, hip-hop, and house through the night. Dancing under the trees until the early hours.",
+    Icon: Speaker,
+  },
+];
+
 const HP_SPECIALS: Festival[] = [
   {
     name: "Easter at Hidden Paradise",
@@ -162,6 +214,20 @@ export default function FestivalsPage() {
         </div>
       </div>
 
+      <div className="max-w-[1200px] mx-auto mb-16">
+        <h2 className="font-display text-2xl font-bold text-primary mb-2 text-center">
+          Live Concerts at Hidden Paradise
+        </h2>
+        <p className="text-sm text-text-secondary text-center max-w-2xl mx-auto mb-6">
+          Musical nights on the park grounds featuring live bands, solo artists, drum ensembles, and DJ sets. Check the Event Calendar for upcoming dates and line-ups.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {CONCERTS.map((f) => (
+            <FestivalCard key={f.name} f={f} />
+          ))}
+        </div>
+      </div>
+
       <div className="max-w-[800px] mx-auto mb-16">
         <h2 className="font-display text-2xl font-bold text-primary mb-6 text-center">
           Hidden Paradise Specials
@@ -175,10 +241,10 @@ export default function FestivalsPage() {
 
       <div className="max-w-[1200px] mx-auto bg-primary/5 border border-primary/20 rounded-2xl p-6 sm:p-8 text-center">
         <h3 className="font-display text-xl font-bold text-primary">
-          Festival Packages
+          Festival & Concert Packages
         </h3>
         <p className="text-sm text-text-secondary mt-2 max-w-xl mx-auto">
-          We offer festival packages with accommodation at the park, transport to the festival grounds, and local guides. Message us to plan your experience.
+          We offer packages that combine accommodation at the park, concert tickets, transport to off-site festival grounds, and local guides. Message us to plan your experience.
         </p>
         <a
           href={enquiryUrl}
@@ -186,7 +252,7 @@ export default function FestivalsPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-accent text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition mt-6"
         >
-          Enquire About Festival Packages
+          Enquire About Packages
         </a>
       </div>
     </main>
