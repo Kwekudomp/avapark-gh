@@ -75,6 +75,23 @@ export interface SiteSettings {
   [key: string]: string;
 }
 
+export type MenuItemMeal = "breakfast" | "lunch" | "supper" | "all-day";
+export type MenuItemTag = "spicy" | "seafood";
+
+export interface MenuItemRow {
+  id: string;
+  name: string;
+  subnote: string | null;
+  category: string;
+  meal: MenuItemMeal;
+  price: number | null;
+  tags: MenuItemTag[];
+  available: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export type ReviewStatus = "pending" | "approved" | "rejected";
 
 export interface Review {

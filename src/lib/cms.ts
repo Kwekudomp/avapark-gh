@@ -1,9 +1,10 @@
 import { createServerSupabase } from "./supabase-server";
-import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner } from "./supabase";
+import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner, MenuItemRow } from "./supabase";
 import { experiences as staticExperiences, getFeaturedExperiences as getStaticFeatured } from "@/data/experiences";
 import type { Experience } from "@/data/experiences";
+import { MENU_ITEMS as staticMenuItems } from "@/data/menu";
 
-export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, AccommodationPartner };
+export type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, AccommodationPartner, MenuItemRow };
 
 /** Convert static Experience → CMSExperience shape so components work with either source */
 function adaptStatic(e: Experience): CMSExperience {
@@ -152,6 +153,48 @@ export async function getApprovedReviews(): Promise<Review[]> {
   } catch (e) {
     console.error("[getApprovedReviews] Threw:", e instanceof Error ? e.message : e);
     return [];
+  }
+}
+
+/** Fall back to the static menu when the DB is empty or unreachable. */
+function staticMenuAsRows(): MenuItemRow[] {
+  const now = new Date().toISOString();
+  return staticMenuItems.map((item, idx) => ({
+    id: item.id,
+    name: item.name,
+    subnote: item.subnote ?? null,
+    category: item.category,
+    meal: item.meal,
+    // Static file has placeholder prices — expose them as NULL so the
+    // ordering UI knows to disable "Add to order" until a real price
+    // is set via the admin panel.
+    price: null,
+    tags: (item.tags ?? []) as MenuItemRow["tags"],
+    available: true,
+    sort_order: idx * 10,
+    created_at: now,
+    updated_at: now,
+  }));
+}
+
+/** Public-facing menu fetch. Returns only available items. */
+export async function getPublicMenuItems(): Promise<MenuItemRow[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data, error } = await supabase
+      .from("menu_items")
+      .select("*")
+      .eq("available", true)
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.error("[getPublicMenuItems] Supabase error:", error.message);
+      return staticMenuAsRows();
+    }
+    if (!data?.length) return staticMenuAsRows();
+    return data as MenuItemRow[];
+  } catch (e) {
+    console.error("[getPublicMenuItems] Threw:", e instanceof Error ? e.message : e);
+    return staticMenuAsRows();
   }
 }
 
