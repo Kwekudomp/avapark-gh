@@ -1,20 +1,28 @@
 import SectionHeader from "@/components/SectionHeader";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Tent, Waves, Flower2, UtensilsCrossed, Sprout, PartyPopper } from "lucide-react";
+import {
+  Waves,
+  Flower2,
+  PartyPopper,
+  Info,
+  Trophy,
+  Utensils,
+  Flame,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = {
   title: "Amenities | Hidden Paradise Nature Park",
   description:
-    "Everything you need at Hidden Paradise. Camping grounds, LED-lit pool, sunset gardens, restaurant, working farm, and event spaces.",
+    "Everything you need at Hidden Paradise. Swimming pool, sunset gardens, event spaces, admin and info center, sports complex, food court, and fire side.",
 };
 
 const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
   {
-    title: "Camping Grounds",
+    title: "Admin & Info Center",
     description:
-      "Spacious green lawns with tent camping setup for groups of all sizes. Tents available or bring your own.",
-    Icon: Tent,
+      "Your first stop on arrival. Check in, ask questions, pick up a park map, and sort out bookings with our friendly front-desk team.",
+    Icon: Info,
   },
   {
     title: "Swimming Pool",
@@ -29,16 +37,22 @@ const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
     Icon: Flower2,
   },
   {
-    title: "The Hidden Grill Restaurant",
+    title: "Sports Complex",
     description:
-      "On-site restaurant serving local favourites, from grilled meats to traditional dishes.",
-    Icon: UtensilsCrossed,
+      "Open fields and courts for football, volleyball, basketball, and group games. Gear available on request.",
+    Icon: Trophy,
   },
   {
-    title: "Hidden Paradise Farm",
+    title: "Food Court",
     description:
-      "A working farm where you can tour, buy fresh produce, and learn about sustainable farming.",
-    Icon: Sprout,
+      "A range of food vendors and drink stations serving Ghanaian classics, grills, snacks, and refreshments throughout the day.",
+    Icon: Utensils,
+  },
+  {
+    title: "Fire Side",
+    description:
+      "A cosy bonfire area for storytelling, drum circles, late-night conversations, and marshmallow roasts under the stars.",
+    Icon: Flame,
   },
   {
     title: "Event Spaces",
