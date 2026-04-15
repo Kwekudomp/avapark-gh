@@ -13,6 +13,8 @@ import {
   Leaf,
   Siren,
   Shield,
+  ShieldCheck,
+  Stethoscope,
   Phone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -40,6 +42,28 @@ const RULES: RuleSection[] = [
       "Some areas of the park are restricted to guests aged 18 and above. Please respect signage.",
       "Your wristband or ticket must remain visible throughout your visit.",
       "Management reserves the right to ask any guest whose conduct disturbs others, endangers life, or breaks park rules to leave. No refunds will be issued in such cases.",
+    ],
+  },
+  {
+    title: "Medical Unit",
+    Icon: Stethoscope,
+    items: [
+      "Our on-site Medical Unit is staffed by a volunteer doctor and nurse during peak program hours.",
+      "Basic first aid and medical services are provided at the unit for a small fee.",
+      "All Hidden Paradise staff are trained in basic first aid and can direct you to the Medical Unit.",
+      "In the event of a medical emergency, alert any staff member immediately or call the main line.",
+      "For serious cases, we can help coordinate transport to the nearest hospital.",
+    ],
+  },
+  {
+    title: "Park Security",
+    Icon: ShieldCheck,
+    items: [
+      "The park is patrolled at all times by our in-house Hidden Paradise Security Department.",
+      "Our security team works in close coordination with the Akuse Police Station, located near the VRA Estate in Akuse town.",
+      "Report suspicious activity, lost items, or any safety concern to the nearest security officer or member of staff.",
+      "In case of a serious security incident, call our main line immediately — help will be dispatched right away.",
+      "Uniformed security officers wear Hidden Paradise identification for easy recognition.",
     ],
   },
   {
