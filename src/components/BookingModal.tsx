@@ -86,11 +86,17 @@ export default function BookingModal({
     >
   ) {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]:
-        name === "adults" || name === "children" ? Number(value) : value,
-    }));
+    setForm((prev) => {
+      const next = {
+        ...prev,
+        [name]:
+          name === "adults" || name === "children" ? Number(value) : value,
+      };
+      if (name === "interest" && value === "Party In The Woods") {
+        next.children = 0;
+      }
+      return next;
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -300,7 +306,7 @@ export default function BookingModal({
                   </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className={form.interest === "Party In The Woods" ? "" : "grid grid-cols-2 gap-4"}>
                   <div>
                     <label className={labelClass}>Adults</label>
                     <select
@@ -315,22 +321,29 @@ export default function BookingModal({
                         </option>
                       ))}
                     </select>
+                    {form.interest === "Party In The Woods" && (
+                      <p className="text-xs text-text-secondary/70 mt-1.5">
+                        Party In The Woods is a strictly 18+ event.
+                      </p>
+                    )}
                   </div>
-                  <div>
-                    <label className={labelClass}>Children</label>
-                    <select
-                      name="children"
-                      value={form.children}
-                      onChange={handleChange}
-                      className={inputClass}
-                    >
-                      {[0, 1, 2, 3, 4, 5, 6].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  {form.interest !== "Party In The Woods" && (
+                    <div>
+                      <label className={labelClass}>Children</label>
+                      <select
+                        name="children"
+                        value={form.children}
+                        onChange={handleChange}
+                        className={inputClass}
+                      >
+                        {[0, 1, 2, 3, 4, 5, 6].map((n) => (
+                          <option key={n} value={n}>
+                            {n}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
 
                 <div>
