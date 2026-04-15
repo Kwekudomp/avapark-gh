@@ -26,6 +26,7 @@ import {
   Infinity as InfinityIcon,
   Drumstick,
   Carrot,
+  ShoppingCart,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -396,12 +397,37 @@ export default function FoodDrinksPage() {
       />
 
       {/* Info strip */}
-      <div className="max-w-[1200px] mx-auto mb-16 bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center">
+      <div className="max-w-[1200px] mx-auto mb-8 bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center">
         <p className="text-sm text-text-secondary">
           <span className="font-semibold text-primary">Kitchen hours:</span> 9:00 AM – 11:00 PM daily ·{" "}
           <span className="font-semibold text-primary">Last orders:</span> 10:00 PM ·{" "}
           <span className="font-semibold text-primary">Reservations:</span> Recommended for groups of 6+
         </p>
+      </div>
+
+      {/* Order Online CTA */}
+      <div className="max-w-[1200px] mx-auto mb-16 relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-accent p-8 sm:p-10 text-white">
+        <div className="relative flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
+            <ShoppingCart className="w-8 h-8" strokeWidth={1.8} />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs font-bold tracking-[3px] uppercase text-white/80 mb-2">New</p>
+            <h3 className="font-display text-2xl sm:text-3xl font-semibold mb-2">
+              Order Online — Dine-in, Pickup or Delivery
+            </h3>
+            <p className="text-white/90 text-sm md:text-base max-w-2xl">
+              Browse the full menu, build your order, and send it straight to the kitchen on WhatsApp.
+              No app download needed.
+            </p>
+          </div>
+          <Link
+            href="/food-drinks/order"
+            className="flex-shrink-0 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-primary font-semibold text-sm hover:bg-white/90 transition-colors whitespace-nowrap"
+          >
+            Order Online
+          </Link>
+        </div>
       </div>
 
       {/* ── BREAKFAST ─────────────────────────────────── */}
