@@ -54,6 +54,7 @@ const CAMP_CHECKLIST = [
 export default function BookingForm({ experience }: { experience: CMSExperience }) {
   const router = useRouter();
   const isCamping = experience.slug === "camping";
+  const isAdultsOnly = experience.slug === "party-in-the-woods";
 
   const [form, setForm] = useState<FormData>({
     guest_name: "", guest_email: "", guest_phone: "",
@@ -61,6 +62,12 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
     package_tier_id: experience.package_tiers?.[0]?.id ?? "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (isAdultsOnly && form.children !== 0) {
+      setForm(prev => ({ ...prev, children: 0 }));
+    }
+  }, [isAdultsOnly, form.children]);
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -454,18 +461,25 @@ export default function BookingForm({ experience }: { experience: CMSExperience 
           <input name="booking_date" type="date" value={form.booking_date} onChange={handleChange}
             required min={new Date().toISOString().split("T")[0]} className={inputClass} />
         </div>
-        <div>
+        <div className={isAdultsOnly ? "sm:col-span-2" : ""}>
           <label className={labelClass}>Adults</label>
           <select name="adults" value={form.adults} onChange={handleChange} className={inputClass}>
             {[1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>{n}</option>)}
           </select>
+          {isAdultsOnly && (
+            <p className="text-xs text-text-secondary/70 mt-1.5">
+              Party In The Woods is a strictly 18+ event.
+            </p>
+          )}
         </div>
-        <div>
-          <label className={labelClass}>Children</label>
-          <select name="children" value={form.children} onChange={handleChange} className={inputClass}>
-            {[0,1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
-          </select>
-        </div>
+        {!isAdultsOnly && (
+          <div>
+            <label className={labelClass}>Children</label>
+            <select name="children" value={form.children} onChange={handleChange} className={inputClass}>
+              {[0,1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* ── Camping: Activity Selection ── */}
