@@ -34,7 +34,7 @@ const ACTIVITIES = [
   { label: "Hiking", slug: "krobo-mountain-hike", wa: "hiking+tour" },
   { label: "BBQ & Bonfire", slug: "saturday-bbq", wa: "BBQ+and+bonfire" },
   { label: "Picnic Package", slug: "picnic-packages", wa: "picnic+package" },
-  { label: "Private Event", slug: "party-in-the-woods", wa: "private+event+enquiry" },
+  { label: "Private Event", slug: "private-event", wa: "private+event+enquiry" },
   { label: "Game Night", slug: "game-night", wa: "game+night" },
   { label: "Eastern/Volta Tours", slug: "eastern-tour", wa: "tours+enquiry" },
   { label: "Boat Cruise", slug: "boat-cruise", wa: "boat+cruise+enquiry" },
@@ -59,7 +59,11 @@ export default function HeroCarousel() {
     if (!slug) return;
     setSelectedActivity(slug);
     setTimeout(() => {
-      router.push(`/experiences/${slug}`);
+      if (slug === "private-event") {
+        router.push("/contact?interest=private-event");
+      } else {
+        router.push(`/experiences/${slug}`);
+      }
     }, 300);
   };
 
