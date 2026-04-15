@@ -2,8 +2,8 @@ import { PHONE_DISPLAY, PHONE_TEL, WHATSAPP_URL } from "@/data/constants";
 import { MapPin, Clock, Car } from "lucide-react";
 
 const DIRECTIONS = [
-  { step: "1", label: "From Accra, take the N2 motorway heading east towards Tema." },
-  { step: "2", label: "Continue past Tema and Ashaiman onto the Accra–Aflao highway." },
+  { step: "1", label: "From Kotoka International Airport in Accra, take the N1 heading east towards Tema." },
+  { step: "2", label: "Continue past Tema and Ashaiman onto the Accra–Akosombo road." },
   { step: "3", label: "Drive through Akuse and look for the Hidden Paradise signage on Akuse Road." },
   { step: "4", label: "Turn onto Okwenya road. The park entrance is 500m ahead on your left." },
 ];
