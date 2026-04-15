@@ -1,7 +1,6 @@
 import SectionHeader from "@/components/SectionHeader";
 import ScrollReveal from "@/components/ScrollReveal";
 import {
-  Waves,
   Flower2,
   PartyPopper,
   Info,
@@ -14,7 +13,7 @@ import type { LucideIcon } from "lucide-react";
 export const metadata = {
   title: "Amenities | Hidden Paradise Nature Park",
   description:
-    "Everything you need at Hidden Paradise. Swimming pool, sunset gardens, event spaces, admin and info center, sports complex, food court, and fire side.",
+    "Everything you need at Hidden Paradise. Admin and info center, sunset gardens, sports complex, food court, fire side, and event spaces.",
 };
 
 const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
@@ -23,12 +22,6 @@ const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
     description:
       "Your first stop on arrival. Check in, ask questions, pick up a park map, and sort out bookings with our friendly front-desk team.",
     Icon: Info,
-  },
-  {
-    title: "Swimming Pool",
-    description:
-      "Our LED-lit pool is the centrepiece for pool parties, night swims, and daytime relaxation.",
-    Icon: Waves,
   },
   {
     title: "Sunset Gardens",
