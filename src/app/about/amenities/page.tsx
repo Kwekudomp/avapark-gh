@@ -33,7 +33,7 @@ const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
   {
     title: "Sunset Gardens",
     description:
-      "Beautifully landscaped gardens perfect for photography, events, and peaceful walks.",
+      "Beautifully landscaped gardens perfect for photography, events, and peaceful walks. Flowers, flower pots, and garden art pieces are also available for sale.",
     Icon: Flower2,
   },
   {
