@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase-server";
 import ClosuresCMSClient from "@/components/admin/whatsapp/ClosuresCMSClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function WhatsAppClosuresPage() {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();

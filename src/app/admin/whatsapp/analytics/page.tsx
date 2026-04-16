@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase-server";
 import AnalyticsClient from "@/components/admin/whatsapp/AnalyticsClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function WhatsAppAnalyticsPage() {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();

@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase-server";
 import InboxClient from "@/components/admin/whatsapp/InboxClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function WhatsAppInboxPage() {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();

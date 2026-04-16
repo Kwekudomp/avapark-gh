@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase-server";
 import ConversationsClient from "@/components/admin/whatsapp/ConversationsClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function WhatsAppConversationsPage() {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
