@@ -11,7 +11,7 @@ Replace the current experiences page (`/experiences`) with a full-screen backgro
 
 - **Scope:** Full page replacement — `/experiences` becomes the carousel (no scrolling grid)
 - **Experiences shown:** 6 featured experiences only (`is_featured: true`)
-- **Navigation:** Thumbnail cards at the bottom + auto-rotation (6s interval)
+- **Navigation:** 3 visible thumbnail info cards (bottom-right) + prev/next arrows + progress line below cards + auto-rotation (6s interval)
 - **Transitions:** Zoom crossfade — Ken Burns slow zoom while active, Framer Motion crossfade between slides
 - **Content per slide:** Category badge, name, tagline, schedule + time, price, CTA button
 - **CTA action:** Links to `/experiences/[slug]` detail page
@@ -28,26 +28,25 @@ Replace the current experiences page (`/experiences`) with a full-screen backgro
 │   (with Ken Burns slow zoom 1.0 → 1.1)     │
 │                                             │
 │   ┌──────────────────────┐                  │
-│   │  Category badge      │                  │
-│   │  Experience Name     │                  │
-│   │  Tagline             │                  │
-│   │  Schedule · Time     │                  │
-│   │  Price               │                  │
-│   │  [Explore →] button  │                  │
-│   └──────────────────────┘                  │
+│   │  Category badge      │   ┌──────┐ ┌──────┐ ┌──────┐
+│   │  Experience Name     │   │ img  │ │ img  │ │ img  │
+│   │  Tagline             │   │ cat  │ │ cat  │ │ cat  │
+│   │  Schedule · Time     │   │ name │ │ name │ │ name │
+│   │  Price               │   │ sched│ │ sched│ │ sched│
+│   │  [Explore →] button  │   └──────┘ └──────┘ └──────┘
+│   └──────────────────────┘   (←) ———————— 02/06 (→)
 │                                             │
-│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐  │
-│  │thumb│ │thumb│ │ACTIV│ │thumb│ │thumb│  │
-│  │  1  │ │  2  │ │  3  │ │  4  │ │  5  │  │
-│  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘  │
 └─────────────────────────────────────────────┘
 ```
 
 - Page takes `100vh` minus navbar height
 - Background image: `object-cover`, fills viewport
 - Dark gradient overlay: bottom-heavy for text readability
-- Content block: bottom-left on desktop, bottom-center on mobile
-- Thumbnail strip: horizontally centered at the very bottom
+- Content block: bottom-left
+- **Thumbnail cards: bottom-right, only 3 visible at a time** (active + next 2, wrapping)
+- Each card is tall (~150x190px) and shows: image, category, name, schedule
+- Below cards: left arrow, progress line, slide counter (01/06), right arrow
+- Hidden cards rotate in as slides advance
 
 ## Animations & Transitions
 
@@ -61,11 +60,19 @@ Replace the current experiences page (`/experiences`) with a full-screen backgro
 - Framer Motion `AnimatePresence` with `mode="wait"`
 - Incoming image starts at scale `1.0` (Ken Burns begins fresh)
 
-### Thumbnail cards
-- Active: gold border (`#D4A843`), slightly larger scale
-- Inactive: dimmed, subtle border
-- Clicking resets auto-rotate timer
-- Thin progress bar fills left-to-right on active thumbnail over 6 seconds
+### Thumbnail cards (bottom-right, 3 visible)
+- Only 3 cards visible: active + next 2 (wrapping around the array)
+- Each card shows: cover image, category label, name, schedule
+- Active card: gold border (`#D4A843`) + glow shadow, full opacity
+- Other visible cards: dimmed (0.65 opacity), subtle border on hover
+- Hidden cards use `display: none`, swap in on slide change
+- Clicking a visible card switches to that slide and resets timer
+
+### Navigation controls (below cards)
+- Left/right circular arrow buttons
+- Progress line between arrows (fills over 6 seconds)
+- Slide counter: "01 / 06"
+- Progress bar also on the active thumbnail card (bottom edge)
 
 ### Auto-rotation
 - 6-second interval per slide

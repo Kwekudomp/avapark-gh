@@ -59,9 +59,9 @@ Create `src/components/ExperienceCarousel.tsx` with the following content:
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock, Calendar } from "lucide-react";
+import { ArrowRight, ArrowLeft, Clock, Calendar } from "lucide-react";
 import type { CMSExperience } from "@/lib/supabase";
 
 const CATEGORY_LABELS: Record<CMSExperience["category"], string> = {
@@ -71,6 +71,7 @@ const CATEGORY_LABELS: Record<CMSExperience["category"], string> = {
 };
 
 const AUTO_ROTATE_MS = 6000;
+const VISIBLE_CARDS = 3;
 
 interface ExperienceCarouselProps {
   experiences: CMSExperience[];
@@ -82,22 +83,36 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
   const [progress, setProgress] = useState(0);
 
   const active = experiences[activeIndex];
+  const total = experiences.length;
 
   const goTo = useCallback((index: number) => {
     setActiveIndex(index);
     setProgress(0);
   }, []);
 
+  const goPrev = useCallback(() => {
+    goTo((activeIndex - 1 + total) % total);
+  }, [activeIndex, total, goTo]);
+
+  const goNext = useCallback(() => {
+    goTo((activeIndex + 1) % total);
+  }, [activeIndex, total, goTo]);
+
+  // Which 3 card indices are visible: active + next 2
+  const visibleIndices = useMemo(() => {
+    return Array.from({ length: VISIBLE_CARDS }, (_, k) => (activeIndex + k) % total);
+  }, [activeIndex, total]);
+
   // Auto-rotation timer
   useEffect(() => {
-    if (isPaused || experiences.length <= 1) return;
+    if (isPaused || total <= 1) return;
 
-    const tick = 50; // update progress every 50ms
+    const tick = 50;
     const interval = setInterval(() => {
       setProgress((prev) => {
         const next = prev + (tick / AUTO_ROTATE_MS) * 100;
         if (next >= 100) {
-          setActiveIndex((i) => (i + 1) % experiences.length);
+          setActiveIndex((i) => (i + 1) % total);
           return 0;
         }
         return next;
@@ -105,7 +120,7 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
     }, tick);
 
     return () => clearInterval(interval);
-  }, [isPaused, experiences.length, activeIndex]);
+  }, [isPaused, total, activeIndex]);
 
   const formatPrice = (price: number | null) => {
     if (!price) return "Free";
@@ -145,9 +160,9 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
       </AnimatePresence>
 
       {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/15 z-10" />
 
-      {/* Content overlay */}
+      {/* Content overlay — bottom-left */}
       <AnimatePresence mode="wait">
         <motion.div
           key={`content-${active.slug}`}
@@ -155,25 +170,21 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="absolute bottom-32 md:bottom-36 left-0 right-0 px-[5%] z-20"
+          className="absolute bottom-20 left-0 right-0 px-[5%] z-20 md:right-[40%]"
         >
           <div className="max-w-2xl">
-            {/* Category badge */}
             <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-accent/90 text-white mb-4">
               {CATEGORY_LABELS[active.category]}
             </span>
 
-            {/* Experience name */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
               {active.name}
             </h1>
 
-            {/* Tagline */}
             <p className="text-white/80 text-lg md:text-xl max-w-xl mb-4">
               {active.tagline}
             </p>
 
-            {/* Schedule + Time + Price */}
             <div className="flex flex-wrap items-center gap-4 text-white/70 text-sm mb-6">
               {active.schedule && (
                 <span className="flex items-center gap-1.5">
@@ -192,7 +203,6 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
               </span>
             </div>
 
-            {/* CTA button */}
             <Link
               href={`/experiences/${active.slug}`}
               className="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white px-6 py-3 rounded-full font-medium transition-colors duration-200"
@@ -204,43 +214,88 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
         </motion.div>
       </AnimatePresence>
 
-      {/* Thumbnail strip */}
-      <div className="absolute bottom-6 left-0 right-0 z-20 px-[5%]">
-        <div className="flex justify-center gap-3">
-          {experiences.map((exp, i) => (
-            <button
-              key={exp.slug}
-              onClick={() => goTo(i)}
-              className={`relative group/thumb rounded-lg overflow-hidden transition-all duration-300 ${
-                i === activeIndex
-                  ? "w-20 h-14 md:w-28 md:h-20 ring-2 ring-secondary"
-                  : "w-16 h-12 md:w-24 md:h-16 opacity-60 hover:opacity-90"
-              }`}
-              aria-label={`Go to ${exp.name}`}
-            >
-              <Image
-                src={exp.cover_image_url || exp.images[0] || "/images/hero-bg.jpeg"}
-                alt={exp.name}
-                fill
-                className="object-cover"
-                sizes="112px"
-              />
-              {/* Dark overlay on thumbnail */}
-              <div className="absolute inset-0 bg-black/30" />
+      {/* Navigation area — bottom-right */}
+      <div className="absolute bottom-10 right-[5%] z-20 flex flex-col gap-4">
+        {/* Thumbnail cards — only 3 visible */}
+        <div className="flex gap-3">
+          {experiences.map((exp, i) => {
+            const isVisible = visibleIndices.includes(i);
+            if (!isVisible) return null;
 
-              {/* Thumbnail label — visible on md+ */}
-              <span className="absolute bottom-1 left-1 right-1 text-[10px] md:text-xs text-white font-medium truncate hidden md:block">
-                {exp.name}
-              </span>
-
-              {/* Progress bar on active thumbnail */}
-              {i === activeIndex && (
-                <div className="absolute bottom-0 left-0 h-0.5 bg-secondary transition-none"
-                  style={{ width: `${progress}%` }}
+            return (
+              <button
+                key={exp.slug}
+                onClick={() => goTo(i)}
+                className={`relative w-[150px] h-[190px] rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all duration-300 ${
+                  i === activeIndex
+                    ? "border-secondary shadow-[0_0_20px_rgba(212,168,67,0.3)] opacity-100"
+                    : "border-transparent opacity-65 hover:opacity-95 hover:border-white/30"
+                }`}
+                aria-label={`Go to ${exp.name}`}
+              >
+                <Image
+                  src={exp.cover_image_url || exp.images[0] || "/images/hero-bg.jpeg"}
+                  alt={exp.name}
+                  fill
+                  className="object-cover"
+                  sizes="150px"
                 />
-              )}
-            </button>
-          ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wide text-secondary-light mb-1">
+                    {CATEGORY_LABELS[exp.category]}
+                  </div>
+                  <div className="font-display text-sm font-semibold text-white leading-tight mb-0.5">
+                    {exp.name}
+                  </div>
+                  <div className="text-[11px] text-white/60">
+                    {exp.schedule}
+                  </div>
+                </div>
+                {/* Progress bar on active card */}
+                {i === activeIndex && (
+                  <div
+                    className="absolute bottom-0 left-0 h-[3px] bg-secondary z-10"
+                    style={{ width: `${progress}%` }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Arrow controls + progress line */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={goPrev}
+            className="w-11 h-11 rounded-full border border-white/30 bg-white/5 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/15 hover:border-white/60 transition-all"
+            aria-label="Previous"
+          >
+            <ArrowLeft className="w-[18px] h-[18px]" />
+          </button>
+
+          <div className="w-[120px] h-0.5 bg-white/20 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-secondary rounded-full"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+
+          <span className="text-white/60 text-sm font-medium min-w-[40px] text-center">
+            <span className="text-white font-semibold">
+              {String(activeIndex + 1).padStart(2, "0")}
+            </span>
+            {" / "}
+            {String(total).padStart(2, "0")}
+          </span>
+
+          <button
+            onClick={goNext}
+            className="w-11 h-11 rounded-full border border-white/30 bg-white/5 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/15 hover:border-white/60 transition-all"
+            aria-label="Next"
+          >
+            <ArrowRight className="w-[18px] h-[18px]" />
+          </button>
         </div>
       </div>
     </div>
