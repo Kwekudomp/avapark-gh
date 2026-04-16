@@ -25,8 +25,11 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const active = experiences[activeIndex];
   const total = experiences.length;
+
+  if (!total) return null;
+
+  const active = experiences[activeIndex];
 
   const goTo = useCallback((index: number) => {
     setActiveIndex(index);
@@ -46,7 +49,8 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
     return Array.from({ length: VISIBLE_CARDS }, (_, k) => (activeIndex + k) % total);
   }, [activeIndex, total]);
 
-  // Auto-rotation timer
+  // Auto-rotation timer — activeIndex intentionally excluded; functional updaters
+  // handle the current value, and the effect resets via setProgress(0) inside the callback.
   useEffect(() => {
     if (isPaused || total <= 1) return;
 
@@ -63,18 +67,29 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
     }, tick);
 
     return () => clearInterval(interval);
-  }, [isPaused, total, activeIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPaused, total]);
 
   const formatPrice = (price: number | null) => {
     if (!price) return "Free";
     return `GH\u20B5${price}`;
   };
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") goPrev();
+    if (e.key === "ArrowRight") goNext();
+  }, [goPrev, goNext]);
+
   return (
     <div
       className="relative w-full h-[calc(100vh-80px)] overflow-hidden bg-dark"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Featured experiences"
+      tabIndex={0}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onKeyDown={handleKeyDown}
     >
       {/* Background image with Ken Burns */}
       <AnimatePresence mode="wait">
