@@ -19,11 +19,17 @@ export default async function AdminDashboardPage() {
     .select("*", { count: "exact", head: true })
     .eq("status", "pending");
 
+  const { count: pendingEscalations } = await admin
+    .from("escalations")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "pending");
+
   return (
     <AdminDashboardClient
       initialBookings={bookings ?? []}
       userEmail={user.email ?? ""}
       pendingReviews={pendingReviews ?? 0}
+      pendingEscalations={pendingEscalations ?? 0}
     />
   );
 }

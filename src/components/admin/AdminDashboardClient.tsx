@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { Booking, BookingStatus } from "@/lib/supabase";
+import { MessageSquare } from "lucide-react";
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -15,10 +16,12 @@ export default function AdminDashboardClient({
   initialBookings,
   userEmail,
   pendingReviews = 0,
+  pendingEscalations = 0,
 }: {
   initialBookings: Booking[];
   userEmail: string;
   pendingReviews?: number;
+  pendingEscalations?: number;
 }) {
   const router = useRouter();
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
@@ -104,6 +107,7 @@ export default function AdminDashboardClient({
             { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: "🎬", badge: 0 },
             { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: "⚙️", badge: 0 },
             { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: "⭐", badge: pendingReviews },
+            { href: "/admin/whatsapp", label: "WhatsApp Agent", desc: "AI inbox, conversations, FAQs", icon: <MessageSquare className="w-6 h-6 text-emerald-600" />, badge: pendingEscalations },
           ].map(link => (
             <a key={link.href} href={link.href}
               className="relative bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">
