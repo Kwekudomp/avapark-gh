@@ -79,7 +79,7 @@ export const experiences: Experience[] = [
   {
     slug: "camping",
     name: "The Camping Experience",
-    tagline: "2 nights under the stars",
+    tagline: "2 nights under the stars — GH₵450 per night",
     description:
       "Escape the city and spend two unforgettable nights under the stars at Hidden Paradise. Enjoy a full weekend or holiday of outdoor adventure, delicious meals, and great company surrounded by nature on the Akuse Road.",
     schedule: "Weekends & Holidays",
