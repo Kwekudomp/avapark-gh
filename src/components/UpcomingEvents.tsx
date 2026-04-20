@@ -2,9 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { CMSEvent } from "@/lib/supabase";
 import SectionHeader from "@/components/SectionHeader";
+import { parseLocalDate } from "@/lib/dates";
 
 function EventCard({ event }: { event: CMSEvent }) {
-  const date = new Date(event.event_date);
+  const date = parseLocalDate(event.event_date);
   const day = date.toLocaleDateString("en-GH", { day: "numeric" });
   const month = date.toLocaleDateString("en-GH", { month: "short" }).toUpperCase();
 
@@ -33,7 +34,7 @@ function EventCard({ event }: { event: CMSEvent }) {
         <h3 className="font-display text-lg font-semibold text-primary">{event.title}</h3>
         {event.end_date && event.end_date !== event.event_date && (
           <p className="text-xs text-text-secondary mt-1">
-            Until {new Date(event.end_date).toLocaleDateString("en-GH", { day: "numeric", month: "long" })}
+            Until {parseLocalDate(event.end_date).toLocaleDateString("en-GH", { day: "numeric", month: "long" })}
           </p>
         )}
         {event.description && (

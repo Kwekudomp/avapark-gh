@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { CMSEvent } from "@/lib/supabase";
+import { toLocalISODate } from "@/lib/dates";
 
 interface CalendarGridProps {
   events: CMSEvent[];
@@ -48,7 +49,7 @@ export default function CalendarGrid({ events }: CalendarGridProps) {
   }
 
   function getEventsForDay(date: Date): { specials: CMSEvent[]; weekly: typeof WEEKLY_EVENTS } {
-    const dateStr = date.toISOString().split("T")[0];
+    const dateStr = toLocalISODate(date);
     const specials = events.filter((e) => {
       const start = e.event_date;
       const end = e.end_date || e.event_date;

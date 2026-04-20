@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { CMSEvent } from "@/lib/supabase";
+import { parseLocalDate } from "@/lib/dates";
 
 const empty = {
   title: "", description: "", event_date: "", end_date: "",
@@ -140,7 +141,7 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
           <div className="bg-white rounded-2xl border-2 border-dashed border-border text-center py-16 text-text-secondary">
             <p className="text-4xl mb-3">📅</p>
             <p className="text-lg font-medium">No events yet</p>
-            <p className="text-sm mt-1">Click "+ Add Event" to create your first upcoming event</p>
+            <p className="text-sm mt-1">Click &ldquo;+ Add Event&rdquo; to create your first upcoming event</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -155,8 +156,8 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
                     <div>
                       <p className="font-semibold text-dark">{ev.title}</p>
                       <p className="text-xs text-accent mt-0.5">
-                        {new Date(ev.event_date).toLocaleDateString("en-GH", { day: "numeric", month: "long", year: "numeric" })}
-                        {ev.end_date && ` — ${new Date(ev.end_date).toLocaleDateString("en-GH", { day: "numeric", month: "long", year: "numeric" })}`}
+                        {parseLocalDate(ev.event_date).toLocaleDateString("en-GH", { day: "numeric", month: "long", year: "numeric" })}
+                        {ev.end_date && ` — ${parseLocalDate(ev.end_date).toLocaleDateString("en-GH", { day: "numeric", month: "long", year: "numeric" })}`}
                       </p>
                       {ev.price && <p className="text-xs text-text-secondary mt-1">{ev.price}</p>}
                       {ev.description && <p className="text-sm text-text-secondary mt-2 line-clamp-2">{ev.description}</p>}
