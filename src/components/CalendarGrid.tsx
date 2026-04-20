@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { CMSEvent } from "@/lib/supabase";
 import { toLocalISODate } from "@/lib/dates";
+import EventDetailModal from "@/components/EventDetailModal";
 
 interface CalendarGridProps {
   events: CMSEvent[];
@@ -19,6 +20,7 @@ export default function CalendarGrid({ events }: CalendarGridProps) {
   const today = new Date();
   const [viewDate, setViewDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+  const [openEvent, setOpenEvent] = useState<CMSEvent | null>(null);
 
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -205,21 +207,24 @@ export default function CalendarGrid({ events }: CalendarGridProps) {
               </div>
             ))}
             {selectedDayEvents.specials.map((s) => (
-              <div
+              <button
                 key={s.id}
-                className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border"
+                type="button"
+                onClick={() => setOpenEvent(s)}
+                className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border text-left w-full hover:border-accent hover:shadow-sm transition cursor-pointer"
               >
                 <div className="bg-dark w-1 self-stretch rounded-full" />
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="font-semibold text-dark text-sm">{s.title}</p>
                   {s.description && (
-                    <p className="text-xs text-text-secondary mt-1">{s.description}</p>
+                    <p className="text-xs text-text-secondary mt-1 line-clamp-2">{s.description}</p>
                   )}
                   {s.price && (
                     <p className="text-xs text-accent font-semibold mt-1">{s.price}</p>
                   )}
+                  <p className="text-xs text-accent mt-2 font-semibold">View full details &rarr;</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -244,6 +249,8 @@ export default function CalendarGrid({ events }: CalendarGridProps) {
           Special Event
         </div>
       </div>
+
+      <EventDetailModal event={openEvent} onClose={() => setOpenEvent(null)} />
     </div>
   );
 }

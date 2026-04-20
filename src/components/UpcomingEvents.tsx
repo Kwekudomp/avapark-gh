@@ -1,16 +1,24 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { CMSEvent } from "@/lib/supabase";
 import SectionHeader from "@/components/SectionHeader";
+import EventDetailModal from "@/components/EventDetailModal";
 import { parseLocalDate } from "@/lib/dates";
 
-function EventCard({ event }: { event: CMSEvent }) {
+function EventCard({ event, onOpen }: { event: CMSEvent; onOpen: () => void }) {
   const date = parseLocalDate(event.event_date);
   const day = date.toLocaleDateString("en-GH", { day: "numeric" });
   const month = date.toLocaleDateString("en-GH", { month: "short" }).toUpperCase();
 
   return (
-    <div className="group bg-white rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+    <button
+      type="button"
+      onClick={onOpen}
+      aria-label={`View full details for ${event.title}`}
+      className="group bg-white rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
+    >
       <div className="relative aspect-[16/9] bg-bg-alt overflow-hidden">
         {event.image_url ? (
           <Image
@@ -29,6 +37,11 @@ function EventCard({ event }: { event: CMSEvent }) {
           <p className="text-xl font-bold text-primary leading-none">{day}</p>
           <p className="text-xs font-semibold text-accent mt-0.5">{month}</p>
         </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/0 to-black/0 group-hover:from-black/30 transition-colors flex items-end justify-center pb-4">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 text-primary text-xs font-semibold px-3 py-1.5 rounded-full">
+            View full details
+          </span>
+        </div>
       </div>
       <div className="p-5">
         <h3 className="font-display text-lg font-semibold text-primary">{event.title}</h3>
@@ -46,30 +59,18 @@ function EventCard({ event }: { event: CMSEvent }) {
           ) : (
             <span className="text-sm text-text-secondary">Free entry</span>
           )}
-          {event.ticket_url ? (
-            <a
-              href={event.ticket_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-white px-4 py-2 rounded-full text-xs font-semibold hover:bg-accent-dark transition"
-            >
-              Get Tickets
-            </a>
-          ) : (
-            <Link
-              href="/contact"
-              className="bg-accent text-white px-4 py-2 rounded-full text-xs font-semibold hover:bg-accent-dark transition"
-            >
-              Enquire
-            </Link>
-          )}
+          <span className="text-accent text-xs font-semibold">
+            View details &rarr;
+          </span>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
 export default function UpcomingEvents({ events }: { events: CMSEvent[] }) {
+  const [selected, setSelected] = useState<CMSEvent | null>(null);
+
   if (events.length === 0) return null;
 
   return (
@@ -81,9 +82,11 @@ export default function UpcomingEvents({ events }: { events: CMSEvent[] }) {
       />
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {events.map(ev => (
-          <EventCard key={ev.id} event={ev} />
+          <EventCard key={ev.id} event={ev} onOpen={() => setSelected(ev)} />
         ))}
       </div>
+
+      <EventDetailModal event={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }

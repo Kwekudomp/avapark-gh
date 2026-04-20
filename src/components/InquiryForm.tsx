@@ -1,12 +1,41 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useMemo, useState, FormEvent } from "react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { experiences } from "@/data/experiences";
+import { parseLocalDate } from "@/lib/dates";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function InquiryForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
+  const searchParams = useSearchParams();
+  const eventName = searchParams.get("event") ?? "";
+  const eventDate = searchParams.get("date") ?? "";
+  const eventImage = searchParams.get("image") ?? "";
+
+  const hasEventContext = Boolean(eventName);
+
+  const formattedDate = useMemo(() => {
+    if (!eventDate) return "";
+    try {
+      return parseLocalDate(eventDate).toLocaleDateString("en-GH", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    } catch {
+      return eventDate;
+    }
+  }, [eventDate]);
+
+  const defaultMessage = hasEventContext
+    ? `Hi! I'd like to enquire about ${eventName}${
+        formattedDate ? ` on ${formattedDate}` : ""
+      }. Please send me more information.`
+    : "";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,7 +49,6 @@ export default function InquiryForm() {
     const dates = formData.get("dates") as string;
     const message = formData.get("message") as string;
 
-    // Client-side validation
     if (!name.trim() || !email.trim() || !message.trim()) {
       return;
     }
@@ -48,6 +76,34 @@ export default function InquiryForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Event context banner */}
+      {hasEventContext && (
+        <div className="mb-6 rounded-2xl border border-accent/30 bg-accent/5 p-4 flex gap-4 items-start">
+          {eventImage ? (
+            <div className="relative w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-black">
+              <Image
+                src={eventImage}
+                alt={eventName}
+                fill
+                className="object-cover"
+                sizes="80px"
+              />
+            </div>
+          ) : null}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold tracking-wider uppercase text-accent">
+              Enquiring about
+            </p>
+            <p className="font-display text-lg font-semibold text-primary mt-0.5 leading-tight">
+              {eventName}
+            </p>
+            {formattedDate && (
+              <p className="text-sm text-text-secondary mt-1">{formattedDate}</p>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Name */}
       <div className="space-y-1.5 mb-5">
         <label htmlFor="name" className="block text-sm font-medium text-primary">
@@ -92,24 +148,35 @@ export default function InquiryForm() {
         />
       </div>
 
-      {/* Experience Interest */}
+      {/* Experience / Event of interest */}
       <div className="space-y-1.5 mb-5">
         <label htmlFor="experience" className="block text-sm font-medium text-primary">
-          Experience Interest
+          {hasEventContext ? "Event" : "Experience Interest"}
         </label>
-        <select
-          id="experience"
-          name="experience"
-          className={`${inputStyles} appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M6%208L1%203h10z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat pr-10`}
-          defaultValue=""
-        >
-          <option value="">General Inquiry</option>
-          {experiences.map((exp) => (
-            <option key={exp.slug} value={exp.name}>
-              {exp.name}
-            </option>
-          ))}
-        </select>
+        {hasEventContext ? (
+          <input
+            type="text"
+            id="experience"
+            name="experience"
+            readOnly
+            value={eventName}
+            className={`${inputStyles} bg-bg-alt cursor-not-allowed`}
+          />
+        ) : (
+          <select
+            id="experience"
+            name="experience"
+            className={`${inputStyles} appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M6%208L1%203h10z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat pr-10`}
+            defaultValue=""
+          >
+            <option value="">General Inquiry</option>
+            {experiences.map((exp) => (
+              <option key={exp.slug} value={exp.name}>
+                {exp.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {/* Preferred Dates */}
@@ -121,6 +188,7 @@ export default function InquiryForm() {
           type="text"
           id="dates"
           name="dates"
+          defaultValue={formattedDate}
           className={inputStyles}
           placeholder="e.g. March 15-17, 2026"
         />
@@ -136,6 +204,7 @@ export default function InquiryForm() {
           name="message"
           required
           rows={4}
+          defaultValue={defaultMessage}
           className={`${inputStyles} resize-none`}
           placeholder="Tell us about your plans or questions..."
         />

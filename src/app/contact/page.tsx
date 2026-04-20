@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import InquiryForm from "@/components/InquiryForm";
 import { WHATSAPP_URL, PHONE_TEL, PHONE_DISPLAY, EMAIL, INSTAGRAM_URL, TIKTOK_URL, SNAPCHAT_URL, TWITTER_URL } from "@/data/constants";
 
@@ -29,7 +30,9 @@ export default function ContactPage() {
             <h2 className="font-display text-2xl font-semibold text-primary mb-8">
               Send Us an Inquiry
             </h2>
-            <InquiryForm />
+            <Suspense fallback={<div className="h-96 rounded-2xl bg-bg-alt animate-pulse" />}>
+              <InquiryForm />
+            </Suspense>
           </div>
 
           {/* Right column — Sidebar */}
