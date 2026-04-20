@@ -10,15 +10,46 @@ const empty = {
   image_url: "", price: "", ticket_url: "",
 };
 
+type FormState = typeof empty;
+
 export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSEvent[] }) {
   const [events, setEvents] = useState<CMSEvent[]>(initialEvents);
-  const [form, setForm] = useState(empty);
+  const [form, setForm] = useState<FormState>(empty);
   const [adding, setAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  function set(k: string, v: string) { setForm(f => ({ ...f, [k]: v })); }
+  const formOpen = adding || editingId !== null;
+
+  function set(k: keyof FormState, v: string) { setForm(f => ({ ...f, [k]: v })); }
+
+  function resetForm() {
+    setForm(empty);
+    setAdding(false);
+    setEditingId(null);
+  }
+
+  function openAdd() {
+    setEditingId(null);
+    setForm(empty);
+    setAdding(true);
+  }
+
+  function openEdit(ev: CMSEvent) {
+    setAdding(false);
+    setEditingId(ev.id);
+    setForm({
+      title: ev.title ?? "",
+      description: ev.description ?? "",
+      event_date: ev.event_date ?? "",
+      end_date: ev.end_date ?? "",
+      image_url: ev.image_url ?? "",
+      price: ev.price ?? "",
+      ticket_url: ev.ticket_url ?? "",
+    });
+  }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -33,29 +64,41 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
     setUploading(false);
   }
 
-  async function handleAdd(e: React.FormEvent) {
+  async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    const res = await fetch("/api/cms/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: form.title,
-        description: form.description || null,
-        event_date: form.event_date,
-        end_date: form.end_date || null,
-        image_url: form.image_url || null,
-        price: form.price || null,
-        ticket_url: form.ticket_url || null,
-        is_active: true,
-        sort_order: events.length,
-      }),
-    });
-    const data = await res.json();
-    if (data.event) {
-      setEvents(prev => [...prev, data.event]);
-      setForm(empty);
-      setAdding(false);
+    const payload = {
+      title: form.title,
+      description: form.description || null,
+      event_date: form.event_date,
+      end_date: form.end_date || null,
+      image_url: form.image_url || null,
+      price: form.price || null,
+      ticket_url: form.ticket_url || null,
+    };
+
+    if (editingId) {
+      const res = await fetch("/api/cms/events", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: editingId, ...payload }),
+      });
+      const data = await res.json();
+      if (data.event) {
+        setEvents(prev => prev.map(e => e.id === editingId ? { ...e, ...data.event } : e));
+        resetForm();
+      }
+    } else {
+      const res = await fetch("/api/cms/events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, is_active: true, sort_order: events.length }),
+      });
+      const data = await res.json();
+      if (data.event) {
+        setEvents(prev => [...prev, data.event]);
+        resetForm();
+      }
     }
     setSaving(false);
   }
@@ -76,7 +119,10 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     });
-    if (res.ok) setEvents(prev => prev.filter(e => e.id !== id));
+    if (res.ok) {
+      setEvents(prev => prev.filter(e => e.id !== id));
+      if (editingId === id) resetForm();
+    }
   }
 
   const inputClass = "border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition w-full";
@@ -90,17 +136,17 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
           <span className="text-white/40 text-sm">({events.length})</span>
         </div>
         <button
-          onClick={() => setAdding(a => !a)}
+          onClick={() => (formOpen ? resetForm() : openAdd())}
           className="bg-accent text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-dark transition"
         >
-          {adding ? "Cancel" : "+ Add Event"}
+          {formOpen ? "Cancel" : "+ Add Event"}
         </button>
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-        {adding && (
-          <form onSubmit={handleAdd} className="bg-white rounded-2xl border border-border p-6 space-y-4">
-            <h2 className="font-semibold text-primary">New Event</h2>
+        {formOpen && (
+          <form onSubmit={handleSave} className="bg-white rounded-2xl border border-border p-6 space-y-4">
+            <h2 className="font-semibold text-primary">{editingId ? "Edit Event" : "New Event"}</h2>
             <input required value={form.title} onChange={e => set("title", e.target.value)} placeholder="Event title" className={inputClass} />
             <textarea value={form.description} onChange={e => set("description", e.target.value)} placeholder="Description" rows={3} className={inputClass} />
             <div className="grid grid-cols-2 gap-3">
@@ -123,21 +169,35 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={form.image_url} alt="" className="w-full h-40 object-cover rounded-xl mb-2" />
               )}
-              <button type="button" onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="px-4 py-2 border border-border rounded-xl text-sm text-text-secondary hover:border-primary transition disabled:opacity-60">
-                {uploading ? "Uploading…" : form.image_url ? "Change Image" : "Upload Image"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button type="button" onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="px-4 py-2 border border-border rounded-xl text-sm text-text-secondary hover:border-primary transition disabled:opacity-60">
+                  {uploading ? "Uploading…" : form.image_url ? "Change Image" : "Upload Image"}
+                </button>
+                {form.image_url && (
+                  <button type="button" onClick={() => set("image_url", "")}
+                    className="px-3 py-2 border border-border rounded-xl text-sm text-text-secondary hover:border-red-400 hover:text-red-600 transition">
+                    Remove
+                  </button>
+                )}
+              </div>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             </div>
-            <button type="submit" disabled={saving}
-              className="w-full bg-primary text-white py-3 rounded-full font-semibold text-sm hover:bg-primary-light transition disabled:opacity-60">
-              {saving ? "Saving…" : "Save Event"}
-            </button>
+            <div className="flex gap-3">
+              <button type="submit" disabled={saving}
+                className="flex-1 bg-primary text-white py-3 rounded-full font-semibold text-sm hover:bg-primary-light transition disabled:opacity-60">
+                {saving ? "Saving…" : editingId ? "Update Event" : "Save Event"}
+              </button>
+              <button type="button" onClick={resetForm}
+                className="px-6 py-3 border border-border rounded-full text-sm font-semibold text-text-secondary hover:border-primary hover:text-primary transition">
+                Cancel
+              </button>
+            </div>
           </form>
         )}
 
-        {events.length === 0 && !adding ? (
+        {events.length === 0 && !formOpen ? (
           <div className="bg-white rounded-2xl border-2 border-dashed border-border text-center py-16 text-text-secondary">
             <p className="text-4xl mb-3">📅</p>
             <p className="text-lg font-medium">No events yet</p>
@@ -146,14 +206,14 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
         ) : (
           <div className="space-y-4">
             {events.map(ev => (
-              <div key={ev.id} className={`bg-white rounded-2xl border border-border p-5 flex gap-4 ${!ev.is_active ? "opacity-60" : ""}`}>
+              <div key={ev.id} className={`bg-white rounded-2xl border p-5 flex gap-4 transition ${editingId === ev.id ? "border-primary ring-2 ring-primary/20" : "border-border"} ${!ev.is_active ? "opacity-60" : ""}`}>
                 {ev.image_url && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={ev.image_url} alt={ev.title} className="w-24 h-24 object-cover rounded-xl flex-shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-semibold text-dark">{ev.title}</p>
                       <p className="text-xs text-accent mt-0.5">
                         {parseLocalDate(ev.event_date).toLocaleDateString("en-GH", { day: "numeric", month: "long", year: "numeric" })}
@@ -163,6 +223,10 @@ export default function EventsCMSClient({ initialEvents }: { initialEvents: CMSE
                       {ev.description && <p className="text-sm text-text-secondary mt-2 line-clamp-2">{ev.description}</p>}
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
+                      <button onClick={() => openEdit(ev)}
+                        className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium hover:bg-primary/20 transition">
+                        Edit
+                      </button>
                       <button onClick={() => handleToggle(ev)}
                         className={`px-3 py-1 rounded-full text-xs font-medium transition ${ev.is_active ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-bg-alt text-text-secondary hover:bg-border"}`}>
                         {ev.is_active ? "Live" : "Hidden"}
