@@ -27,25 +27,24 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
 
   const total = experiences.length;
 
-  if (!total) return null;
-
-  const active = experiences[activeIndex];
-
   const goTo = useCallback((index: number) => {
     setActiveIndex(index);
     setProgress(0);
   }, []);
 
   const goPrev = useCallback(() => {
+    if (!total) return;
     goTo((activeIndex - 1 + total) % total);
   }, [activeIndex, total, goTo]);
 
   const goNext = useCallback(() => {
+    if (!total) return;
     goTo((activeIndex + 1) % total);
   }, [activeIndex, total, goTo]);
 
   // Which 3 card indices are visible: active + next 2
   const visibleIndices = useMemo(() => {
+    if (!total) return [];
     return Array.from({ length: VISIBLE_CARDS }, (_, k) => (activeIndex + k) % total);
   }, [activeIndex, total]);
 
@@ -67,22 +66,25 @@ export default function ExperienceCarousel({ experiences }: ExperienceCarouselPr
     }, tick);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPaused, total]);
-
-  const formatPrice = (price: number | null) => {
-    if (!price) return "Free";
-    return `GH\u20B5${price}`;
-  };
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") goPrev();
     if (e.key === "ArrowRight") goNext();
   }, [goPrev, goNext]);
 
+  if (!total) return null;
+
+  const active = experiences[activeIndex];
+
+  const formatPrice = (price: number | null) => {
+    if (!price) return "Free";
+    return `GH\u20B5${price}`;
+  };
+
   return (
     <div
-      className="relative w-full h-[calc(100vh-80px)] overflow-hidden bg-dark"
+      className="relative w-full h-[calc(100vh-112px)] md:h-[calc(100vh-128px)] overflow-hidden bg-dark"
       role="region"
       aria-roledescription="carousel"
       aria-label="Featured experiences"

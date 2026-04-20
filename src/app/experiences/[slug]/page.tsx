@@ -59,21 +59,23 @@ export default async function ExperiencePage({
   return (
     <>
       {/* ── Breadcrumb ──────────────────────────────────────────────────── */}
-      <nav className="pt-28 pb-4 px-[5%]" aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm text-text-secondary">
-          <li>
+      <nav className="pt-28 md:pt-32 pb-4 px-[5%]" aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-2 text-sm text-text-secondary">
+          <li className="flex-shrink-0">
             <Link href="/" className="hover:text-primary transition-colors">
               Home
             </Link>
           </li>
-          <li aria-hidden="true">/</li>
-          <li>
+          <li aria-hidden="true" className="flex-shrink-0">/</li>
+          <li className="flex-shrink-0">
             <Link href="/experiences" className="hover:text-primary transition-colors">
               Experiences
             </Link>
           </li>
-          <li aria-hidden="true">/</li>
-          <li className="text-primary font-medium truncate">{name}</li>
+          <li aria-hidden="true" className="flex-shrink-0">/</li>
+          <li className="text-primary font-medium min-w-0 flex-1 truncate" aria-current="page">
+            {name}
+          </li>
         </ol>
       </nav>
 
