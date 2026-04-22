@@ -139,7 +139,6 @@ export const experiences: Experience[] = [
     images: [
       "/images/venue/pool-party.jpeg",
       "/images/venue/pool-night.jpeg",
-      "/images/experiences/party-woods-2.jpeg",
     ],
     category: "recurring",
     isFeatured: true,
