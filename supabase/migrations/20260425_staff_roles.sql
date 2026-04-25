@@ -68,3 +68,12 @@ $$;
 grant execute on function public.current_role() to authenticated;
 grant execute on function public.is_admin()      to authenticated;
 grant execute on function public.is_staff()      to authenticated;
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 3. gallery_items.uploaded_by
+-- ──────────────────────────────────────────────────────────────────────────
+
+alter table public.gallery_items
+  add column uploaded_by uuid references auth.users(id) on delete set null;
+
+create index gallery_items_uploaded_by_idx on public.gallery_items(uploaded_by);
