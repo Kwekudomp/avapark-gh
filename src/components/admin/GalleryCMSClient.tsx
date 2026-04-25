@@ -2,14 +2,21 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { Lock } from "lucide-react";
 import { GalleryItem } from "@/lib/supabase";
 
 const CATEGORIES = ["venue", "camping", "pool", "gardens", "events"] as const;
 
 export default function GalleryCMSClient({
   initialItems,
+  currentUserId,
+  isAdmin,
+  uploaderMap,
 }: {
   initialItems: GalleryItem[];
+  currentUserId: string;
+  isAdmin: boolean;
+  uploaderMap: Record<string, string>;
 }) {
   const [items, setItems] = useState<GalleryItem[]>(initialItems);
   const [uploading, setUploading] = useState(false);
@@ -140,13 +147,22 @@ export default function GalleryCMSClient({
                     {item.category}
                   </span>
                 </div>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600"
-                  aria-label="Delete image"
-                >
-                  ✕
-                </button>
+                {(isAdmin || item.uploaded_by === currentUserId) ? (
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600"
+                    aria-label="Delete image"
+                  >
+                    ✕
+                  </button>
+                ) : (
+                  <span
+                    className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm text-text-secondary text-xs px-2 py-1 rounded-full inline-flex items-center gap-1"
+                    title={item.uploaded_by ? `Uploaded by ${uploaderMap[item.uploaded_by] ?? "unknown"}` : "Uploaded by admin"}
+                  >
+                    <Lock className="w-3 h-3" /> {item.uploaded_by ? uploaderMap[item.uploaded_by] ?? "Other" : "Admin"}
+                  </span>
+                )}
               </div>
             ))}
           </div>
