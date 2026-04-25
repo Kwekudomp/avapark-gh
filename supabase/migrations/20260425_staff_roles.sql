@@ -77,3 +77,17 @@ alter table public.gallery_items
   add column uploaded_by uuid references auth.users(id) on delete set null;
 
 create index gallery_items_uploaded_by_idx on public.gallery_items(uploaded_by);
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 4. Backfill — every existing auth.users row becomes an admin profile.
+-- Uses the email local-part as a placeholder display name; admin can edit later.
+-- ──────────────────────────────────────────────────────────────────────────
+
+insert into public.profiles (id, email, name, role)
+select
+  u.id,
+  u.email,
+  coalesce(u.raw_user_meta_data->>'name', split_part(u.email, '@', 1)) as name,
+  'admin'
+from auth.users u
+on conflict (id) do nothing;
