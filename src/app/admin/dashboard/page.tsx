@@ -29,6 +29,7 @@ export default async function AdminDashboardPage() {
       .eq("status", "unread");
 
     // Last-7-days uploads by this user
+    // eslint-disable-next-line react-hooks/purity
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     const { data: recentUploads } = await admin
       .from("gallery_items")
