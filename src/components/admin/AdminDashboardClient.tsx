@@ -111,6 +111,7 @@ export default function AdminDashboardClient({
             { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: "⭐", badge: pendingReviews },
             { href: "/admin/inquiries", label: "Inquiries", desc: "Read and reply to contact-form enquiries", icon: <Inbox className="w-6 h-6 text-primary" />, badge: unreadInquiries },
             { href: "/admin/whatsapp", label: "WhatsApp Agent", desc: "AI inbox, conversations, FAQs", icon: <MessageSquare className="w-6 h-6 text-emerald-600" />, badge: pendingEscalations },
+            { href: "/admin/users", label: "Staff Users", desc: "Add or remove admin and marketing staff", icon: "👥", badge: 0 },
           ].map(link => (
             <a key={link.href} href={link.href}
               className="relative bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition group">
