@@ -224,3 +224,39 @@ create policy "admin_manage_wa_venue_settings" on public.wa_venue_settings
 drop policy if exists "authenticated_manage_orders" on public.orders;
 create policy "admin_manage_orders" on public.orders
   for all using (public.is_admin()) with check (public.is_admin());
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 8. Storage buckets — gallery (staff write, own delete) + experience-images (admin)
+-- ──────────────────────────────────────────────────────────────────────────
+
+-- Drop any existing authenticated policies on these buckets (names vary by setup)
+drop policy if exists "authenticated_write_gallery"           on storage.objects;
+drop policy if exists "authenticated_write_experience_images" on storage.objects;
+drop policy if exists "Authenticated users can upload"        on storage.objects;
+
+-- GALLERY bucket — staff upload, admin or owner can update/delete
+create policy "gallery_staff_insert" on storage.objects
+  for insert with check (bucket_id = 'gallery' and public.is_staff());
+
+create policy "gallery_owner_update" on storage.objects
+  for update using (
+    bucket_id = 'gallery' and (public.is_admin() or owner = auth.uid())
+  ) with check (
+    bucket_id = 'gallery' and (public.is_admin() or owner = auth.uid())
+  );
+
+create policy "gallery_owner_delete" on storage.objects
+  for delete using (
+    bucket_id = 'gallery' and (public.is_admin() or owner = auth.uid())
+  );
+
+-- EXPERIENCE-IMAGES bucket — admin only for writes
+create policy "experience_images_admin_insert" on storage.objects
+  for insert with check (bucket_id = 'experience-images' and public.is_admin());
+
+create policy "experience_images_admin_update" on storage.objects
+  for update using (bucket_id = 'experience-images' and public.is_admin())
+  with check (bucket_id = 'experience-images' and public.is_admin());
+
+create policy "experience_images_admin_delete" on storage.objects
+  for delete using (bucket_id = 'experience-images' and public.is_admin());
