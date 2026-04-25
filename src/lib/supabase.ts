@@ -1,5 +1,16 @@
 export type BookingStatus = "pending" | "confirmed" | "cancelled";
 
+export type UserRole = "admin" | "marketing_sales";
+
+export interface Profile {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface CMSExperience {
   id: string;
   slug: string;
@@ -35,6 +46,7 @@ export interface GalleryItem {
   category: string;
   sort_order: number;
   is_active: boolean;
+  uploaded_by: string | null;
 }
 
 export interface CMSEvent {
