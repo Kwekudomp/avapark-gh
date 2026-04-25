@@ -91,3 +91,37 @@ select
   'admin'
 from auth.users u
 on conflict (id) do nothing;
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 5. RLS — bookings + inquiries (staff full edit; only admin can DELETE)
+-- ──────────────────────────────────────────────────────────────────────────
+
+-- BOOKINGS
+drop policy if exists "authenticated_manage_bookings" on public.bookings;
+drop policy if exists "anon_insert_bookings"          on public.bookings;
+
+create policy "staff_select_bookings" on public.bookings
+  for select using (public.is_staff());
+create policy "staff_insert_bookings" on public.bookings
+  for insert with check (public.is_staff());
+create policy "staff_update_bookings" on public.bookings
+  for update using (public.is_staff()) with check (public.is_staff());
+create policy "admin_delete_bookings" on public.bookings
+  for delete using (public.is_admin());
+-- Anonymous public booking creation (used by /api/bookings POST)
+create policy "anon_insert_bookings" on public.bookings
+  for insert with check (true);
+
+-- INQUIRIES
+drop policy if exists "authenticated_manage_inquiries" on public.inquiries;
+drop policy if exists "anon_insert_inquiries"          on public.inquiries;
+
+create policy "staff_select_inquiries" on public.inquiries
+  for select using (public.is_staff());
+create policy "staff_update_inquiries" on public.inquiries
+  for update using (public.is_staff()) with check (public.is_staff());
+create policy "admin_delete_inquiries" on public.inquiries
+  for delete using (public.is_admin());
+-- Anonymous public form submissions
+create policy "anon_insert_inquiries" on public.inquiries
+  for insert with check (true);
