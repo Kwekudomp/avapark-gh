@@ -97,8 +97,13 @@ on conflict (id) do nothing;
 -- ──────────────────────────────────────────────────────────────────────────
 
 -- BOOKINGS
-drop policy if exists "authenticated_manage_bookings" on public.bookings;
-drop policy if exists "anon_insert_bookings"          on public.bookings;
+-- Drop legacy policies from 001_bookings.sql (broad authenticated access)
+drop policy if exists "authenticated_select_bookings"  on public.bookings;
+drop policy if exists "authenticated_update_bookings"  on public.bookings;
+drop policy if exists "public_insert_bookings"         on public.bookings;
+-- Drop policies that may exist from earlier iterations of this migration
+drop policy if exists "authenticated_manage_bookings"  on public.bookings;
+drop policy if exists "anon_insert_bookings"           on public.bookings;
 
 create policy "staff_select_bookings" on public.bookings
   for select using (public.is_staff());
@@ -113,6 +118,9 @@ create policy "anon_insert_bookings" on public.bookings
   for insert with check (true);
 
 -- INQUIRIES
+-- Drop legacy policy from 20260420_inquiries.sql
+drop policy if exists "Anyone can submit an inquiry" on public.inquiries;
+-- Drop policies that may exist from earlier iterations of this migration
 drop policy if exists "authenticated_manage_inquiries" on public.inquiries;
 drop policy if exists "anon_insert_inquiries"          on public.inquiries;
 
@@ -159,6 +167,10 @@ create policy "profile_delete_admin" on public.profiles
 -- 7. RLS — admin-only tables (replace `authenticated_manage_*` with is_admin)
 -- ──────────────────────────────────────────────────────────────────────────
 
+-- Tables created without RLS in earlier migrations — enable now
+alter table public.events enable row level security;
+alter table public.videos enable row level security;
+
 -- experiences
 drop policy if exists "authenticated_manage_experiences" on public.experiences;
 create policy "admin_manage_experiences" on public.experiences
@@ -174,8 +186,12 @@ drop policy if exists "authenticated_manage_videos" on public.videos;
 create policy "admin_manage_videos" on public.videos
   for all using (public.is_admin()) with check (public.is_admin());
 
--- menu_items
-drop policy if exists "authenticated_manage_menu_items" on public.menu_items;
+-- menu_items (legacy individual auth policies must be dropped — they bypass is_admin)
+drop policy if exists "Authenticated can read all menu items"  on public.menu_items;
+drop policy if exists "Authenticated can insert menu items"    on public.menu_items;
+drop policy if exists "Authenticated can update menu items"    on public.menu_items;
+drop policy if exists "Authenticated can delete menu items"    on public.menu_items;
+drop policy if exists "authenticated_manage_menu_items"        on public.menu_items;
 create policy "admin_manage_menu_items" on public.menu_items
   for all using (public.is_admin()) with check (public.is_admin());
 
@@ -190,38 +206,14 @@ create policy "admin_manage_accommodation" on public.accommodation_partners
   for all using (public.is_admin()) with check (public.is_admin());
 
 -- site_settings
-drop policy if exists "authenticated_manage_site_settings" on public.site_settings;
+drop policy if exists "authenticated_manage_settings" on public.site_settings;
 create policy "admin_manage_site_settings" on public.site_settings
   for all using (public.is_admin()) with check (public.is_admin());
 
--- escalations (whatsapp)
-drop policy if exists "authenticated_manage_escalations" on public.escalations;
-create policy "admin_manage_escalations" on public.escalations
-  for all using (public.is_admin()) with check (public.is_admin());
-
--- whatsapp tables
-drop policy if exists "authenticated_manage_wa_conversations" on public.wa_conversations;
-create policy "admin_manage_wa_conversations" on public.wa_conversations
-  for all using (public.is_admin()) with check (public.is_admin());
-
-drop policy if exists "authenticated_manage_wa_messages" on public.wa_messages;
-create policy "admin_manage_wa_messages" on public.wa_messages
-  for all using (public.is_admin()) with check (public.is_admin());
-
-drop policy if exists "authenticated_manage_wa_faqs" on public.wa_faqs;
-create policy "admin_manage_wa_faqs" on public.wa_faqs
-  for all using (public.is_admin()) with check (public.is_admin());
-
-drop policy if exists "authenticated_manage_wa_closures" on public.wa_closures;
-create policy "admin_manage_wa_closures" on public.wa_closures
-  for all using (public.is_admin()) with check (public.is_admin());
-
-drop policy if exists "authenticated_manage_wa_venue_settings" on public.wa_venue_settings;
-create policy "admin_manage_wa_venue_settings" on public.wa_venue_settings
-  for all using (public.is_admin()) with check (public.is_admin());
-
--- orders (kitchen)
-drop policy if exists "authenticated_manage_orders" on public.orders;
+-- orders (kitchen — legacy individual auth policies must be dropped)
+drop policy if exists "Authenticated users can read orders"   on public.orders;
+drop policy if exists "Authenticated users can update orders" on public.orders;
+drop policy if exists "authenticated_manage_orders"           on public.orders;
 create policy "admin_manage_orders" on public.orders
   for all using (public.is_admin()) with check (public.is_admin());
 
