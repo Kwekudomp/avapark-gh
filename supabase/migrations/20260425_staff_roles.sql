@@ -125,3 +125,32 @@ create policy "admin_delete_inquiries" on public.inquiries
 -- Anonymous public form submissions
 create policy "anon_insert_inquiries" on public.inquiries
   for insert with check (true);
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 6. RLS — gallery_items (admin full; MSO insert any + edit/delete only own)
+--          profiles      (admin full; staff read own)
+-- ──────────────────────────────────────────────────────────────────────────
+
+-- GALLERY_ITEMS
+drop policy if exists "authenticated_manage_gallery" on public.gallery_items;
+-- public_read_gallery (is_active = true) is left in place; do not drop.
+
+create policy "staff_insert_gallery" on public.gallery_items
+  for insert with check (public.is_staff());
+create policy "gallery_update_own_or_admin" on public.gallery_items
+  for update using (public.is_admin() or uploaded_by = auth.uid())
+  with check (public.is_admin() or uploaded_by = auth.uid());
+create policy "gallery_delete_own_or_admin" on public.gallery_items
+  for delete using (public.is_admin() or uploaded_by = auth.uid());
+
+-- PROFILES
+create policy "profile_select_self" on public.profiles
+  for select using (auth.uid() = id);
+create policy "profile_select_all_admin" on public.profiles
+  for select using (public.is_admin());
+create policy "profile_insert_admin" on public.profiles
+  for insert with check (public.is_admin());
+create policy "profile_update_admin" on public.profiles
+  for update using (public.is_admin()) with check (public.is_admin());
+create policy "profile_delete_admin" on public.profiles
+  for delete using (public.is_admin());
