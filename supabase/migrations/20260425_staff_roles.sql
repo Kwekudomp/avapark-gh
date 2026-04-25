@@ -154,3 +154,73 @@ create policy "profile_update_admin" on public.profiles
   for update using (public.is_admin()) with check (public.is_admin());
 create policy "profile_delete_admin" on public.profiles
   for delete using (public.is_admin());
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 7. RLS — admin-only tables (replace `authenticated_manage_*` with is_admin)
+-- ──────────────────────────────────────────────────────────────────────────
+
+-- experiences
+drop policy if exists "authenticated_manage_experiences" on public.experiences;
+create policy "admin_manage_experiences" on public.experiences
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- events
+drop policy if exists "authenticated_manage_events" on public.events;
+create policy "admin_manage_events" on public.events
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- videos
+drop policy if exists "authenticated_manage_videos" on public.videos;
+create policy "admin_manage_videos" on public.videos
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- menu_items
+drop policy if exists "authenticated_manage_menu_items" on public.menu_items;
+create policy "admin_manage_menu_items" on public.menu_items
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- reviews
+drop policy if exists "authenticated_manage_reviews" on public.reviews;
+create policy "admin_manage_reviews" on public.reviews
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- accommodation_partners
+drop policy if exists "authenticated_manage_accommodation" on public.accommodation_partners;
+create policy "admin_manage_accommodation" on public.accommodation_partners
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- site_settings
+drop policy if exists "authenticated_manage_site_settings" on public.site_settings;
+create policy "admin_manage_site_settings" on public.site_settings
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- escalations (whatsapp)
+drop policy if exists "authenticated_manage_escalations" on public.escalations;
+create policy "admin_manage_escalations" on public.escalations
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- whatsapp tables
+drop policy if exists "authenticated_manage_wa_conversations" on public.wa_conversations;
+create policy "admin_manage_wa_conversations" on public.wa_conversations
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "authenticated_manage_wa_messages" on public.wa_messages;
+create policy "admin_manage_wa_messages" on public.wa_messages
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "authenticated_manage_wa_faqs" on public.wa_faqs;
+create policy "admin_manage_wa_faqs" on public.wa_faqs
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "authenticated_manage_wa_closures" on public.wa_closures;
+create policy "admin_manage_wa_closures" on public.wa_closures
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "authenticated_manage_wa_venue_settings" on public.wa_venue_settings;
+create policy "admin_manage_wa_venue_settings" on public.wa_venue_settings
+  for all using (public.is_admin()) with check (public.is_admin());
+
+-- orders (kitchen)
+drop policy if exists "authenticated_manage_orders" on public.orders;
+create policy "admin_manage_orders" on public.orders
+  for all using (public.is_admin()) with check (public.is_admin());
