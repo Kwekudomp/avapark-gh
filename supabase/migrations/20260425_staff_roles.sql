@@ -30,3 +30,41 @@ create trigger profiles_updated_at
   for each row execute function public.set_updated_at();
 
 alter table public.profiles enable row level security;
+
+-- ──────────────────────────────────────────────────────────────────────────
+-- 2. Role helpers (SECURITY DEFINER — bypass profiles RLS to read self)
+-- ──────────────────────────────────────────────────────────────────────────
+
+create or replace function public.current_role()
+returns text
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select role from public.profiles where id = auth.uid();
+$$;
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select coalesce(public.current_role() = 'admin', false);
+$$;
+
+create or replace function public.is_staff()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select coalesce(public.current_role() in ('admin','marketing_sales'), false);
+$$;
+
+grant execute on function public.current_role() to authenticated;
+grant execute on function public.is_admin()      to authenticated;
+grant execute on function public.is_staff()      to authenticated;
