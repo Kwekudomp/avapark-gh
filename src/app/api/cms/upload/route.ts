@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { createAdminSupabase } from "@/lib/supabase-server";
+import { assertStaff, assertAdmin } from "@/lib/auth/roles";
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
   const formData = await req.formData();
   const file = formData.get("file") as File;
   const bucket = (formData.get("bucket") as string) || "gallery";
+
+  // Gallery uploads → staff. Anything else (experience-images, etc) → admin only.
+  const auth = bucket === "gallery" ? await assertStaff() : await assertAdmin();
+  if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
 
   if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 });
 

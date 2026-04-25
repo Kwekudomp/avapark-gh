@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { createAdminSupabase } from "@/lib/supabase-server";
+import { assertStaff } from "@/lib/auth/roles";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const auth = await assertStaff();
+    if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
+
     const { id } = await params;
-    const supabase = await createServerSupabase();
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
     const body = await req.json();
     const { status, admin_notes } = body;
 
@@ -19,7 +18,8 @@ export async function PATCH(
     if (status) updates.status = status;
     if (admin_notes !== undefined) updates.admin_notes = admin_notes;
 
-    const { data, error } = await supabase
+    const admin = createAdminSupabase();
+    const { data, error } = await admin
       .from("bookings")
       .update(updates)
       .eq("id", id)

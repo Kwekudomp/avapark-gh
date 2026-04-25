@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
-
-async function requireAdmin() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  return user;
-}
+import { createAdminSupabase } from "@/lib/supabase-server";
+import { assertStaff, assertAdmin } from "@/lib/auth/roles";
 
 export async function GET() {
-  if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await assertStaff();
+  if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
+
   const admin = createAdminSupabase();
   const { data, error } = await admin
     .from("inquiries")
@@ -22,9 +16,9 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await assertStaff();
+  if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
+
   const { id, status, admin_note } = await req.json();
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
   if (status && !["unread", "read", "archived"].includes(status)) {
@@ -45,9 +39,9 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await assertAdmin();
+  if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
+
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
   const admin = createAdminSupabase();
