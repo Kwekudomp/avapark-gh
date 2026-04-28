@@ -22,38 +22,58 @@ export default function GalleryCMSClient({
   const [uploading, setUploading] = useState(false);
   const [newAlt, setNewAlt] = useState("");
   const [newCategory, setNewCategory] = useState("venue");
+  const [toast, setToast] = useState<{ kind: "success" | "error"; text: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function showToast(kind: "success" | "error", text: string) {
+    setToast({ kind, text });
+    setTimeout(() => setToast(null), kind === "success" ? 4000 : 8000);
+  }
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    setToast(null);
 
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("bucket", "gallery");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("bucket", "gallery");
 
-    const uploadRes = await fetch("/api/cms/upload", { method: "POST", body: fd });
-    const uploadData = await uploadRes.json();
-    if (!uploadData.url) { setUploading(false); return; }
+      const uploadRes = await fetch("/api/cms/upload", { method: "POST", body: fd });
+      const uploadData = await uploadRes.json().catch(() => ({}));
+      if (!uploadRes.ok || !uploadData.url) {
+        showToast("error", `Upload failed (${uploadRes.status}): ${uploadData.error ?? "unknown error"}`);
+        return;
+      }
 
-    const res = await fetch("/api/cms/gallery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: uploadData.url,
-        alt: newAlt || file.name.replace(/\.[^.]+$/, ""),
-        category: newCategory,
-        sort_order: items.length,
-        is_active: true,
-      }),
-    });
-    const data = await res.json();
-    if (data.item) setItems(prev => [...prev, data.item]);
-    setNewAlt("");
-    // reset file input
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    setUploading(false);
+      const res = await fetch("/api/cms/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: uploadData.url,
+          alt: newAlt || file.name.replace(/\.[^.]+$/, ""),
+          category: newCategory,
+          sort_order: items.length,
+          is_active: true,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.item) {
+        showToast("error", `Save failed (${res.status}): ${data.error ?? "unknown error"}`);
+        return;
+      }
+
+      setItems(prev => [...prev, data.item]);
+      setNewAlt("");
+      showToast("success", "Photo uploaded — visible on the public gallery within a minute.");
+    } catch (err) {
+      showToast("error", err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setUploading(false);
+    }
   }
 
   async function handleDelete(id: string) {
@@ -63,7 +83,13 @@ export default function GalleryCMSClient({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     });
-    if (res.ok) setItems(prev => prev.filter(i => i.id !== id));
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showToast("error", `Remove failed (${res.status}): ${data.error ?? "unknown error"}`);
+      return;
+    }
+    setItems(prev => prev.filter(i => i.id !== id));
+    showToast("success", "Photo removed from gallery.");
   }
 
   const inputClass =
@@ -78,6 +104,18 @@ export default function GalleryCMSClient({
         <h1 className="font-semibold">Gallery</h1>
         <span className="text-white/40 text-sm">({items.length} photos)</span>
       </header>
+
+      {toast && (
+        <div className="fixed top-20 right-4 z-50 max-w-md">
+          <div className={`rounded-xl px-4 py-3 shadow-lg text-sm font-medium ${
+            toast.kind === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
+          }`}>
+            {toast.text}
+          </div>
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
         {/* Upload */}

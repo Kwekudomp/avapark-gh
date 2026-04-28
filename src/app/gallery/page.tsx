@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     "Explore photos of Hidden Paradise, from our camping grounds and swimming pool to the sunset gardens and event spaces.",
 };
 
+export const revalidate = 60;
+
 export default async function GalleryPage() {
   const items = await getGalleryItems();
 
