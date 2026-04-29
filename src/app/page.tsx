@@ -8,7 +8,7 @@ import PhotoMosaic from "@/components/PhotoMosaic";
 import ValueCards from "@/components/ValueCards";
 import WeeklySchedule from "@/components/WeeklySchedule";
 import DiasporaCTA from "@/components/DiasporaCTA";
-import UpcomingEvents from "@/components/UpcomingEvents";
+import UpcomingEventsTeaser from "@/components/UpcomingEventsTeaser";
 import VideoSection from "@/components/VideoSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import AccommodationSection from "@/components/AccommodationSection";
@@ -29,6 +29,9 @@ export default async function Home() {
     <>
       {/* Hero + Activity Finder */}
       <HeroCarousel />
+
+      {/* Upcoming Events teaser — auto-hides when no events */}
+      <UpcomingEventsTeaser events={events} />
 
       {/* Featured Experiences */}
       <section className="py-24 px-[5%]">
@@ -52,9 +55,6 @@ export default async function Home() {
 
       {/* Accommodation */}
       <AccommodationSection partners={partners} />
-
-      {/* Upcoming Events */}
-      <UpcomingEvents events={events} />
 
       {/* Photo Mosaic */}
       <PhotoMosaic />

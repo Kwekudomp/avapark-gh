@@ -50,13 +50,32 @@ export default async function EventCalendarPage() {
   return (
     <main className="pt-28 pb-24">
       {/* Hero */}
-      <section className="px-[5%] mb-16">
+      <section className="px-[5%] mb-12">
         <SectionHeader
           tag="WHAT'S ON"
           title="Event Calendar"
           description="Weekly favourites, seasonal celebrations, and special one-off events. Plan your visit around what you love most."
         />
       </section>
+
+      {/* Upcoming Special Events from CMS — first thing under the hero */}
+      {events.length > 0 ? (
+        <UpcomingEvents events={events} />
+      ) : (
+        <section className="px-[5%] mb-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="bg-bg-alt rounded-2xl border border-border p-10">
+              <PartyPopper className="w-12 h-12 text-primary mx-auto mb-3" strokeWidth={1.5} />
+              <h3 className="font-display text-lg font-bold text-primary mb-1">
+                No Special Events Right Now
+              </h3>
+              <p className="text-text-secondary text-sm">
+                Our weekly events run every week. Check back soon for upcoming festivals, holidays, and one-off celebrations.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Weekly Events */}
       <section className="px-[5%] mb-20">
@@ -101,25 +120,6 @@ export default async function EventCalendarPage() {
           </div>
         </div>
       </section>
-
-      {/* Upcoming Special Events from CMS */}
-      {events.length > 0 ? (
-        <UpcomingEvents events={events} />
-      ) : (
-        <section className="px-[5%] mb-20">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-bg-alt rounded-2xl border border-border p-10">
-              <PartyPopper className="w-12 h-12 text-primary mx-auto mb-3" strokeWidth={1.5} />
-              <h3 className="font-display text-lg font-bold text-primary mb-1">
-                No Special Events Right Now
-              </h3>
-              <p className="text-text-secondary text-sm">
-                Our weekly events run every week. Check back soon for upcoming festivals, holidays, and one-off celebrations.
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Calendar Grid */}
       <section className="px-[5%] mt-20">
