@@ -8,8 +8,10 @@ import WhatsAppFAB from "@/components/WhatsAppFAB";
 export default function PublicShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const isMaintenance = pathname.startsWith("/maintenance");
 
-  if (isAdmin) return <>{children}</>;
+  // Admin pages and the maintenance page render bare (no nav/footer/FAB)
+  if (isAdmin || isMaintenance) return <>{children}</>;
 
   return (
     <>
