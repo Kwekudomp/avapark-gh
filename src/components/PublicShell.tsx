@@ -9,9 +9,10 @@ export default function PublicShell({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const isMaintenance = pathname.startsWith("/maintenance");
+  const isSys = pathname.startsWith("/sys");
 
-  // Admin pages and the maintenance page render bare (no nav/footer/FAB)
-  if (isAdmin || isMaintenance) return <>{children}</>;
+  // Admin, maintenance, and the hidden control page render bare (no nav/footer/FAB)
+  if (isAdmin || isMaintenance || isSys) return <>{children}</>;
 
   return (
     <>
