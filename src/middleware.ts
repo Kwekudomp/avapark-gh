@@ -1,13 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { getSiteState } from "@/lib/site-state";
 
-// Paths that stay reachable even when MAINTENANCE_MODE=true.
-// Admin can still log in and operate; /api/admin keeps the admin panel functional.
+// Paths reachable while state = 'maintenance' (real maintenance — admin keeps working).
 const MAINTENANCE_ALLOWED_PREFIXES = [
   "/admin",
   "/api/admin",
   "/api/auth",
+  "/sys",
+  "/api/sys",
+  "/maintenance",
+  "/_next",
+];
+
+// Paths reachable while state = 'lockdown' (hard lock — admin is locked out too).
+// Only the control surface and the maintenance page survive, so the lock can be lifted.
+const LOCKDOWN_ALLOWED_PREFIXES = [
+  "/sys",
+  "/api/sys",
   "/maintenance",
   "/_next",
 ];
@@ -15,10 +26,19 @@ const MAINTENANCE_ALLOWED_PREFIXES = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1) Maintenance gate — redirect public traffic to /maintenance when toggled on.
+  // 1) Site lock gate — rewrite gated traffic to /maintenance.
+  const siteState = await getSiteState();
+
   if (
-    process.env.MAINTENANCE_MODE === "true" &&
+    siteState === "maintenance" &&
     !MAINTENANCE_ALLOWED_PREFIXES.some((p) => pathname.startsWith(p))
+  ) {
+    return NextResponse.rewrite(new URL("/maintenance", request.url));
+  }
+
+  if (
+    siteState === "lockdown" &&
+    !LOCKDOWN_ALLOWED_PREFIXES.some((p) => pathname.startsWith(p))
   ) {
     return NextResponse.rewrite(new URL("/maintenance", request.url));
   }
