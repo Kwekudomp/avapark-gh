@@ -4,6 +4,7 @@ vi.mock("@/lib/supabase-server", () => ({ createAdminSupabase: vi.fn() }));
 
 import { createAdminSupabase } from "@/lib/supabase-server";
 import { POST } from "@/app/api/sys/route";
+import { _resetRateLimit } from "@/lib/rate-limit";
 
 // Builds a mock admin client whose select returns `state` and whose update succeeds.
 const makeAdmin = (
@@ -28,6 +29,7 @@ const post = (body: unknown) =>
 
 describe("POST /api/sys", () => {
   beforeEach(() => {
+    _resetRateLimit();
     vi.clearAllMocks();
     vi.unstubAllEnvs();
     vi.stubEnv("MAINTENANCE_SECRET", "s3cret");
@@ -73,5 +75,26 @@ describe("POST /api/sys", () => {
     vi.mocked(createAdminSupabase).mockReturnValue(client as never);
     const res = await post({ password: "s3cret", state: "off" });
     expect(res.status).toBe(500);
+  });
+
+  it("returns 429 after too many wrong-password attempts", async () => {
+    for (let i = 0; i < 5; i++) {
+      expect((await post({ password: "wrong" })).status).toBe(401);
+    }
+    const res = await post({ password: "wrong" });
+    expect(res.status).toBe(429);
+  });
+
+  it("a correct password resets the failure counter", async () => {
+    const { client } = makeAdmin("off");
+    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    for (let i = 0; i < 4; i++) {
+      expect((await post({ password: "wrong" })).status).toBe(401);
+    }
+    expect((await post({ password: "s3cret" })).status).toBe(200);
+    for (let i = 0; i < 5; i++) {
+      expect((await post({ password: "wrong" })).status).toBe(401);
+    }
+    expect((await post({ password: "wrong" })).status).toBe(429);
   });
 });

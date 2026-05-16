@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { createAdminSupabase } from "@/lib/supabase-server";
+import { isRateLimited, recordFailure, clearFailures } from "@/lib/rate-limit";
 
 const VALID = ["off", "maintenance", "lockdown"] as const;
 type SiteState = (typeof VALID)[number];
+
+function clientKey(req: Request): string {
+  const fwd = req.headers.get("x-forwarded-for");
+  return fwd?.split(",")[0]?.trim() || "unknown";
+}
 
 export async function POST(req: Request) {
   const secret = process.env.MAINTENANCE_SECRET;
@@ -10,6 +16,14 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { error: "Control panel not configured" },
       { status: 503 }
+    );
+  }
+
+  const key = clientKey(req);
+  if (isRateLimited(key)) {
+    return NextResponse.json(
+      { error: "Too many attempts. Try again in a minute." },
+      { status: 429 }
     );
   }
 
@@ -21,8 +35,10 @@ export async function POST(req: Request) {
   }
 
   if (body.password !== secret) {
+    recordFailure(key);
     return NextResponse.json({ error: "Invalid password" }, { status: 401 });
   }
+  clearFailures(key);
 
   const admin = createAdminSupabase();
 
