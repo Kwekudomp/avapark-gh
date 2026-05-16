@@ -4,7 +4,13 @@ import { getSiteState, _resetSiteStateCache } from "@/lib/site-state";
 describe("getSiteState", () => {
   beforeEach(() => {
     _resetSiteStateCache();
-    vi.unstubAllEnvs();
+    // Neutralize the MAINTENANCE_MODE override without wiping the
+    // Supabase env stubs that tests/setup.ts provides.
+    vi.stubEnv("MAINTENANCE_MODE", "");
+    // Re-apply Supabase env stubs in case afterEach of a prior test
+    // called vi.unstubAllEnvs() and wiped them.
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "http://localhost:54321");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "test-anon-key");
     vi.unstubAllGlobals();
   });
 

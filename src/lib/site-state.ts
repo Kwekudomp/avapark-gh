@@ -20,8 +20,9 @@ function envOverride(): SiteState | null {
 }
 
 async function fetchState(): Promise<SiteState> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) throw new Error("Supabase env not configured");
 
   const res = await fetch(
     `${url}/rest/v1/site_state?id=eq.singleton&select=state`,
