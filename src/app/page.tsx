@@ -62,6 +62,31 @@ export default async function Home() {
       {/* Weekly Schedule */}
       <WeeklySchedule />
 
+      {/* Order Food CTA */}
+      <section className="py-20 px-[5%]">
+        <div className="max-w-[1100px] mx-auto rounded-3xl bg-primary text-white px-8 py-12 sm:px-14 sm:py-16 text-center relative overflow-hidden">
+          <p className="text-xs font-bold tracking-[4px] text-secondary-light uppercase mb-3">The Kitchen</p>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold">Hungry? Order ahead of your visit.</h2>
+          <p className="text-white/70 mt-4 max-w-xl mx-auto text-sm sm:text-base">
+            Browse the full menu, build your order, and send it to the kitchen for dine-in, pickup, or delivery — before you even arrive.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center mt-8">
+            <Link
+              href="/food-drinks/order"
+              className="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 rounded-full text-sm font-semibold hover:bg-accent-dark transition-colors"
+            >
+              Order Food Online
+            </Link>
+            <Link
+              href="/food-drinks"
+              className="inline-flex items-center px-7 py-3 rounded-full text-sm font-medium border border-white/30 text-white hover:bg-white hover:text-primary transition-colors"
+            >
+              View the Menu
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Videos */}
       <VideoSection videos={videos} />
 

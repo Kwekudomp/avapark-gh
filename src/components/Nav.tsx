@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UtensilsCrossed } from "lucide-react";
 import BookingModal from "./BookingModal";
 
 /* ── Menu structure ───────────────────────────────────────── */
@@ -234,6 +235,14 @@ export default function Nav() {
                 )
               )}
 
+              <Link
+                href="/food-drinks/order"
+                className="inline-flex items-center gap-1.5 border border-primary text-primary px-5 py-2.5 rounded-full text-base font-bold hover:bg-primary hover:text-white transition-colors duration-200"
+              >
+                <UtensilsCrossed className="w-4 h-4" aria-hidden />
+                Order Food
+              </Link>
+
               <button
                 type="button"
                 onClick={() => setBookingOpen(true)}
@@ -375,7 +384,15 @@ export default function Nav() {
                 )}
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 space-y-3">
+                <Link
+                  href="/food-drinks/order"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center gap-2 w-full text-center border border-primary text-primary px-6 py-3.5 rounded-full text-base font-medium hover:bg-primary hover:text-white transition-colors duration-200"
+                >
+                  <UtensilsCrossed className="w-4 h-4" aria-hidden />
+                  Order Food
+                </Link>
                 <button
                   type="button"
                   onClick={() => {

@@ -62,7 +62,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
   const sidebar = (
     <nav aria-label="Admin navigation" className="flex flex-col h-full">
-      <Link href="/admin/dashboard" className="flex items-center gap-3 px-5 h-16 border-b border-white/10 shrink-0">
+      <Link href="/admin/dashboard" className="flex items-center gap-3 px-5 h-14 border-b border-white/10 shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/hp-logo.png" alt="" className="h-8 w-auto" />
         <div>
@@ -70,7 +70,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <p className="text-white/50 text-[11px] leading-tight">{role === "admin" ? "Admin Panel" : "Marketing & Sales"}</p>
         </div>
       </Link>
-      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
+      <div className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {items.map(item => {
           const active = isActive(item);
           const Icon = item.icon;
@@ -79,7 +79,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`flex items-center gap-3 min-h-11 px-3 rounded-xl text-sm transition-colors cursor-pointer ${
+              className={`flex items-center gap-3 min-h-10 px-3 rounded-xl text-sm transition-colors cursor-pointer ${
                 active
                   ? "bg-white/15 text-white font-semibold"
                   : "text-white/65 hover:text-white hover:bg-white/8"

@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   CheckCircle2,
   Phone,
+  Clock,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MEAL_LABELS, type MealTime, type DietTag } from "@/data/menu";
@@ -238,6 +239,10 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
         <p className="text-sm text-text-secondary mt-3 max-w-xl mx-auto">
           Pick your items, add to cart, and send your order to the kitchen on WhatsApp. Dine-in, pickup, or delivery.
         </p>
+        <p className="inline-flex items-center gap-1.5 text-xs text-text-secondary mt-3 bg-bg-alt rounded-full px-4 py-1.5">
+          <Clock className="w-3.5 h-3.5" aria-hidden />
+          Kitchen open daily · last orders 10:00 PM
+        </p>
       </div>
 
       {/* Price disclaimer */}
@@ -264,7 +269,8 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
             <button
               key={f.key}
               onClick={() => setMealFilter(f.key)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition ${
+              aria-pressed={mealFilter === f.key}
+              className={`min-h-11 px-4 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer ${
                 mealFilter === f.key
                   ? "bg-primary text-white"
                   : "bg-white border border-border text-text-secondary hover:border-primary"
@@ -343,8 +349,8 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                           <div className="flex items-center justify-between gap-2">
                             <button
                               onClick={() => updateQty(item.id, -1)}
-                              className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-primary hover:text-primary transition"
-                              aria-label="Decrease"
+                              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors cursor-pointer"
+                              aria-label={`Remove one ${item.name}`}
                             >
                               <Minus className="w-4 h-4" />
                             </button>
@@ -353,8 +359,8 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                             </span>
                             <button
                               onClick={() => updateQty(item.id, 1)}
-                              className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition"
-                              aria-label="Increase"
+                              className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light transition-colors cursor-pointer"
+                              aria-label={`Add one more ${item.name}`}
                             >
                               <Plus className="w-4 h-4" />
                             </button>
@@ -362,7 +368,7 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                         ) : (
                           <button
                             onClick={() => addToCart(item)}
-                            className="w-full bg-primary/5 hover:bg-primary hover:text-white text-primary text-xs font-semibold py-2 rounded-full transition flex items-center justify-center gap-1.5"
+                            className="w-full min-h-11 bg-primary/5 hover:bg-primary hover:text-white text-primary text-xs font-semibold rounded-full transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                           >
                             <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
                             Add to Order
@@ -443,23 +449,23 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button
                             onClick={() => updateQty(line.id, -1)}
-                            className="w-7 h-7 rounded-full border border-border flex items-center justify-center hover:border-primary transition"
-                            aria-label="Decrease"
+                            className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:border-primary transition-colors cursor-pointer"
+                            aria-label={`Remove one ${line.name}`}
                           >
                             <Minus className="w-3.5 h-3.5" />
                           </button>
                           <span className="w-6 text-center text-sm font-semibold">{line.quantity}</span>
                           <button
                             onClick={() => updateQty(line.id, 1)}
-                            className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition"
-                            aria-label="Increase"
+                            className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light transition-colors cursor-pointer"
+                            aria-label={`Add one more ${line.name}`}
                           >
                             <Plus className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => removeFromCart(line.id)}
-                            className="ml-2 text-text-secondary/60 hover:text-red-600 transition"
-                            aria-label="Remove"
+                            className="ml-1 w-9 h-9 flex items-center justify-center rounded-full text-text-secondary/60 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                            aria-label={`Remove ${line.name} from order`}
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -480,7 +486,8 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                             key={t}
                             type="button"
                             onClick={() => setOrderType(t)}
-                            className={`py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition ${
+                            aria-pressed={orderType === t}
+                            className={`min-h-11 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
                               orderType === t
                                 ? "bg-primary text-white"
                                 : "bg-white border border-border text-text-secondary hover:border-primary"
@@ -586,7 +593,7 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
                     else handleSubmit(e as unknown as React.FormEvent);
                   }}
                   disabled={submitting}
-                  className="w-full bg-accent text-white py-3 rounded-full text-sm font-semibold hover:bg-accent-dark transition disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full min-h-11 bg-accent text-white rounded-full text-sm font-semibold hover:bg-accent-dark transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {submitting ? "Sending..." : "Send Order to Kitchen"}
                 </button>
