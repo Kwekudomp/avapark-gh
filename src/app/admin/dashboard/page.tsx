@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { and, count, desc, eq, gte } from "drizzle-orm";
 import { getDb } from "@/db";
-import { bookings, escalations, galleryItems, inquiries, reviews, users } from "@/db/schema";
+import { bookings, escalations, galleryItems, inquiries, orders, reviews, users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCurrentRole } from "@/lib/auth/roles";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
@@ -65,19 +65,25 @@ export default async function AdminDashboardPage() {
     );
   }
 
-  // Admin path — unchanged from before
-  const [pendingReviewsRow] = await db
-    .select({ value: count() })
-    .from(reviews)
-    .where(eq(reviews.status, "pending"));
-  const [pendingEscalationsRow] = await db
-    .select({ value: count() })
-    .from(escalations)
-    .where(eq(escalations.status, "pending"));
-  const [unreadInquiriesRow] = await db
-    .select({ value: count() })
-    .from(inquiries)
-    .where(eq(inquiries.status, "unread"));
+  // Admin path — operational metrics for the dashboard
+  // eslint-disable-next-line react-hooks/purity
+  const startOfToday = new Date(new Date().toISOString().slice(0, 10)).toISOString();
+
+  const [
+    [pendingReviewsRow],
+    [pendingEscalationsRow],
+    [unreadInquiriesRow],
+    [inquiriesTodayRow],
+    [newOrdersRow],
+    [ordersTodayRow],
+  ] = await Promise.all([
+    db.select({ value: count() }).from(reviews).where(eq(reviews.status, "pending")),
+    db.select({ value: count() }).from(escalations).where(eq(escalations.status, "pending")),
+    db.select({ value: count() }).from(inquiries).where(eq(inquiries.status, "unread")),
+    db.select({ value: count() }).from(inquiries).where(gte(inquiries.created_at, startOfToday)),
+    db.select({ value: count() }).from(orders).where(eq(orders.status, "new")),
+    db.select({ value: count() }).from(orders).where(gte(orders.created_at, startOfToday)),
+  ]);
 
   return (
     <AdminDashboardClient
@@ -86,6 +92,9 @@ export default async function AdminDashboardPage() {
       pendingReviews={pendingReviewsRow?.value ?? 0}
       pendingEscalations={pendingEscalationsRow?.value ?? 0}
       unreadInquiries={unreadInquiriesRow?.value ?? 0}
+      inquiriesToday={inquiriesTodayRow?.value ?? 0}
+      newOrders={newOrdersRow?.value ?? 0}
+      ordersToday={ordersTodayRow?.value ?? 0}
     />
   );
 }

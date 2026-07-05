@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { desc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { orders } from "@/db/schema";
+import { assertStaff } from "@/lib/auth/roles";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 
 interface CartItemPayload {
@@ -50,6 +52,20 @@ function buildWhatsAppMessage(order: OrderPayload, orderId: string) {
     lines.push(`Notes: ${order.notes}`);
   }
   return lines.join("\n");
+}
+
+// GET — list all orders (staff only), newest first
+export async function GET() {
+  const auth = await assertStaff();
+  if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
+
+  try {
+    const rows = await getDb().select().from(orders).orderBy(desc(orders.created_at));
+    return NextResponse.json({ orders: rows });
+  } catch (err) {
+    console.error("[GET /api/orders] DB error:", err);
+    return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {

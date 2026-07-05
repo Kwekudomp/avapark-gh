@@ -174,3 +174,28 @@ export interface Booking {
   created_at: string;
   updated_at: string;
 }
+
+export type OrderStatus = "new" | "confirmed" | "preparing" | "ready" | "delivered" | "cancelled";
+export type OrderType = "dine-in" | "pickup" | "delivery";
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  subnote?: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  customer_name: string;
+  customer_phone: string;
+  customer_email: string | null;
+  order_type: OrderType;
+  scheduled_time: string | null;
+  items: OrderItem[];
+  subtotal: number;
+  notes: string | null;
+  status: OrderStatus;
+  created_at: string;
+}

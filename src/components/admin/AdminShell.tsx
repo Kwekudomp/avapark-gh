@@ -6,13 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Compass, UtensilsCrossed, Hotel, Image as ImageIcon,
   Calendar, Clapperboard, Settings, Star, Inbox, MessageSquare, Users,
-  Menu as MenuIcon, X, Moon, Sun, LogOut,
+  ShoppingBag, Menu as MenuIcon, X, Moon, Sun, LogOut,
 } from "lucide-react";
 import { useAdminRole } from "./AdminRoleContext";
 import { ToastProvider } from "./ui/Toast";
 
 const NAV = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, mso: true },
+  { href: "/admin/orders", label: "Online Orders", icon: ShoppingBag, mso: false },
   { href: "/admin/inquiries", label: "Inquiries", icon: Inbox, mso: true },
   { href: "/admin/gallery", label: "Gallery", icon: ImageIcon, mso: true },
   { href: "/admin/experiences", label: "Experiences", icon: Compass, mso: false },

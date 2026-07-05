@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  Compass, UtensilsCrossed, Hotel, Image as ImageIcon, Calendar,
-  Clapperboard, Settings, Star, Inbox, MessageSquare, Users,
+  ShoppingBag, Inbox, CalendarClock, Star, MessageSquare,
   TrendingUp, TrendingDown, Minus, CircleCheck,
 } from "lucide-react";
 import { Booking, BookingStatus } from "@/lib/types";
@@ -19,20 +18,6 @@ const STATUS_COLORS: Record<BookingStatus, string> = {
 
 const PAGE_SIZE = 25;
 
-const NAV_CARDS = [
-  { href: "/admin/experiences", label: "Experiences", desc: "Add, edit, feature or hide experiences", icon: Compass },
-  { href: "/admin/menu", label: "Kitchen Menu", desc: "Set prices and availability for food & drinks", icon: UtensilsCrossed },
-  { href: "/admin/accommodation", label: "Accommodation", desc: "Manage partner lodge listings", icon: Hotel },
-  { href: "/admin/gallery", label: "Gallery", desc: "Upload and manage site photos", icon: ImageIcon },
-  { href: "/admin/events", label: "Events", desc: "Create and manage upcoming events", icon: Calendar },
-  { href: "/admin/videos", label: "Videos", desc: "Add YouTube videos to the site", icon: Clapperboard },
-  { href: "/admin/settings", label: "Site Settings", desc: "Contact info, hours, social links", icon: Settings },
-  { href: "/admin/reviews", label: "Reviews", desc: "Approve or reject guest reviews", icon: Star, badgeKey: "reviews" as const },
-  { href: "/admin/inquiries", label: "Inquiries", desc: "Read and reply to contact-form enquiries", icon: Inbox, badgeKey: "inquiries" as const },
-  { href: "/admin/whatsapp", label: "WhatsApp Agent", desc: "AI inbox, conversations, FAQs", icon: MessageSquare, badgeKey: "escalations" as const },
-  { href: "/admin/users", label: "Staff Users", desc: "Add or remove admin and marketing staff", icon: Users },
-];
-
 /** Bookings created within the last `days`..`days*2` window vs the last `days`. */
 function weekTrend(bookings: Booking[]): { current: number; previous: number } {
   const now = Date.now();
@@ -44,6 +29,39 @@ function weekTrend(bookings: Booking[]): { current: number; previous: number } {
     else if (t >= now - 2 * week) previous++;
   }
   return { current, previous };
+}
+
+const TONE_STYLES = {
+  alert: { badge: "bg-red-500", value: "text-red-600", icon: "text-red-500" },
+  warn: { badge: "bg-yellow-500", value: "text-yellow-600", icon: "text-yellow-600" },
+  calm: { badge: "", value: "text-primary", icon: "text-primary" },
+} as const;
+
+function MetricCard({
+  href, icon: Icon, label, value, hint, tone,
+}: {
+  href: string;
+  icon: typeof ShoppingBag;
+  label: string;
+  value: number;
+  hint: string;
+  tone: keyof typeof TONE_STYLES;
+}) {
+  const s = TONE_STYLES[tone];
+  return (
+    <Link
+      href={href}
+      className="relative bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition-colors cursor-pointer"
+    >
+      {tone !== "calm" && value > 0 && (
+        <span className={`absolute top-4 right-4 w-2.5 h-2.5 rounded-full ${s.badge}`} aria-hidden />
+      )}
+      <Icon className={`w-5 h-5 mb-2 ${s.icon}`} aria-hidden />
+      <p className="text-xs text-text-secondary uppercase tracking-wider">{label}</p>
+      <p className={`text-2xl font-bold mt-1 ${value > 0 ? s.value : "text-text-secondary"}`}>{value}</p>
+      <p className="text-xs text-text-secondary mt-1">{hint}</p>
+    </Link>
+  );
 }
 
 function TrendBadge({ current, previous }: { current: number; previous: number }) {
@@ -64,12 +82,18 @@ export default function AdminDashboardClient({
   pendingReviews = 0,
   pendingEscalations = 0,
   unreadInquiries = 0,
+  inquiriesToday = 0,
+  newOrders = 0,
+  ordersToday = 0,
 }: {
   initialBookings: Booking[];
   userEmail: string;
   pendingReviews?: number;
   pendingEscalations?: number;
   unreadInquiries?: number;
+  inquiriesToday?: number;
+  newOrders?: number;
+  ordersToday?: number;
 }) {
   const { toast } = useToast();
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
@@ -81,7 +105,7 @@ export default function AdminDashboardClient({
   const [confirmCancel, setConfirmCancel] = useState<Booking | null>(null);
   const [visible, setVisible] = useState(PAGE_SIZE);
 
-  const badges = { reviews: pendingReviews, inquiries: unreadInquiries, escalations: pendingEscalations };
+  const pendingBookings = bookings.filter(b => b.status === "pending").length;
 
   async function updateStatus(id: string, status: BookingStatus) {
     setUpdating(id);
@@ -175,28 +199,43 @@ export default function AdminDashboardClient({
         </div>
       </div>
 
-      {/* CMS Navigation */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {NAV_CARDS.map(card => {
-          const Icon = card.icon;
-          const badge = card.badgeKey ? badges[card.badgeKey] : 0;
-          return (
-            <Link key={card.href} href={card.href}
-              className="relative bg-white rounded-2xl border border-border p-5 hover:border-primary hover:shadow-sm transition-colors group cursor-pointer">
-              {badge > 0 && (
-                <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5">
-                  {badge}
-                </span>
-              )}
-              <Icon className="w-6 h-6 text-primary mb-2.5" aria-hidden />
-              <p className="font-semibold text-dark group-hover:text-primary transition-colors text-sm">{card.label}</p>
-              <p className="text-xs text-text-secondary mt-1">{card.desc}</p>
-            </Link>
-          );
-        })}
+      {/* Operational metrics — each links to the queue that clears it */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <MetricCard
+          href="/admin/orders"
+          icon={ShoppingBag}
+          label="New Orders"
+          value={newOrders}
+          hint={`${ordersToday} placed today`}
+          tone={newOrders > 0 ? "alert" : "calm"}
+        />
+        <MetricCard
+          href="/admin/inquiries"
+          icon={Inbox}
+          label="Outstanding Enquiries"
+          value={unreadInquiries}
+          hint={`${inquiriesToday} came in today`}
+          tone={unreadInquiries > 0 ? "alert" : "calm"}
+        />
+        <MetricCard
+          href="/admin/dashboard"
+          icon={CalendarClock}
+          label="Bookings to Confirm"
+          value={pendingBookings}
+          hint="pending confirmation"
+          tone={pendingBookings > 0 ? "warn" : "calm"}
+        />
+        <MetricCard
+          href="/admin/reviews"
+          icon={Star}
+          label="Reviews to Approve"
+          value={pendingReviews}
+          hint="awaiting moderation"
+          tone={pendingReviews > 0 ? "warn" : "calm"}
+        />
       </div>
 
-      {/* Stats */}
+      {/* Booking stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-2xl border border-border p-5">
           <p className="text-xs text-text-secondary uppercase tracking-wider">Total Bookings</p>
@@ -204,16 +243,18 @@ export default function AdminDashboardClient({
           <TrendBadge current={trend.current} previous={trend.previous} />
         </div>
         <div className="bg-white rounded-2xl border border-border p-5">
-          <p className="text-xs text-text-secondary uppercase tracking-wider">Pending</p>
-          <p className="text-2xl font-bold mt-1 text-yellow-600">{stats.pending}</p>
-          <p className="text-xs text-text-secondary mt-1">awaiting confirmation</p>
-        </div>
-        <div className="bg-white rounded-2xl border border-border p-5">
           <p className="text-xs text-text-secondary uppercase tracking-wider">Confirmed</p>
           <p className="text-2xl font-bold mt-1 text-green-600">{stats.confirmed}</p>
           <p className="text-xs text-text-secondary mt-1">
             {stats.total > 0 ? `${Math.round((stats.confirmed / stats.total) * 100)}% of all bookings` : "no bookings yet"}
           </p>
+        </div>
+        <div className="bg-white rounded-2xl border border-border p-5">
+          <p className="text-xs text-text-secondary uppercase tracking-wider">WhatsApp Escalations</p>
+          <p className="text-2xl font-bold mt-1 text-yellow-600">{pendingEscalations}</p>
+          <Link href="/admin/whatsapp/inbox" className="inline-flex items-center gap-1 text-xs text-accent hover:underline mt-1">
+            <MessageSquare className="w-3 h-3" aria-hidden /> open inbox
+          </Link>
         </div>
         <div className="bg-white rounded-2xl border border-border p-5">
           <p className="text-xs text-text-secondary uppercase tracking-wider">Deposits Collected</p>
