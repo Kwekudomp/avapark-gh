@@ -1,30 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { asc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { galleryItems } from "@/db/schema";
 import { assertStaff } from "@/lib/auth/roles";
 
 export async function GET() {
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("gallery_items")
-    .select("*")
-    .order("sort_order", { ascending: true });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ items: data });
+  try {
+    const data = await getDb()
+      .select()
+      .from(galleryItems)
+      .orderBy(asc(galleryItems.sort_order));
+    return NextResponse.json({ items: data });
+  } catch (err) {
+    console.error("Fetch gallery items error:", err);
+    return NextResponse.json({ error: "Failed to fetch gallery items" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
   const auth = await assertStaff();
   if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
 
-  const body = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("gallery_items")
-    .insert([{ ...body, uploaded_by: auth.userId }])
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ item: data });
+  try {
+    const body = await req.json();
+    const [item] = await getDb()
+      .insert(galleryItems)
+      .values({ ...body, uploaded_by: auth.userId })
+      .returning();
+    return NextResponse.json({ item });
+  } catch (err) {
+    console.error("Create gallery item error:", err);
+    return NextResponse.json({ error: "Failed to create gallery item" }, { status: 500 });
+  }
 }
 
 /**
@@ -38,22 +45,27 @@ export async function DELETE(req: NextRequest) {
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-  const admin = createAdminSupabase();
+  try {
+    const db = getDb();
 
-  // Ownership check (admin can override)
-  if (auth.role !== "admin") {
-    const { data: item } = await admin
-      .from("gallery_items")
-      .select("uploaded_by")
-      .eq("id", id)
-      .maybeSingle();
-    if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    if (item.uploaded_by !== auth.userId) {
-      return NextResponse.json({ error: "Cannot delete items uploaded by others" }, { status: 403 });
+    // Ownership check (admin can override)
+    if (auth.role !== "admin") {
+      const rows = await db
+        .select({ uploaded_by: galleryItems.uploaded_by })
+        .from(galleryItems)
+        .where(eq(galleryItems.id, id))
+        .limit(1);
+      const item = rows[0];
+      if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      if (item.uploaded_by !== auth.userId) {
+        return NextResponse.json({ error: "Cannot delete items uploaded by others" }, { status: 403 });
+      }
     }
-  }
 
-  const { error } = await admin.from("gallery_items").update({ is_active: false }).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+    await db.update(galleryItems).set({ is_active: false }).where(eq(galleryItems.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Delete gallery item error:", err);
+    return NextResponse.json({ error: "Failed to delete gallery item" }, { status: 500 });
+  }
 }

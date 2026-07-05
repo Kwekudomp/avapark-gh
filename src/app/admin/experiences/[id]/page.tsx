@@ -1,5 +1,9 @@
 import { redirect, notFound } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { experiences as experiencesTable } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+import type { CMSExperience } from "@/lib/supabase";
 import ExperienceEditorClient from "@/components/admin/ExperienceEditorClient";
 
 export default async function ExperienceEditorPage({
@@ -7,9 +11,8 @@ export default async function ExperienceEditorPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
   const { id } = await params;
 
@@ -17,12 +20,12 @@ export default async function ExperienceEditorPage({
     return <ExperienceEditorClient experience={null} />;
   }
 
-  const admin = createAdminSupabase();
-  const { data: experience } = await admin
-    .from("experiences")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const rows = await getDb()
+    .select()
+    .from(experiencesTable)
+    .where(eq(experiencesTable.id, id))
+    .limit(1);
+  const experience = rows[0] as unknown as CMSExperience | undefined;
 
   if (!experience) notFound();
   return <ExperienceEditorClient experience={experience} />;

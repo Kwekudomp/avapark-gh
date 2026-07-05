@@ -1,24 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { experiences } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export async function GET() {
-  const supabase = createAdminSupabase();
-  const { data, error } = await supabase
-    .from("experiences")
-    .select("*")
-    .order("sort_order", { ascending: true });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ experiences: data });
+  try {
+    const data = await getDb()
+      .select()
+      .from(experiences)
+      .orderBy(asc(experiences.sort_order));
+    return NextResponse.json({ experiences: data });
+  } catch (err) {
+    console.error("Fetch experiences error:", err);
+    return NextResponse.json({ error: "Failed to fetch experiences" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin.from("experiences").insert([body]).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ experience: data });
+  try {
+    const body = await req.json();
+    const [experience] = await getDb().insert(experiences).values(body).returning();
+    return NextResponse.json({ experience });
+  } catch (err) {
+    console.error("Create experience error:", err);
+    return NextResponse.json({ error: "Failed to create experience" }, { status: 500 });
+  }
 }

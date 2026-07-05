@@ -1,17 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { desc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { reviews } from "@/db/schema";
 
 // GET — fetch approved reviews (public)
 export async function GET() {
-  const supabase = await createServerSupabase();
-  const { data, error } = await supabase
-    .from("reviews")
-    .select("id, guest_name, experience_name, rating, comment, created_at")
-    .eq("status", "approved")
-    .order("created_at", { ascending: false });
+  try {
+    const data = await getDb()
+      .select({
+        id: reviews.id,
+        guest_name: reviews.guest_name,
+        experience_name: reviews.experience_name,
+        rating: reviews.rating,
+        comment: reviews.comment,
+        created_at: reviews.created_at,
+      })
+      .from(reviews)
+      .where(eq(reviews.status, "approved"))
+      .orderBy(desc(reviews.created_at));
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
+    return NextResponse.json(data);
+  } catch (err) {
+    console.error("Fetch reviews error:", err);
+    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
+  }
 }
 
 // POST — submit a review (public)
@@ -26,16 +38,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Rating must be between 1 and 5" }, { status: 400 });
   }
 
-  const supabase = await createServerSupabase();
-  const { error } = await supabase.from("reviews").insert({
-    guest_name,
-    guest_email,
-    experience_name,
-    rating: Number(rating),
-    comment,
-    status: "pending",
-  });
+  try {
+    await getDb().insert(reviews).values({
+      guest_name,
+      guest_email,
+      experience_name,
+      rating: Number(rating),
+      comment,
+      status: "pending",
+    });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true }, { status: 201 });
+    return NextResponse.json({ success: true }, { status: 201 });
+  } catch (err) {
+    console.error("Submit review error:", err);
+    return NextResponse.json({ error: "Failed to submit review" }, { status: 500 });
+  }
 }

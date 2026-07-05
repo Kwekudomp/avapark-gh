@@ -1,19 +1,23 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { desc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { conversations, escalations, messages, staffWhatsapp } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import InboxClient from "@/components/admin/whatsapp/InboxClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function WhatsAppInboxPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+  const db = getDb();
+
+  const [staffRecord] = await db
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, session.userId))
+    .limit(1);
 
   if (!staffRecord) {
     return (
@@ -23,20 +27,28 @@ export default async function WhatsAppInboxPage() {
     );
   }
 
-  const { data: escalations } = await supabase
-    .from("escalations")
-    .select(`
-      *,
-      message:messages(*),
-      conversation:messages(conversation:conversations(*))
-    `)
-    .eq("venue_id", staffRecord.venue_id)
-    .order("created_at", { ascending: false })
+  const rows = await db
+    .select({
+      escalation: escalations,
+      message: messages,
+      conversation: conversations,
+    })
+    .from(escalations)
+    .innerJoin(messages, eq(escalations.message_id, messages.id))
+    .innerJoin(conversations, eq(messages.conversation_id, conversations.id))
+    .where(eq(escalations.venue_id, staffRecord.venue_id))
+    .orderBy(desc(escalations.created_at))
     .limit(50);
+
+  const escalationsList = rows.map((r) => ({
+    ...r.escalation,
+    message: r.message,
+    conversation: r.conversation,
+  }));
 
   return (
     <InboxClient
-      initialEscalations={(escalations as any) ?? []}
+      initialEscalations={(escalationsList as any) ?? []}
       venueId={staffRecord.venue_id}
     />
   );

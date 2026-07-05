@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { siteState } from "@/db/schema";
 import { isRateLimited, recordFailure, clearFailures } from "@/lib/rate-limit";
 
 const VALID = ["off", "maintenance", "lockdown"] as const;
@@ -40,34 +42,41 @@ export async function POST(req: Request) {
   }
   clearFailures(key);
 
-  const admin = createAdminSupabase();
+  const db = getDb();
 
   // Apply a state change if one was requested.
   if (body.state !== undefined) {
     if (!VALID.includes(body.state as SiteState)) {
       return NextResponse.json({ error: "Invalid state" }, { status: 400 });
     }
-    const update: { state: string; note?: string } = { state: body.state };
+    const update: { state: string; note?: string; updated_at: string } = {
+      state: body.state,
+      updated_at: new Date().toISOString(),
+    };
     if (typeof body.note === "string" && body.note.trim()) {
       update.note = body.note.trim();
     }
-    const { error } = await admin
-      .from("site_state")
-      .update(update)
-      .eq("id", "singleton");
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    try {
+      await db
+        .insert(siteState)
+        .values({ id: "singleton", ...update })
+        .onConflictDoUpdate({ target: siteState.id, set: update });
+    } catch (err) {
+      console.error("[POST /api/sys] DB write error:", err);
+      return NextResponse.json({ error: "Failed to update site state" }, { status: 500 });
     }
   }
 
   // Return the current state.
-  const { data, error } = await admin
-    .from("site_state")
-    .select("state")
-    .eq("id", "singleton")
-    .maybeSingle();
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  try {
+    const [row] = await db
+      .select({ state: siteState.state })
+      .from(siteState)
+      .where(eq(siteState.id, "singleton"))
+      .limit(1);
+    return NextResponse.json({ state: row?.state ?? "off" });
+  } catch (err) {
+    console.error("[POST /api/sys] DB read error:", err);
+    return NextResponse.json({ error: "Failed to read site state" }, { status: 500 });
   }
-  return NextResponse.json({ state: data?.state ?? "off" });
 }

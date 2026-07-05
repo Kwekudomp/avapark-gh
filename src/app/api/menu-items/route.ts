@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { getDb } from "@/db";
+import { menuItems } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 interface MenuItemCreate {
   id: string;
@@ -14,9 +16,8 @@ interface MenuItemCreate {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   let body: MenuItemCreate;
   try {
@@ -29,22 +30,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  const { data, error } = await supabase
-    .from("menu_items")
-    .insert({
-      id: body.id.trim(),
-      name: body.name.trim(),
-      subnote: body.subnote?.trim() || null,
-      category: body.category.trim(),
-      meal: body.meal,
-      price: body.price ?? null,
-      tags: body.tags ?? [],
-      available: body.available ?? true,
-      sort_order: body.sort_order ?? 0,
-    })
-    .select()
-    .single();
+  try {
+    const [row] = await getDb()
+      .insert(menuItems)
+      .values({
+        id: body.id.trim(),
+        name: body.name.trim(),
+        subnote: body.subnote?.trim() || null,
+        category: body.category.trim(),
+        meal: body.meal,
+        price: body.price ?? null,
+        tags: body.tags ?? [],
+        available: body.available ?? true,
+        sort_order: body.sort_order ?? 0,
+      })
+      .returning();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(row, { status: 201 });
+  } catch (err) {
+    console.error("[POST /api/menu-items] DB error:", err);
+    return NextResponse.json({ error: "Failed to create menu item" }, { status: 500 });
+  }
 }

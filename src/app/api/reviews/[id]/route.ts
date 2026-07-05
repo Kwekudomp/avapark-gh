@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { reviews } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 // PATCH — approve or reject a review (admin only)
 export async function PATCH(
@@ -8,22 +11,23 @@ export async function PATCH(
 ) {
   const { id } = await params;
 
-  // Auth check using existing server helper (handles async cookies)
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { status, admin_note } = await req.json();
   if (!["approved", "rejected"].includes(status)) {
     return NextResponse.json({ error: "Invalid status" }, { status: 400 });
   }
 
-  const admin = createAdminSupabase();
-  const { error } = await admin
-    .from("reviews")
-    .update({ status, admin_note: admin_note ?? null })
-    .eq("id", id);
+  try {
+    await getDb()
+      .update(reviews)
+      .set({ status, admin_note: admin_note ?? null })
+      .where(eq(reviews.id, id));
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Update review error:", err);
+    return NextResponse.json({ error: "Failed to update review" }, { status: 500 });
+  }
 }

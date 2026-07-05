@@ -1,21 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { escalations } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export async function POST(request: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { escalationId } = await request.json();
-  if (!escalationId) {
-    return NextResponse.json({ error: "Missing escalationId" }, { status: 400 });
+    const { escalationId } = await request.json();
+    if (!escalationId) {
+      return NextResponse.json({ error: "Missing escalationId" }, { status: 400 });
+    }
+
+    await getDb()
+      .update(escalations)
+      .set({ status: "resolved", resolved_at: new Date().toISOString() })
+      .where(eq(escalations.id, escalationId));
+
+    return NextResponse.json({ status: "resolved" });
+  } catch (err) {
+    console.error("WhatsApp resolve error:", err);
+    return NextResponse.json({ error: "Failed to resolve escalation" }, { status: 500 });
   }
-
-  const admin = createAdminSupabase();
-  await admin
-    .from("escalations")
-    .update({ status: "resolved", resolved_at: new Date().toISOString() })
-    .eq("id", escalationId);
-
-  return NextResponse.json({ status: "resolved" });
 }

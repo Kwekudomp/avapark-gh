@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { bookings } from "@/db/schema";
 import { sendBookingNotification, sendBookingConfirmation } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
@@ -16,23 +18,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const supabase = createAdminSupabase();
+    const db = getDb();
 
     // If paystack_reference provided, verify it hasn't already been used
     if (paystack_reference) {
-      const { data: existing } = await supabase
-        .from("bookings")
-        .select("id")
-        .eq("paystack_reference", paystack_reference)
-        .single();
-      if (existing) {
+      const existing = await db
+        .select({ id: bookings.id })
+        .from(bookings)
+        .where(eq(bookings.paystack_reference, paystack_reference))
+        .limit(1);
+      if (existing[0]) {
         return NextResponse.json({ error: "Payment reference already used" }, { status: 409 });
       }
     }
 
-    const { data, error } = await supabase
-      .from("bookings")
-      .insert([{
+    const [data] = await db
+      .insert(bookings)
+      .values({
         experience_slug, experience_name, guest_name, guest_email,
         guest_phone, booking_date, group_size: group_size || 1,
         adults: adults || 1, children: children || 0,
@@ -41,13 +43,10 @@ export async function POST(req: NextRequest) {
         subtotal: subtotal || 0, deposit_amount: deposit_amount || 0,
         paystack_reference: paystack_reference || null,
         paystack_status: paystack_reference ? "success" : null,
-        status: paystack_reference ? "pending" : "pending",
+        status: "pending",
         notes: notes || null,
-      }])
-      .select()
-      .single();
-
-    if (error) throw error;
+      })
+      .returning();
 
     // Send email notifications (non-blocking so booking response isn't delayed)
     const emailData = {

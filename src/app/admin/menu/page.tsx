@@ -1,22 +1,21 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { menuItems } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import MenuCMSClient from "@/components/admin/MenuCMSClient";
 import type { MenuItemRow } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminMenuPage() {
-  const supabase = await createServerSupabase();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data } = await admin
-    .from("menu_items")
-    .select("*")
-    .order("sort_order", { ascending: true });
+  const data = await getDb()
+    .select()
+    .from(menuItems)
+    .orderBy(asc(menuItems.sort_order));
 
   const items = (data ?? []) as MenuItemRow[];
 

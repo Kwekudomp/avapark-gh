@@ -1,4 +1,6 @@
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { and, asc, desc, eq, gte } from "drizzle-orm";
+import { getDb } from "@/db";
+import { conversations, escalations, messages, venues } from "@/db/schema";
 import { classifyMessage } from "./classifier";
 import { resolveContext } from "./resolver";
 import { generateResponse } from "./generator";
@@ -30,59 +32,63 @@ async function getOrCreateConversation(
   customerName: string,
   language: string
 ): Promise<Conversation> {
-  const supabase = createAdminSupabase();
+  const db = getDb();
 
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-  const { data: existing } = await supabase
-    .from("conversations")
-    .select("*")
-    .eq("venue_id", venueId)
-    .eq("customer_phone", customerPhone)
-    .eq("status", "active")
-    .gte("last_message_at", twentyFourHoursAgo)
-    .order("last_message_at", { ascending: false })
-    .limit(1)
-    .single();
+  const [existing] = await db
+    .select()
+    .from(conversations)
+    .where(
+      and(
+        eq(conversations.venue_id, venueId),
+        eq(conversations.customer_phone, customerPhone),
+        eq(conversations.status, "active"),
+        gte(conversations.last_message_at, twentyFourHoursAgo)
+      )
+    )
+    .orderBy(desc(conversations.last_message_at))
+    .limit(1);
 
   if (existing) {
-    await supabase
-      .from("conversations")
-      .update({ last_message_at: new Date().toISOString(), language })
-      .eq("id", existing.id);
+    await db
+      .update(conversations)
+      .set({ last_message_at: new Date().toISOString(), language })
+      .where(eq(conversations.id, existing.id));
     return existing as Conversation;
   }
 
-  const { data: created, error } = await supabase
-    .from("conversations")
-    .insert({
+  const [created] = await db
+    .insert(conversations)
+    .values({
       venue_id: venueId,
       customer_phone: customerPhone,
       customer_name: customerName,
       language,
       status: "active",
     })
-    .select()
-    .single();
+    .returning();
 
-  if (error || !created) throw new Error(`Failed to create conversation: ${error?.message}`);
+  if (!created) throw new Error("Failed to create conversation");
   return created as Conversation;
 }
 
 async function getConversationHistory(
   conversationId: string
 ): Promise<Array<{ role: "customer" | "agent"; text: string }>> {
-  const supabase = createAdminSupabase();
-  const { data: messages } = await supabase
-    .from("messages")
-    .select("direction, body, sent_by")
-    .eq("conversation_id", conversationId)
-    .order("sent_at", { ascending: true })
+  const db = getDb();
+  const rows = await db
+    .select({
+      direction: messages.direction,
+      body: messages.body,
+      sent_by: messages.sent_by,
+    })
+    .from(messages)
+    .where(eq(messages.conversation_id, conversationId))
+    .orderBy(asc(messages.sent_at))
     .limit(10);
 
-  if (!messages) return [];
-
-  return messages.map((m) => ({
-    role: m.direction === "inbound" ? "customer" as const : "agent" as const,
+  return rows.map((m) => ({
+    role: m.direction === "inbound" ? ("customer" as const) : ("agent" as const),
     text: m.body,
   }));
 }
@@ -90,24 +96,28 @@ async function getConversationHistory(
 export async function handleIncomingMessage(
   incoming: WhatsAppIncomingMessage
 ): Promise<void> {
-  const supabase = createAdminSupabase();
+  const db = getDb();
   const apiKey = process.env.ANTHROPIC_API_KEY!;
   const waToken = process.env.WHATSAPP_ACCESS_TOKEN!;
 
   // 1. Look up venue by phone_number_id
-  const { data: venue } = await supabase
-    .from("venues")
-    .select("*")
-    .eq("phone_number_id", incoming.phoneNumberId)
-    .eq("is_active", true)
-    .single();
+  const [venue] = await db
+    .select()
+    .from(venues)
+    .where(
+      and(
+        eq(venues.phone_number_id, incoming.phoneNumberId),
+        eq(venues.is_active, true)
+      )
+    )
+    .limit(1);
 
   if (!venue) {
     console.error(`No active venue found for phone_number_id: ${incoming.phoneNumberId}`);
     return;
   }
 
-  const typedVenue = venue as Venue;
+  const typedVenue = venue as unknown as Venue;
 
   // 2. Get or create conversation
   const conversation = await getOrCreateConversation(
@@ -124,9 +134,9 @@ export async function handleIncomingMessage(
   const classification = await classifyMessage(incoming.text, history, apiKey);
 
   // 5. Save the inbound message
-  const { data: savedMessage } = await supabase
-    .from("messages")
-    .insert({
+  const [savedMessage] = await db
+    .insert(messages)
+    .values({
       conversation_id: conversation.id,
       direction: "inbound",
       body: incoming.text,
@@ -137,14 +147,13 @@ export async function handleIncomingMessage(
       sent_by: "customer",
       wa_message_id: incoming.messageId,
     })
-    .select()
-    .single();
+    .returning();
 
   // Update conversation language
-  await supabase
-    .from("conversations")
-    .update({ language: classification.language })
-    .eq("id", conversation.id);
+  await db
+    .update(conversations)
+    .set({ language: classification.language })
+    .where(eq(conversations.id, conversation.id));
 
   // 6. Route by intent
   if (shouldAutoRespond(classification)) {
@@ -164,7 +173,7 @@ export async function handleIncomingMessage(
     );
 
     if (response.shouldEscalate) {
-      await createEscalation(supabase, savedMessage!.id, typedVenue.id, null);
+      await createEscalation(savedMessage!.id, typedVenue.id, null);
       return;
     }
 
@@ -175,7 +184,7 @@ export async function handleIncomingMessage(
       waToken
     );
 
-    await supabase.from("messages").insert({
+    await db.insert(messages).values({
       conversation_id: conversation.id,
       direction: "outbound",
       body: response.text,
@@ -200,17 +209,16 @@ export async function handleIncomingMessage(
       }
     }
 
-    await createEscalation(supabase, savedMessage!.id, typedVenue.id, draftReply);
+    await createEscalation(savedMessage!.id, typedVenue.id, draftReply);
   }
 }
 
 async function createEscalation(
-  supabase: ReturnType<typeof createAdminSupabase>,
   messageId: string,
   venueId: string,
   draftReply: string | null
 ): Promise<void> {
-  await supabase.from("escalations").insert({
+  await getDb().insert(escalations).values({
     message_id: messageId,
     venue_id: venueId,
     status: "pending",

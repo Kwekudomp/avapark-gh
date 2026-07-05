@@ -1,49 +1,66 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { videos } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export async function GET() {
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("videos")
-    .select("*")
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ videos: data });
+  try {
+    const data = await getDb()
+      .select()
+      .from(videos)
+      .where(eq(videos.is_active, true))
+      .orderBy(asc(videos.sort_order));
+    return NextResponse.json({ videos: data });
+  } catch (err) {
+    console.error("Fetch videos error:", err);
+    return NextResponse.json({ error: "Failed to fetch videos" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin.from("videos").insert([body]).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ video: data });
+  try {
+    const body = await req.json();
+    const [video] = await getDb().insert(videos).values(body).returning();
+    return NextResponse.json({ video });
+  } catch (err) {
+    console.error("Create video error:", err);
+    return NextResponse.json({ error: "Failed to create video" }, { status: 500 });
+  }
 }
 
 export async function PATCH(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id, ...updates } = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin.from("videos").update(updates).eq("id", id).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ video: data });
+  try {
+    const { id, ...updates } = await req.json();
+    const [video] = await getDb()
+      .update(videos)
+      .set(updates)
+      .where(eq(videos.id, id))
+      .returning();
+    if (!video) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ video });
+  } catch (err) {
+    console.error("Update video error:", err);
+    return NextResponse.json({ error: "Failed to update video" }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await req.json();
-  const admin = createAdminSupabase();
-  const { error } = await admin.from("videos").update({ is_active: false }).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+  try {
+    const { id } = await req.json();
+    await getDb().update(videos).set({ is_active: false }).where(eq(videos.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Delete video error:", err);
+    return NextResponse.json({ error: "Failed to delete video" }, { status: 500 });
+  }
 }

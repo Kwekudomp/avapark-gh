@@ -1,48 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { events } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export async function GET() {
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("events")
-    .select("*")
-    .order("event_date", { ascending: true });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ events: data });
+  try {
+    const data = await getDb()
+      .select()
+      .from(events)
+      .orderBy(asc(events.event_date));
+    return NextResponse.json({ events: data });
+  } catch (err) {
+    console.error("Fetch events error:", err);
+    return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin.from("events").insert([body]).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ event: data });
+  try {
+    const body = await req.json();
+    const [event] = await getDb().insert(events).values(body).returning();
+    return NextResponse.json({ event });
+  } catch (err) {
+    console.error("Create event error:", err);
+    return NextResponse.json({ error: "Failed to create event" }, { status: 500 });
+  }
 }
 
 export async function PATCH(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id, ...updates } = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin.from("events").update(updates).eq("id", id).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ event: data });
+  try {
+    const { id, ...updates } = await req.json();
+    const [event] = await getDb()
+      .update(events)
+      .set(updates)
+      .where(eq(events.id, id))
+      .returning();
+    if (!event) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ event });
+  } catch (err) {
+    console.error("Update event error:", err);
+    return NextResponse.json({ error: "Failed to update event" }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await req.json();
-  const admin = createAdminSupabase();
-  const { error } = await admin.from("events").update({ is_active: false }).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+  try {
+    const { id } = await req.json();
+    await getDb().update(events).set({ is_active: false }).where(eq(events.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Delete event error:", err);
+    return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
+  }
 }

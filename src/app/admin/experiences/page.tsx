@@ -1,18 +1,24 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase-server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { asc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { experiences as experiencesTable } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+import type { CMSExperience } from "@/lib/supabase";
 import ExperiencesCMSClient from "@/components/admin/ExperiencesCMSClient";
 
 export default async function AdminExperiencesPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: experiences } = await admin
-    .from("experiences")
-    .select("*")
-    .order("sort_order", { ascending: true });
+  let experiences: CMSExperience[] = [];
+  try {
+    experiences = (await getDb()
+      .select()
+      .from(experiencesTable)
+      .orderBy(asc(experiencesTable.sort_order))) as unknown as CMSExperience[];
+  } catch (err) {
+    console.error("Load experiences error:", err);
+  }
 
-  return <ExperiencesCMSClient initialExperiences={experiences ?? []} />;
+  return <ExperiencesCMSClient initialExperiences={experiences} />;
 }

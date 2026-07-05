@@ -1,18 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { desc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { inquiries } from "@/db/schema";
 import { assertStaff, assertAdmin } from "@/lib/auth/roles";
 
 export async function GET() {
   const auth = await assertStaff();
   if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
 
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("inquiries")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ inquiries: data });
+  try {
+    const data = await getDb()
+      .select()
+      .from(inquiries)
+      .orderBy(desc(inquiries.created_at));
+    return NextResponse.json({ inquiries: data });
+  } catch (err) {
+    console.error("[GET /api/cms/inquiries] DB error:", err);
+    return NextResponse.json({ error: "Failed to load inquiries" }, { status: 500 });
+  }
 }
 
 export async function PATCH(req: NextRequest) {
@@ -24,18 +29,22 @@ export async function PATCH(req: NextRequest) {
   if (status && !["unread", "read", "archived"].includes(status)) {
     return NextResponse.json({ error: "Invalid status" }, { status: 400 });
   }
-  const admin = createAdminSupabase();
-  const updates: Record<string, unknown> = {};
+  const updates: { status?: string; admin_note?: string | null } = {};
   if (status !== undefined) updates.status = status;
   if (admin_note !== undefined) updates.admin_note = admin_note;
-  const { data, error } = await admin
-    .from("inquiries")
-    .update(updates)
-    .eq("id", id)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ inquiry: data });
+
+  try {
+    const [row] = await getDb()
+      .update(inquiries)
+      .set(updates)
+      .where(eq(inquiries.id, id))
+      .returning();
+    if (!row) return NextResponse.json({ error: "Inquiry not found" }, { status: 404 });
+    return NextResponse.json({ inquiry: row });
+  } catch (err) {
+    console.error("[PATCH /api/cms/inquiries] DB error:", err);
+    return NextResponse.json({ error: "Failed to update inquiry" }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {
@@ -44,8 +53,12 @@ export async function DELETE(req: NextRequest) {
 
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
-  const admin = createAdminSupabase();
-  const { error } = await admin.from("inquiries").delete().eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+
+  try {
+    await getDb().delete(inquiries).where(eq(inquiries.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("[DELETE /api/cms/inquiries] DB error:", err);
+    return NextResponse.json({ error: "Failed to delete inquiry" }, { status: 500 });
+  }
 }

@@ -1,17 +1,24 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { desc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { reviews as reviewsTable } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+import type { Review } from "@/lib/supabase";
 import ReviewsCMSClient from "@/components/admin/ReviewsCMSClient";
 
 export default async function AdminReviewsPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: reviews } = await admin
-    .from("reviews")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let reviews: Review[] = [];
+  try {
+    reviews = (await getDb()
+      .select()
+      .from(reviewsTable)
+      .orderBy(desc(reviewsTable.created_at))) as unknown as Review[];
+  } catch (err) {
+    console.error("Load reviews error:", err);
+  }
 
   return (
     <div className="min-h-screen bg-bg-alt">
@@ -33,7 +40,7 @@ export default async function AdminReviewsPage() {
           <h2 className="text-2xl font-semibold text-primary">Guest Reviews</h2>
           <p className="text-text-secondary text-sm mt-1">Approve reviews to publish them on the website. Rejected reviews are hidden from guests.</p>
         </div>
-        <ReviewsCMSClient initialReviews={reviews ?? []} />
+        <ReviewsCMSClient initialReviews={reviews} />
       </div>
     </div>
   );

@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase-server";
-
-async function requireAdmin() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return { supabase: null, error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
-  }
-  return { supabase, error: null };
-}
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { menuItems } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 interface MenuItemUpdate {
   name?: string;
@@ -26,8 +20,8 @@ export async function PATCH(
   ctx: { params: Promise<{ id: string }> },
 ) {
   const { id } = await ctx.params;
-  const { supabase, error } = await requireAdmin();
-  if (error) return error;
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   let body: MenuItemUpdate;
   try {
@@ -36,17 +30,19 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { data, error: dbError } = await supabase!
-    .from("menu_items")
-    .update(body)
-    .eq("id", id)
-    .select()
-    .single();
+  try {
+    const [row] = await getDb()
+      .update(menuItems)
+      .set({ ...body, updated_at: new Date().toISOString() })
+      .where(eq(menuItems.id, id))
+      .returning();
 
-  if (dbError) {
-    return NextResponse.json({ error: dbError.message }, { status: 500 });
+    if (!row) return NextResponse.json({ error: "Menu item not found" }, { status: 404 });
+    return NextResponse.json(row);
+  } catch (err) {
+    console.error("[PATCH /api/menu-items/[id]] DB error:", err);
+    return NextResponse.json({ error: "Failed to update menu item" }, { status: 500 });
   }
-  return NextResponse.json(data);
 }
 
 export async function DELETE(
@@ -54,12 +50,14 @@ export async function DELETE(
   ctx: { params: Promise<{ id: string }> },
 ) {
   const { id } = await ctx.params;
-  const { supabase, error } = await requireAdmin();
-  if (error) return error;
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { error: dbError } = await supabase!.from("menu_items").delete().eq("id", id);
-  if (dbError) {
-    return NextResponse.json({ error: dbError.message }, { status: 500 });
+  try {
+    await getDb().delete(menuItems).where(eq(menuItems.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("[DELETE /api/menu-items/[id]] DB error:", err);
+    return NextResponse.json({ error: "Failed to delete menu item" }, { status: 500 });
   }
-  return NextResponse.json({ success: true });
 }

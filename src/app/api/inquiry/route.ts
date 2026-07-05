@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEnquiryNotification } from "@/lib/email";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { getDb } from "@/db";
+import { inquiries } from "@/db/schema";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,18 +15,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Persist to DB (service role, bypasses RLS). If this fails we still
-    // try to email so the inquiry isn't lost.
-    const admin = createAdminSupabase();
-    const { error: dbError } = await admin.from("inquiries").insert({
-      name,
-      email,
-      phone: phone || null,
-      experience: experience || null,
-      dates: dates || null,
-      message,
-    });
-    if (dbError) console.error("Inquiry DB insert failed:", dbError);
+    // Persist to DB. If this fails we still try to email so the inquiry
+    // isn't lost.
+    try {
+      await getDb().insert(inquiries).values({
+        name,
+        email,
+        phone: phone || null,
+        experience: experience || null,
+        dates: dates || null,
+        message,
+      });
+    } catch (dbError) {
+      console.error("Inquiry DB insert failed:", dbError);
+    }
 
     // Email notification to info@ (non-blocking)
     sendEnquiryNotification({ name, email, phone, experience, dates, message }).catch(

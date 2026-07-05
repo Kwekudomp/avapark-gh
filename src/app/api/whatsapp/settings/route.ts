@@ -1,55 +1,63 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { staffWhatsapp, venues } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+
+async function getStaffVenueId(userId: string): Promise<string | null> {
+  const [staffRecord] = await getDb()
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, userId))
+    .limit(1);
+  return staffRecord?.venue_id ?? null;
+}
 
 export async function GET() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+    const venueId = await getStaffVenueId(session.userId);
+    if (!venueId) return NextResponse.json({ error: "No venue" }, { status: 403 });
 
-  if (!staffRecord) return NextResponse.json({ error: "No venue" }, { status: 403 });
+    const [venue] = await getDb()
+      .select()
+      .from(venues)
+      .where(eq(venues.id, venueId))
+      .limit(1);
 
-  const { data: venue } = await supabase
-    .from("venues")
-    .select("*")
-    .eq("id", staffRecord.venue_id)
-    .single();
-
-  return NextResponse.json(venue);
+    return NextResponse.json(venue ?? null);
+  } catch (err) {
+    console.error("WhatsApp settings GET error:", err);
+    return NextResponse.json({ error: "Failed to load settings" }, { status: 500 });
+  }
 }
 
 export async function PATCH(request: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+    const venueId = await getStaffVenueId(session.userId);
+    if (!venueId) return NextResponse.json({ error: "No venue" }, { status: 403 });
 
-  if (!staffRecord) return NextResponse.json({ error: "No venue" }, { status: 403 });
+    const body = await request.json();
 
-  const body = await request.json();
-  const admin = createAdminSupabase();
+    const [venue] = await getDb()
+      .update(venues)
+      .set({
+        supported_languages: body.supported_languages,
+        brand_voice: body.brand_voice,
+        updated_at: new Date().toISOString(),
+      })
+      .where(eq(venues.id, venueId))
+      .returning();
 
-  const { data, error } = await admin
-    .from("venues")
-    .update({
-      supported_languages: body.supported_languages,
-      brand_voice: body.brand_voice,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", staffRecord.venue_id)
-    .select()
-    .single();
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
+    if (!venue) return NextResponse.json({ error: "Venue not found" }, { status: 500 });
+    return NextResponse.json(venue);
+  } catch (err) {
+    console.error("WhatsApp settings PATCH error:", err);
+    return NextResponse.json({ error: "Failed to update settings" }, { status: 500 });
+  }
 }

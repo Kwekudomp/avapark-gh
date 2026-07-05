@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { getDb } from "@/db";
+import { orders } from "@/db/schema";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 
 interface CartItemPayload {
@@ -71,29 +72,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
   }
 
-  const supabase = await createServerSupabase();
-  const { data, error } = await supabase
-    .from("orders")
-    .insert({
-      customer_name: customer_name.trim(),
-      customer_phone: customer_phone.trim(),
-      customer_email: body.customer_email?.trim() || null,
-      order_type,
-      scheduled_time: body.scheduled_time?.trim() || null,
-      items,
-      subtotal,
-      notes: body.notes?.trim() || null,
-      status: "new",
-    })
-    .select("id")
-    .single();
+  let data: { id: string } | undefined;
+  try {
+    [data] = await getDb()
+      .insert(orders)
+      .values({
+        customer_name: customer_name.trim(),
+        customer_phone: customer_phone.trim(),
+        customer_email: body.customer_email?.trim() || null,
+        order_type,
+        scheduled_time: body.scheduled_time?.trim() || null,
+        items,
+        subtotal,
+        notes: body.notes?.trim() || null,
+        status: "new",
+      })
+      .returning({ id: orders.id });
+  } catch (err) {
+    console.error("[POST /api/orders] DB error:", err);
+    return NextResponse.json({ error: "Failed to save order" }, { status: 500 });
+  }
 
-  if (error || !data) {
-    console.error("[POST /api/orders] Supabase error:", error?.message);
-    return NextResponse.json(
-      { error: error?.message ?? "Failed to save order" },
-      { status: 500 },
-    );
+  if (!data) {
+    return NextResponse.json({ error: "Failed to save order" }, { status: 500 });
   }
 
   const message = buildWhatsAppMessage(body, data.id);

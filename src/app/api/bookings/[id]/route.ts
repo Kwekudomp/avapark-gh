@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { bookings } from "@/db/schema";
 import { assertStaff } from "@/lib/auth/roles";
 
 export async function PATCH(
@@ -14,20 +16,20 @@ export async function PATCH(
     const body = await req.json();
     const { status, admin_notes } = body;
 
-    const updates: Record<string, unknown> = {};
+    const updates: Partial<typeof bookings.$inferInsert> = {
+      updated_at: new Date().toISOString(),
+    };
     if (status) updates.status = status;
     if (admin_notes !== undefined) updates.admin_notes = admin_notes;
 
-    const admin = createAdminSupabase();
-    const { data, error } = await admin
-      .from("bookings")
-      .update(updates)
-      .eq("id", id)
-      .select()
-      .single();
+    const [booking] = await getDb()
+      .update(bookings)
+      .set(updates)
+      .where(eq(bookings.id, id))
+      .returning();
 
-    if (error) throw error;
-    return NextResponse.json({ booking: data });
+    if (!booking) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ booking });
   } catch (err) {
     console.error("Update booking error:", err);
     return NextResponse.json({ error: "Failed to update booking" }, { status: 500 });

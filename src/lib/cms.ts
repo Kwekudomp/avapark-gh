@@ -1,4 +1,15 @@
-import { createServerSupabase } from "./supabase-server";
+import { and, asc, desc, eq, gte } from "drizzle-orm";
+import { getDb } from "@/db";
+import {
+  experiences as experiencesTable,
+  galleryItems,
+  events as eventsTable,
+  videos as videosTable,
+  reviews as reviewsTable,
+  menuItems,
+  accommodationPartners,
+  siteSettings,
+} from "@/db/schema";
 import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner, MenuItemRow } from "./supabase";
 import { experiences as staticExperiences, getFeaturedExperiences as getStaticFeatured } from "@/data/experiences";
 import type { Experience } from "@/data/experiences";
@@ -33,14 +44,13 @@ function adaptStatic(e: Experience): CMSExperience {
 
 export async function getCMSExperiences(): Promise<CMSExperience[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("experiences")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true });
-    if (error || !data?.length) return staticExperiences.map(adaptStatic);
-    return data as CMSExperience[];
+    const data = await getDb()
+      .select()
+      .from(experiencesTable)
+      .where(eq(experiencesTable.is_active, true))
+      .orderBy(asc(experiencesTable.sort_order));
+    if (!data?.length) return staticExperiences.map(adaptStatic);
+    return data as unknown as CMSExperience[];
   } catch {
     return staticExperiences.map(adaptStatic);
   }
@@ -48,18 +58,17 @@ export async function getCMSExperiences(): Promise<CMSExperience[]> {
 
 export async function getCMSExperienceBySlug(slug: string): Promise<CMSExperience | null> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("experiences")
-      .select("*")
-      .eq("slug", slug)
-      .eq("is_active", true)
-      .single();
-    if (error || !data) {
+    const rows = await getDb()
+      .select()
+      .from(experiencesTable)
+      .where(and(eq(experiencesTable.slug, slug), eq(experiencesTable.is_active, true)))
+      .limit(1);
+    const data = rows[0];
+    if (!data) {
       const fallback = staticExperiences.find(e => e.slug === slug);
       return fallback ? adaptStatic(fallback) : null;
     }
-    return data as CMSExperience;
+    return data as unknown as CMSExperience;
   } catch {
     const fallback = staticExperiences.find(e => e.slug === slug);
     return fallback ? adaptStatic(fallback) : null;
@@ -68,16 +77,14 @@ export async function getCMSExperienceBySlug(slug: string): Promise<CMSExperienc
 
 export async function getFeaturedCMSExperiences(): Promise<CMSExperience[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("experiences")
-      .select("*")
-      .eq("is_featured", true)
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
+    const data = await getDb()
+      .select()
+      .from(experiencesTable)
+      .where(and(eq(experiencesTable.is_featured, true), eq(experiencesTable.is_active, true)))
+      .orderBy(asc(experiencesTable.sort_order))
       .limit(6);
-    if (error || !data?.length) return getStaticFeatured().map(adaptStatic);
-    return data as CMSExperience[];
+    if (!data?.length) return getStaticFeatured().map(adaptStatic);
+    return data as unknown as CMSExperience[];
   } catch {
     return getStaticFeatured().map(adaptStatic);
   }
@@ -85,14 +92,13 @@ export async function getFeaturedCMSExperiences(): Promise<CMSExperience[]> {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("gallery_items")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true });
-    if (error || !data?.length) return [];
-    return data as GalleryItem[];
+    const data = await getDb()
+      .select()
+      .from(galleryItems)
+      .where(eq(galleryItems.is_active, true))
+      .orderBy(asc(galleryItems.sort_order));
+    if (!data?.length) return [];
+    return data as unknown as GalleryItem[];
   } catch {
     return [];
   }
@@ -100,17 +106,15 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
 
 export async function getUpcomingEvents(): Promise<CMSEvent[]> {
   try {
-    const supabase = await createServerSupabase();
     const today = new Date().toISOString().split("T")[0];
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
-      .eq("is_active", true)
-      .gte("event_date", today)
-      .order("event_date", { ascending: true })
+    const data = await getDb()
+      .select()
+      .from(eventsTable)
+      .where(and(eq(eventsTable.is_active, true), gte(eventsTable.event_date, today)))
+      .orderBy(asc(eventsTable.event_date))
       .limit(6);
-    if (error || !data?.length) return [];
-    return data as CMSEvent[];
+    if (!data?.length) return [];
+    return data as unknown as CMSEvent[];
   } catch {
     return [];
   }
@@ -118,15 +122,14 @@ export async function getUpcomingEvents(): Promise<CMSEvent[]> {
 
 export async function getVideos(): Promise<CMSVideo[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("videos")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
+    const data = await getDb()
+      .select()
+      .from(videosTable)
+      .where(eq(videosTable.is_active, true))
+      .orderBy(asc(videosTable.sort_order))
       .limit(6);
-    if (error || !data?.length) return [];
-    return data as CMSVideo[];
+    if (!data?.length) return [];
+    return data as unknown as CMSVideo[];
   } catch {
     return [];
   }
@@ -134,22 +137,24 @@ export async function getVideos(): Promise<CMSVideo[]> {
 
 export async function getApprovedReviews(): Promise<Review[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("reviews")
-      .select("id, guest_name, experience_name, rating, comment, created_at")
-      .eq("status", "approved")
-      .order("created_at", { ascending: false });
-    if (error) {
-      console.error("[getApprovedReviews] Supabase error:", error.message, error.code);
-      return [];
-    }
+    const data = await getDb()
+      .select({
+        id: reviewsTable.id,
+        guest_name: reviewsTable.guest_name,
+        experience_name: reviewsTable.experience_name,
+        rating: reviewsTable.rating,
+        comment: reviewsTable.comment,
+        created_at: reviewsTable.created_at,
+      })
+      .from(reviewsTable)
+      .where(eq(reviewsTable.status, "approved"))
+      .orderBy(desc(reviewsTable.created_at));
     if (!data?.length) {
       console.warn("[getApprovedReviews] No approved reviews returned (data length 0)");
       return [];
     }
     console.info(`[getApprovedReviews] Returned ${data.length} approved review(s)`);
-    return data as Review[];
+    return data as unknown as Review[];
   } catch (e) {
     console.error("[getApprovedReviews] Threw:", e instanceof Error ? e.message : e);
     return [];
@@ -180,18 +185,13 @@ function staticMenuAsRows(): MenuItemRow[] {
 /** Public-facing menu fetch. Returns only available items. */
 export async function getPublicMenuItems(): Promise<MenuItemRow[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("menu_items")
-      .select("*")
-      .eq("available", true)
-      .order("sort_order", { ascending: true });
-    if (error) {
-      console.error("[getPublicMenuItems] Supabase error:", error.message);
-      return staticMenuAsRows();
-    }
+    const data = await getDb()
+      .select()
+      .from(menuItems)
+      .where(eq(menuItems.available, true))
+      .orderBy(asc(menuItems.sort_order));
     if (!data?.length) return staticMenuAsRows();
-    return data as MenuItemRow[];
+    return data as unknown as MenuItemRow[];
   } catch (e) {
     console.error("[getPublicMenuItems] Threw:", e instanceof Error ? e.message : e);
     return staticMenuAsRows();
@@ -200,17 +200,12 @@ export async function getPublicMenuItems(): Promise<MenuItemRow[]> {
 
 export async function getAccommodationPartners(): Promise<AccommodationPartner[]> {
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase
-      .from("accommodation_partners")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true });
-    if (error) {
-      console.error("[cms] accommodation_partners error:", error.message);
-      return [];
-    }
-    return (data ?? []) as AccommodationPartner[];
+    const data = await getDb()
+      .select()
+      .from(accommodationPartners)
+      .where(eq(accommodationPartners.is_active, true))
+      .orderBy(asc(accommodationPartners.sort_order));
+    return (data ?? []) as unknown as AccommodationPartner[];
   } catch (err) {
     console.error("[cms] accommodation_partners exception:", err);
     return [];
@@ -231,9 +226,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     tagline: "Your Escape Into Nature",
   };
   try {
-    const supabase = await createServerSupabase();
-    const { data, error } = await supabase.from("site_settings").select("key, value");
-    if (error || !data?.length) return defaults;
+    const data = await getDb()
+      .select({ key: siteSettings.key, value: siteSettings.value })
+      .from(siteSettings);
+    if (!data?.length) return defaults;
     const settings = { ...defaults };
     data.forEach(({ key, value }) => { settings[key] = value; });
     return settings;

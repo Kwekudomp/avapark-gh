@@ -1,20 +1,21 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { desc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { inquiries } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import InquiriesCMSClient from "@/components/admin/InquiriesCMSClient";
 import type { Inquiry } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminInquiriesPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: inquiries } = await admin
-    .from("inquiries")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const rows = await getDb()
+    .select()
+    .from(inquiries)
+    .orderBy(desc(inquiries.created_at));
 
-  return <InquiriesCMSClient initialInquiries={(inquiries ?? []) as Inquiry[]} />;
+  return <InquiriesCMSClient initialInquiries={(rows ?? []) as Inquiry[]} />;
 }

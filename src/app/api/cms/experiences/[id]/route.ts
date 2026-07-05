@@ -1,38 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { experiences } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
-  const body = await req.json();
-  const admin = createAdminSupabase();
-  const { data, error } = await admin
-    .from("experiences")
-    .update({ ...body, updated_at: new Date().toISOString() })
-    .eq("id", id)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ experience: data });
+  try {
+    const { id } = await params;
+    const body = await req.json();
+    const [experience] = await getDb()
+      .update(experiences)
+      .set({ ...body, updated_at: new Date().toISOString() })
+      .where(eq(experiences.id, id))
+      .returning();
+    if (!experience) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ experience });
+  } catch (err) {
+    console.error("Update experience error:", err);
+    return NextResponse.json({ error: "Failed to update experience" }, { status: 500 });
+  }
 }
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
-  const admin = createAdminSupabase();
-  const { error } = await admin.from("experiences").update({ is_active: false }).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true });
+  try {
+    const { id } = await params;
+    await getDb()
+      .update(experiences)
+      .set({ is_active: false })
+      .where(eq(experiences.id, id));
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Delete experience error:", err);
+    return NextResponse.json({ error: "Failed to delete experience" }, { status: 500 });
+  }
 }

@@ -1,17 +1,24 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { videos as videosTable } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+import type { CMSVideo } from "@/lib/supabase";
 import VideosCMSClient from "@/components/admin/VideosCMSClient";
 
 export default async function AdminVideosPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: videos } = await admin
-    .from("videos")
-    .select("*")
-    .order("sort_order", { ascending: true });
+  let videos: CMSVideo[] = [];
+  try {
+    videos = (await getDb()
+      .select()
+      .from(videosTable)
+      .orderBy(asc(videosTable.sort_order))) as unknown as CMSVideo[];
+  } catch (err) {
+    console.error("Load videos error:", err);
+  }
 
-  return <VideosCMSClient initialVideos={videos ?? []} />;
+  return <VideosCMSClient initialVideos={videos} />;
 }

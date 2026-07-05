@@ -1,19 +1,23 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { asc, desc, eq, inArray } from "drizzle-orm";
+import { getDb } from "@/db";
+import { conversations, messages, staffWhatsapp } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import ConversationsClient from "@/components/admin/whatsapp/ConversationsClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function WhatsAppConversationsPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+  const db = getDb();
+
+  const [staffRecord] = await db
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, session.userId))
+    .limit(1);
 
   if (!staffRecord) {
     return (
@@ -23,12 +27,33 @@ export default async function WhatsAppConversationsPage() {
     );
   }
 
-  const { data: conversations } = await supabase
-    .from("conversations")
-    .select("*, messages(*)")
-    .eq("venue_id", staffRecord.venue_id)
-    .order("last_message_at", { ascending: false })
+  const conversationRows = await db
+    .select()
+    .from(conversations)
+    .where(eq(conversations.venue_id, staffRecord.venue_id))
+    .orderBy(desc(conversations.last_message_at))
     .limit(100);
 
-  return <ConversationsClient conversations={(conversations as any) ?? []} />;
+  const ids = conversationRows.map((c) => c.id);
+  const messageRows = ids.length
+    ? await db
+        .select()
+        .from(messages)
+        .where(inArray(messages.conversation_id, ids))
+        .orderBy(asc(messages.sent_at))
+    : [];
+
+  const byConversation = new Map<string, typeof messageRows>();
+  for (const msg of messageRows) {
+    const list = byConversation.get(msg.conversation_id) ?? [];
+    list.push(msg);
+    byConversation.set(msg.conversation_id, list);
+  }
+
+  const conversationsWithMessages = conversationRows.map((c) => ({
+    ...c,
+    messages: byConversation.get(c.id) ?? [],
+  }));
+
+  return <ConversationsClient conversations={(conversationsWithMessages as any) ?? []} />;
 }

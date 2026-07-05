@@ -1,4 +1,6 @@
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { and, asc, eq, gte } from "drizzle-orm";
+import { getDb } from "@/db";
+import { closures, experiences, faqs, menuItems } from "@/db/schema";
 import type { CMSExperience, MenuItemRow } from "@/lib/supabase";
 import type { ResolvedContext, Intent } from "./types";
 
@@ -52,86 +54,88 @@ export async function resolveContext(
   category: string,
   venueId: string
 ): Promise<ResolvedContext> {
-  const supabase = createAdminSupabase();
+  const db = getDb();
   const facts: Array<{ key: string; value: string }> = [];
   let source = "database";
 
   if (intent === "faq") {
-    const { data: faqs } = await supabase
-      .from("faqs")
-      .select("question, answer")
-      .eq("venue_id", venueId)
-      .eq("is_active", true);
+    const faqRows = await db
+      .select({ question: faqs.question, answer: faqs.answer })
+      .from(faqs)
+      .where(and(eq(faqs.venue_id, venueId), eq(faqs.is_active, true)));
 
-    if (faqs?.length) {
-      facts.push(...faqs.map((f) => ({ key: f.question, value: f.answer })));
+    if (faqRows.length) {
+      facts.push(...faqRows.map((f) => ({ key: f.question, value: f.answer })));
     }
 
     if (["pricing", "events", "experiences", "activities", "schedule", "hours"].includes(category)) {
-      const { data: experiences } = await supabase
-        .from("experiences")
-        .select("*")
-        .eq("is_active", true);
+      const experienceRows = await db
+        .select()
+        .from(experiences)
+        .where(eq(experiences.is_active, true));
 
-      if (experiences?.length) {
-        facts.push(...buildFactsFromExperiences(experiences as CMSExperience[]));
+      if (experienceRows.length) {
+        facts.push(...buildFactsFromExperiences(experienceRows as unknown as CMSExperience[]));
         source = "experiences";
       }
     }
 
     if (["menu", "food", "drinks", "restaurant"].includes(category)) {
-      const { data: menuItems } = await supabase
-        .from("menu_items")
-        .select("*")
-        .eq("available", true);
+      const menuRows = await db
+        .select()
+        .from(menuItems)
+        .where(eq(menuItems.available, true));
 
-      if (menuItems?.length) {
-        facts.push(...buildFactsFromMenu(menuItems as MenuItemRow[]));
+      if (menuRows.length) {
+        facts.push(...buildFactsFromMenu(menuRows as unknown as MenuItemRow[]));
         source = "menu";
       }
     }
 
     const today = new Date().toISOString().split("T")[0];
-    const { data: closures } = await supabase
-      .from("closures")
-      .select("closure_date, reason")
-      .eq("venue_id", venueId)
-      .gte("closure_date", today)
-      .order("closure_date", { ascending: true })
+    const closureRows = await db
+      .select({ closure_date: closures.closure_date, reason: closures.reason })
+      .from(closures)
+      .where(and(eq(closures.venue_id, venueId), gte(closures.closure_date, today)))
+      .orderBy(asc(closures.closure_date))
       .limit(5);
 
-    if (closures?.length) {
+    if (closureRows.length) {
       facts.push({
         key: "upcoming_closures",
-        value: closures.map((c) => `${c.closure_date}: ${c.reason}`).join("; "),
+        value: closureRows.map((c) => `${c.closure_date}: ${c.reason}`).join("; "),
       });
     }
   }
 
   if (intent === "availability") {
-    const { data: experiences } = await supabase
-      .from("experiences")
-      .select("name, schedule, time")
-      .eq("is_active", true);
+    const experienceRows = await db
+      .select({
+        name: experiences.name,
+        schedule: experiences.schedule,
+        time: experiences.time,
+      })
+      .from(experiences)
+      .where(eq(experiences.is_active, true));
 
-    if (experiences?.length) {
+    if (experienceRows.length) {
       facts.push(
-        ...experiences.map((e) => ({
+        ...experienceRows.map((e) => ({
           key: e.name,
           value: `${e.schedule}, ${e.time}`,
         }))
       );
     }
 
-    const { data: closures } = await supabase
-      .from("closures")
-      .select("closure_date, reason")
-      .eq("venue_id", venueId);
+    const closureRows = await db
+      .select({ closure_date: closures.closure_date, reason: closures.reason })
+      .from(closures)
+      .where(eq(closures.venue_id, venueId));
 
-    if (closures?.length) {
+    if (closureRows.length) {
       facts.push({
         key: "closures",
-        value: closures.map((c) => `${c.closure_date}: ${c.reason}`).join("; "),
+        value: closureRows.map((c) => `${c.closure_date}: ${c.reason}`).join("; "),
       });
     }
 

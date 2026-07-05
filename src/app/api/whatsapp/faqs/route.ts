@@ -1,74 +1,81 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { and, desc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { faqs, staffWhatsapp } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+
+async function getStaffVenueId(userId: string): Promise<string | null> {
+  const [staffRecord] = await getDb()
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, userId))
+    .limit(1);
+  return staffRecord?.venue_id ?? null;
+}
 
 export async function GET() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+    const venueId = await getStaffVenueId(session.userId);
+    if (!venueId) return NextResponse.json({ error: "No venue" }, { status: 403 });
 
-  if (!staffRecord) return NextResponse.json({ error: "No venue" }, { status: 403 });
+    const rows = await getDb()
+      .select()
+      .from(faqs)
+      .where(eq(faqs.venue_id, venueId))
+      .orderBy(desc(faqs.created_at));
 
-  const { data: faqs } = await supabase
-    .from("faqs")
-    .select("*")
-    .eq("venue_id", staffRecord.venue_id)
-    .order("created_at", { ascending: false });
-
-  return NextResponse.json(faqs ?? []);
+    return NextResponse.json(rows);
+  } catch (err) {
+    console.error("WhatsApp faqs GET error:", err);
+    return NextResponse.json({ error: "Failed to load FAQs" }, { status: 500 });
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+    const venueId = await getStaffVenueId(session.userId);
+    if (!venueId) return NextResponse.json({ error: "No venue" }, { status: 403 });
 
-  if (!staffRecord) return NextResponse.json({ error: "No venue" }, { status: 403 });
+    const body = await request.json();
+    const db = getDb();
 
-  const body = await request.json();
-  const admin = createAdminSupabase();
+    if (body.id) {
+      const [updated] = await db
+        .update(faqs)
+        .set({
+          question: body.question,
+          answer: body.answer,
+          category: body.category,
+          is_active: body.is_active,
+          updated_at: new Date().toISOString(),
+        })
+        .where(and(eq(faqs.id, body.id), eq(faqs.venue_id, venueId)))
+        .returning();
 
-  if (body.id) {
-    const { data, error } = await admin
-      .from("faqs")
-      .update({
+      if (!updated) return NextResponse.json({ error: "FAQ not found" }, { status: 500 });
+      return NextResponse.json(updated);
+    }
+
+    const [created] = await db
+      .insert(faqs)
+      .values({
+        venue_id: venueId,
         question: body.question,
         answer: body.answer,
-        category: body.category,
-        is_active: body.is_active,
-        updated_at: new Date().toISOString(),
+        category: body.category ?? "general",
       })
-      .eq("id", body.id)
-      .eq("venue_id", staffRecord.venue_id)
-      .select()
-      .single();
+      .returning();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data);
+    if (!created) return NextResponse.json({ error: "Failed to create FAQ" }, { status: 500 });
+    return NextResponse.json(created, { status: 201 });
+  } catch (err) {
+    console.error("WhatsApp faqs POST error:", err);
+    return NextResponse.json({ error: "Failed to save FAQ" }, { status: 500 });
   }
-
-  const { data, error } = await admin
-    .from("faqs")
-    .insert({
-      venue_id: staffRecord.venue_id,
-      question: body.question,
-      answer: body.answer,
-      category: body.category ?? "general",
-    })
-    .select()
-    .single();
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 201 });
 }

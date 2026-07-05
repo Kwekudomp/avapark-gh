@@ -1,19 +1,23 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { staffWhatsapp, venues } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import SettingsClient from "@/components/admin/whatsapp/SettingsClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function WhatsAppSettingsPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+  const db = getDb();
+
+  const [staffRecord] = await db
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, session.userId))
+    .limit(1);
 
   if (!staffRecord) {
     return (
@@ -23,11 +27,11 @@ export default async function WhatsAppSettingsPage() {
     );
   }
 
-  const { data: venue } = await supabase
-    .from("venues")
-    .select("*")
-    .eq("id", staffRecord.venue_id)
-    .single();
+  const [venue] = await db
+    .select()
+    .from(venues)
+    .where(eq(venues.id, staffRecord.venue_id))
+    .limit(1);
 
   if (!venue) {
     return (

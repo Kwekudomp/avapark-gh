@@ -1,19 +1,23 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { and, desc, eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { faqs, staffWhatsapp } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import FaqsCMSClient from "@/components/admin/whatsapp/FaqsCMSClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function WhatsAppFaqsPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const { data: staffRecord } = await supabase
-    .from("staff_whatsapp")
-    .select("venue_id")
-    .eq("user_id", user.id)
-    .single();
+  const db = getDb();
+
+  const [staffRecord] = await db
+    .select({ venue_id: staffWhatsapp.venue_id })
+    .from(staffWhatsapp)
+    .where(eq(staffWhatsapp.user_id, session.userId))
+    .limit(1);
 
   if (!staffRecord) {
     return (
@@ -23,12 +27,11 @@ export default async function WhatsAppFaqsPage() {
     );
   }
 
-  const { data: faqs } = await supabase
-    .from("faqs")
-    .select("*")
-    .eq("venue_id", staffRecord.venue_id)
-    .eq("is_active", true)
-    .order("created_at", { ascending: false });
+  const faqRows = await db
+    .select()
+    .from(faqs)
+    .where(and(eq(faqs.venue_id, staffRecord.venue_id), eq(faqs.is_active, true)))
+    .orderBy(desc(faqs.created_at));
 
-  return <FaqsCMSClient initialFaqs={(faqs as any) ?? []} />;
+  return <FaqsCMSClient initialFaqs={(faqRows as any) ?? []} />;
 }

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
+import { useEffect, useRef, useState } from "react";
 import { Inbox, RefreshCw, ArrowLeft } from "lucide-react";
 import EscalationCard from "./EscalationCard";
 import type { Escalation, Message, Conversation } from "@/lib/whatsapp/types";
@@ -20,37 +19,43 @@ export default function InboxClient({
 }) {
   const [escalations, setEscalations] = useState(initialEscalations);
   const [filter, setFilter] = useState<"pending" | "resolved">("pending");
-  const supabase = createBrowserSupabase();
+  const escalationsRef = useRef(escalations);
 
   useEffect(() => {
-    const channel = supabase
-      .channel("escalations-realtime")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "escalations",
-          filter: `venue_id=eq.${venueId}`,
-        },
-        async (payload) => {
-          const { data } = await supabase
-            .from("escalations")
-            .select("*, message:messages(*), conversation:messages(conversation:conversations(*))")
-            .eq("id", payload.new.id)
-            .single();
+    escalationsRef.current = escalations;
+  }, [escalations]);
 
-          if (data) {
-            setEscalations((prev) => [data as unknown as EscalationWithContext, ...prev]);
-          }
-        }
-      )
-      .subscribe();
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        const newest = escalationsRef.current.reduce<string | null>(
+          (max, e) => (!max || e.created_at > max ? e.created_at : max),
+          null
+        );
+        const params = new URLSearchParams({ venueId });
+        if (newest) params.set("after", newest);
 
-    return () => {
-      supabase.removeChannel(channel);
+        const res = await fetch(`/api/whatsapp/escalations?${params.toString()}`);
+        if (!res.ok) return;
+
+        const data = await res.json();
+        const incoming: EscalationWithContext[] = data.escalations ?? [];
+        if (incoming.length === 0) return;
+
+        setEscalations((prev) => {
+          const existingIds = new Set(prev.map((e) => e.id));
+          const fresh = incoming.filter((e) => !existingIds.has(e.id));
+          if (fresh.length === 0) return prev;
+          return [...fresh, ...prev];
+        });
+      } catch {
+        // Ignore polling errors; next tick will retry.
+      }
     };
-  }, [supabase, venueId]);
+
+    const interval = setInterval(poll, 15000);
+    return () => clearInterval(interval);
+  }, [venueId]);
 
   const handleSend = async (escalationId: string, reply: string) => {
     const res = await fetch("/api/whatsapp/reply", {

@@ -1,14 +1,21 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { getDb } from "@/db";
+import { siteSettings } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import SettingsCMSClient from "@/components/admin/SettingsCMSClient";
 
 export default async function AdminSettingsPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: settings } = await admin.from("site_settings").select("*");
+  let settings: { key: string; value: string; label: string }[] = [];
+  try {
+    settings = await getDb()
+      .select({ key: siteSettings.key, value: siteSettings.value, label: siteSettings.label })
+      .from(siteSettings);
+  } catch (err) {
+    console.error("Load settings error:", err);
+  }
 
-  return <SettingsCMSClient initialSettings={settings ?? []} />;
+  return <SettingsCMSClient initialSettings={settings} />;
 }

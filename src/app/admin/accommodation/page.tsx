@@ -1,17 +1,24 @@
 import { redirect } from "next/navigation";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { asc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { accommodationPartners } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
+import type { AccommodationPartner } from "@/lib/supabase";
 import AccommodationCMSClient from "@/components/admin/AccommodationCMSClient";
 
 export default async function AdminAccommodationPage() {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const admin = createAdminSupabase();
-  const { data: partners } = await admin
-    .from("accommodation_partners")
-    .select("*")
-    .order("sort_order", { ascending: true });
+  let partners: AccommodationPartner[] = [];
+  try {
+    partners = (await getDb()
+      .select()
+      .from(accommodationPartners)
+      .orderBy(asc(accommodationPartners.sort_order))) as unknown as AccommodationPartner[];
+  } catch (err) {
+    console.error("Load accommodation partners error:", err);
+  }
 
-  return <AccommodationCMSClient initialPartners={partners ?? []} />;
+  return <AccommodationCMSClient initialPartners={partners} />;
 }
