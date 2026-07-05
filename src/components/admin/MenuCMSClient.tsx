@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ShoppingBag, Check } from "lucide-react";
 import type { MenuItemRow, MenuItemMeal, MenuItemTag } from "@/lib/types";
 import { useToast } from "./ui/Toast";
 
@@ -28,9 +29,38 @@ interface Edit {
   available: boolean;
 }
 
-export default function MenuCMSClient({ initialItems }: { initialItems: MenuItemRow[] }) {
+export default function MenuCMSClient({
+  initialItems,
+  orderingEnabled: initialOrderingEnabled = true,
+}: {
+  initialItems: MenuItemRow[];
+  orderingEnabled?: boolean;
+}) {
   const { toast } = useToast();
   const [items, setItems] = useState<MenuItemRow[]>(initialItems);
+  const [orderingEnabled, setOrderingEnabled] = useState(initialOrderingEnabled);
+  const [togglingOrdering, setTogglingOrdering] = useState(false);
+
+  async function toggleOrdering() {
+    const next = !orderingEnabled;
+    setTogglingOrdering(true);
+    setOrderingEnabled(next); // optimistic
+    try {
+      const res = await fetch("/api/cms/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ updates: [{ key: "ordering_enabled", value: next ? "true" : "false" }] }),
+      });
+      if (!res.ok) throw new Error();
+      toast("success", next ? "Online ordering is now live for customers." : "Online ordering is hidden from customers.");
+    } catch {
+      setOrderingEnabled(!next); // revert
+      toast("error", "Could not update ordering — try again.");
+    } finally {
+      setTogglingOrdering(false);
+    }
+  }
+
   const [mealFilter, setMealFilter] = useState<MenuItemMeal | "all">("all");
   const [search, setSearch] = useState("");
   const [showOnlyUnpriced, setShowOnlyUnpriced] = useState(false);
@@ -131,6 +161,36 @@ export default function MenuCMSClient({ initialItems }: { initialItems: MenuItem
 
   return (
     <div>
+      {/* Online ordering master switch */}
+      <div className="bg-white rounded-2xl border border-border p-5 mb-6 flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-start gap-3">
+          <ShoppingBag className={`w-5 h-5 mt-0.5 shrink-0 ${orderingEnabled ? "text-green-600" : "text-text-secondary"}`} aria-hidden />
+          <div>
+            <p className="font-semibold text-dark text-sm">Online Ordering</p>
+            <p className="text-xs text-text-secondary mt-0.5 max-w-md">
+              {orderingEnabled
+                ? "Customers can order from the website. The Order Food links are visible sitewide."
+                : "Hidden from customers — the order page shows “coming soon” and the Order Food links are removed. Turn on once your prices are ready."}
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={orderingEnabled}
+          aria-label="Toggle online ordering"
+          onClick={toggleOrdering}
+          disabled={togglingOrdering}
+          className={`relative inline-flex items-center h-7 w-12 rounded-full transition-colors cursor-pointer shrink-0 disabled:opacity-60 ${
+            orderingEnabled ? "bg-green-600" : "bg-border"
+          }`}
+        >
+          <span className={`inline-flex items-center justify-center h-6 w-6 rounded-full bg-white shadow transform transition-transform ${orderingEnabled ? "translate-x-5" : "translate-x-0.5"}`}>
+            {orderingEnabled && <Check className="w-3.5 h-3.5 text-green-600" aria-hidden />}
+          </span>
+        </button>
+      </div>
+
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {[

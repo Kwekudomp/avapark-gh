@@ -212,6 +212,24 @@ export async function getAccommodationPartners(): Promise<AccommodationPartner[]
   }
 }
 
+/**
+ * Master switch for online ordering. Reads the `ordering_enabled` site setting;
+ * defaults to true (ordering on) when unset or on any error.
+ */
+export async function getOrderingEnabled(): Promise<boolean> {
+  try {
+    const [row] = await getDb()
+      .select({ value: siteSettings.value })
+      .from(siteSettings)
+      .where(eq(siteSettings.key, "ordering_enabled"))
+      .limit(1);
+    if (!row) return true;
+    return row.value !== "false";
+  } catch {
+    return true;
+  }
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   const defaults: SiteSettings = {
     phone_primary: "+233 (0) 540 879 700",

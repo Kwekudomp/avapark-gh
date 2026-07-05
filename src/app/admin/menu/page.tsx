@@ -3,6 +3,7 @@ import { asc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { menuItems } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
+import { getOrderingEnabled } from "@/lib/cms";
 import MenuCMSClient from "@/components/admin/MenuCMSClient";
 import type { MenuItemRow } from "@/lib/types";
 
@@ -12,10 +13,10 @@ export default async function AdminMenuPage() {
   const session = await getAdminSession();
   if (!session) redirect("/admin");
 
-  const data = await getDb()
-    .select()
-    .from(menuItems)
-    .orderBy(asc(menuItems.sort_order));
+  const [data, orderingEnabled] = await Promise.all([
+    getDb().select().from(menuItems).orderBy(asc(menuItems.sort_order)),
+    getOrderingEnabled(),
+  ]);
 
   const items = (data ?? []) as MenuItemRow[];
 
@@ -28,7 +29,7 @@ export default async function AdminMenuPage() {
           on request&rdquo; on the public page and cannot be ordered online until a price is set.
         </p>
       </div>
-      <MenuCMSClient initialItems={items} />
+      <MenuCMSClient initialItems={items} orderingEnabled={orderingEnabled} />
     </div>
   );
 }

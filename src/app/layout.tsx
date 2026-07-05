@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import PublicShell from "@/components/PublicShell";
+import { getOrderingEnabled } from "@/lib/cms";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -39,11 +40,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const orderingEnabled = await getOrderingEnabled();
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
       <body className="antialiased">
@@ -73,7 +75,7 @@ export default function RootLayout({
             }),
           }}
         />
-        <PublicShell>{children}</PublicShell>
+        <PublicShell orderingEnabled={orderingEnabled}>{children}</PublicShell>
       </body>
     </html>
   );

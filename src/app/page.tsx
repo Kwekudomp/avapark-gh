@@ -14,15 +14,16 @@ import ReviewsSection from "@/components/ReviewsSection";
 import AccommodationSection from "@/components/AccommodationSection";
 import HowToGetHere from "@/components/HowToGetHere";
 import EmailSignup from "@/components/EmailSignup";
-import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews, getAccommodationPartners } from "@/lib/cms";
+import { getFeaturedCMSExperiences, getUpcomingEvents, getVideos, getApprovedReviews, getAccommodationPartners, getOrderingEnabled } from "@/lib/cms";
 
 export default async function Home() {
-  const [featured, events, videos, reviews, partners] = await Promise.all([
+  const [featured, events, videos, reviews, partners, orderingEnabled] = await Promise.all([
     getFeaturedCMSExperiences(),
     getUpcomingEvents(),
     getVideos(),
     getApprovedReviews(),
     getAccommodationPartners(),
+    getOrderingEnabled(),
   ]);
 
   return (
@@ -63,6 +64,7 @@ export default async function Home() {
       <WeeklySchedule />
 
       {/* Order Food CTA */}
+      {orderingEnabled && (
       <section className="py-20 px-[5%]">
         <div className="max-w-[1100px] mx-auto rounded-3xl bg-primary text-white px-8 py-12 sm:px-14 sm:py-16 text-center relative overflow-hidden">
           <p className="text-xs font-bold tracking-[4px] text-secondary-light uppercase mb-3">The Kitchen</p>
@@ -86,6 +88,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Videos */}
       <VideoSection videos={videos} />

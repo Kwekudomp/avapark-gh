@@ -14,7 +14,13 @@ function showsBreadcrumbs(pathname: string): boolean {
   return true;
 }
 
-export default function PublicShell({ children }: { children: React.ReactNode }) {
+export default function PublicShell({
+  children,
+  orderingEnabled = true,
+}: {
+  children: React.ReactNode;
+  orderingEnabled?: boolean;
+}) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const isMaintenance = pathname.startsWith("/maintenance");
@@ -25,7 +31,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
 
   return (
     <>
-      <Nav />
+      <Nav orderingEnabled={orderingEnabled} />
       {showsBreadcrumbs(pathname) && <Breadcrumbs />}
       <main>{children}</main>
       <Footer />
