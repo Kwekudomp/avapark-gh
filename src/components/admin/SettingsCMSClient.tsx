@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useToast } from "./ui/Toast";
 
 interface Setting {
   key: string;
@@ -14,32 +14,39 @@ export default function SettingsCMSClient({
 }: {
   initialSettings: Setting[];
 }) {
+  const { toast } = useToast();
   const [settings, setSettings] = useState<Setting[]>(initialSettings);
   const [saving, setSaving] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   function handleChange(key: string, value: string) {
     setSettings(prev => prev.map(s => s.key === key ? { ...s, value } : s));
-    setSuccess(false);
   }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    setSuccess(false);
-    await fetch("/api/cms/settings", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        updates: settings.map(({ key, value }) => ({ key, value })),
-      }),
-    });
-    setSaving(false);
-    setSuccess(true);
+    try {
+      const res = await fetch("/api/cms/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          updates: settings.map(({ key, value }) => ({ key, value })),
+        }),
+      });
+      if (res.ok) {
+        toast("success", "Settings saved — changes will reflect on the site after the next deploy or page refresh.");
+      } else {
+        toast("error", `Could not save settings (${res.status}).`);
+      }
+    } catch {
+      toast("error", "Could not save settings — check your connection and try again.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   const inputClass =
-    "w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition";
+    "w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors";
 
   // Group settings for cleaner UI
   const groups = [
@@ -70,53 +77,44 @@ export default function SettingsCMSClient({
   }
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <header className="bg-primary text-white px-6 py-4 flex items-center gap-4">
-        <Link href="/admin/dashboard" className="text-white/60 hover:text-white text-sm transition">
-          ← Dashboard
-        </Link>
-        <h1 className="font-semibold">Site Settings</h1>
-      </header>
-
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <form onSubmit={handleSave} className="space-y-6">
-          {groups.map(group => (
-            <div key={group.title} className="bg-white rounded-2xl border border-border p-6 space-y-4">
-              <h2 className="font-semibold text-primary">{group.title}</h2>
-              {group.keys.map(key => {
-                const setting = getSetting(key);
-                if (!setting) return null;
-                return (
-                  <div key={key}>
-                    <label className="block text-xs font-semibold tracking-wider text-text-secondary uppercase mb-1.5">
-                      {setting.label}
-                    </label>
-                    <input
-                      value={setting.value}
-                      onChange={e => handleChange(key, e.target.value)}
-                      className={inputClass}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-
-          {success && (
-            <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
-              ✓ Settings saved — changes will reflect on the site after the next deploy or page refresh.
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={saving}
-            className="w-full bg-primary text-white py-4 rounded-full font-semibold hover:bg-primary-light transition disabled:opacity-60"
-          >
-            {saving ? "Saving…" : "Save Settings"}
-          </button>
-        </form>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-dark">Site Settings</h1>
+        <p className="text-sm text-text-secondary mt-0.5">Contact info, hours, social links and branding.</p>
       </div>
+
+      <form onSubmit={handleSave} className="space-y-6">
+        {groups.map(group => (
+          <div key={group.title} className="bg-white rounded-2xl border border-border p-6 space-y-4">
+            <h2 className="font-semibold text-primary">{group.title}</h2>
+            {group.keys.map(key => {
+              const setting = getSetting(key);
+              if (!setting) return null;
+              return (
+                <div key={key}>
+                  <label htmlFor={`setting-${key}`} className="block text-xs font-semibold tracking-wider text-text-secondary uppercase mb-1.5">
+                    {setting.label}
+                  </label>
+                  <input
+                    id={`setting-${key}`}
+                    value={setting.value}
+                    onChange={e => handleChange(key, e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ))}
+
+        <button
+          type="submit"
+          disabled={saving}
+          className="w-full min-h-11 bg-primary text-white py-4 rounded-full font-semibold hover:bg-primary-light transition-colors cursor-pointer disabled:opacity-60"
+        >
+          {saving ? "Saving…" : "Save Settings"}
+        </button>
+      </form>
     </div>
   );
 }

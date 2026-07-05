@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, X, CircleCheck } from "lucide-react";
 import type { UserRole } from "@/lib/types";
+import { useToast } from "./ui/Toast";
+import { ConfirmDialog } from "./ui/ConfirmDialog";
 
 export interface StaffRow {
   id: string;
@@ -36,41 +37,48 @@ export default function UsersAdminClient({
   initialUsers: StaffRow[];
   currentAdminId: string;
 }) {
+  const { toast } = useToast();
   const [users, setUsers] = useState<StaffRow[]>(initialUsers);
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState<StaffRow | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<StaffRow | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function handleDelete(user: StaffRow) {
-    if (user.id === currentAdminId) return;
-    if (!confirm(`Delete ${user.name} (${user.email})? This cannot be undone.`)) return;
-    const res = await fetch(`/api/admin/users/${user.id}`, { method: "DELETE" });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      alert(err.error ?? "Delete failed");
-      return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        toast("error", err.error ?? "Could not delete this account.");
+        return;
+      }
+      setUsers(prev => prev.filter(u => u.id !== user.id));
+      toast("success", `${user.name} removed.`);
+      setPendingDelete(null);
+    } catch {
+      toast("error", "Could not delete — check your connection and try again.");
+    } finally {
+      setDeleting(false);
     }
-    setUsers(prev => prev.filter(u => u.id !== user.id));
   }
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <header className="bg-primary text-white px-6 py-4 flex items-center gap-4">
-        <Link href="/admin/dashboard" className="text-white/60 hover:text-white text-sm transition">
-          ← Dashboard
-        </Link>
-        <h1 className="font-semibold">Staff Users</h1>
-        <span className="text-white/40 text-sm">({users.length})</span>
-      </header>
-
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-end mb-4">
-          <button
-            onClick={() => setShowAdd(true)}
-            className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-accent-dark transition flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" /> Add Staff
-          </button>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="flex items-end justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-semibold text-dark">Staff Users</h1>
+          <p className="text-sm text-text-secondary mt-0.5">{users.length} account{users.length !== 1 ? "s" : ""}</p>
         </div>
+        <button
+          onClick={() => setShowAdd(true)}
+          className="inline-flex items-center gap-2 min-h-11 bg-accent text-white px-5 rounded-full text-sm font-medium hover:bg-accent-dark transition-colors cursor-pointer"
+        >
+          <Plus className="w-4 h-4" aria-hidden /> Add Staff
+        </button>
+      </div>
+
+      <div>{/* content wrapper */}
 
         <div className="bg-white rounded-2xl border border-border overflow-hidden">
           {users.length === 0 ? (
@@ -88,7 +96,7 @@ export default function UsersAdminClient({
               </thead>
               <tbody className="divide-y divide-border">
                 {users.map(u => (
-                  <tr key={u.id} className="hover:bg-bg-alt/50 transition">
+                  <tr key={u.id} className="hover:bg-bg-alt/50 transition-colors">
                     <td className="px-4 py-3 font-medium text-dark">{u.name}</td>
                     <td className="px-4 py-3 text-text-secondary">{u.email}</td>
                     <td className="px-4 py-3">
@@ -99,22 +107,22 @@ export default function UsersAdminClient({
                     <td className="px-4 py-3 text-text-secondary text-xs">{formatDate(u.created_at)}</td>
                     <td className="px-4 py-3 text-text-secondary text-xs">{formatDate(u.last_sign_in_at)}</td>
                     <td className="px-4 py-3">
-                      <div className="flex gap-2 justify-end">
+                      <div className="flex gap-1 justify-end">
                         <button
                           onClick={() => setEditing(u)}
-                          className="p-1.5 text-text-secondary hover:text-primary transition"
+                          className="flex items-center justify-center min-h-11 min-w-11 rounded-xl text-text-secondary hover:text-primary hover:bg-bg-alt transition-colors cursor-pointer"
                           aria-label={`Edit ${u.name}`}
                         >
-                          <Pencil className="w-4 h-4" />
+                          <Pencil className="w-4 h-4" aria-hidden />
                         </button>
                         <button
-                          onClick={() => handleDelete(u)}
-                          className="p-1.5 text-text-secondary hover:text-red-600 transition disabled:opacity-30"
+                          onClick={() => setPendingDelete(u)}
+                          className="flex items-center justify-center min-h-11 min-w-11 rounded-xl text-text-secondary hover:text-red-600 hover:bg-bg-alt transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                           disabled={u.id === currentAdminId}
                           aria-label={`Delete ${u.name}`}
                           title={u.id === currentAdminId ? "Cannot delete yourself" : ""}
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4" aria-hidden />
                         </button>
                       </div>
                     </td>
@@ -142,6 +150,17 @@ export default function UsersAdminClient({
           }}
         />
       )}
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title="Delete this account?"
+        message={pendingDelete ? `${pendingDelete.name} (${pendingDelete.email}) will lose access immediately. This cannot be undone.` : ""}
+        confirmLabel="Delete account"
+        danger
+        busy={deleting}
+        onConfirm={() => { if (pendingDelete) handleDelete(pendingDelete); }}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }
@@ -197,7 +216,9 @@ function AddStaffModal({
     <ModalShell title="Add Staff" onClose={onClose}>
       {done ? (
         <div className="text-center py-6">
-          <p className="text-green-700 font-semibold">✓ Created — password copied to clipboard.</p>
+          <p className="flex items-center justify-center gap-2 text-green-700 font-semibold">
+            <CircleCheck className="w-5 h-5" aria-hidden /> Created — password copied to clipboard.
+          </p>
           <p className="text-text-secondary text-sm mt-1">Send to user via WhatsApp or in person.</p>
         </div>
       ) : (
@@ -224,10 +245,10 @@ function AddStaffModal({
           {error && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>}
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="px-5 py-2 rounded-full text-sm border border-border hover:bg-bg-alt transition">
+            <button type="button" onClick={onClose} className="min-h-11 px-5 rounded-full text-sm border border-border hover:bg-bg-alt transition-colors cursor-pointer">
               Cancel
             </button>
-            <button type="submit" disabled={submitting} className="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-light transition disabled:opacity-60">
+            <button type="submit" disabled={submitting} className="min-h-11 bg-primary text-white px-5 rounded-full text-sm font-medium hover:bg-primary-light transition-colors cursor-pointer disabled:opacity-60">
               {submitting ? "Creating…" : "Create Staff"}
             </button>
           </div>
@@ -246,6 +267,7 @@ function EditStaffModal({
   onClose: () => void;
   onSaved: (updated: Partial<StaffRow> & { id: string }) => void;
 }) {
+  const { toast } = useToast();
   const [name, setName] = useState(user.name);
   const [role, setRole] = useState<UserRole>(user.role);
   const [resetting, setResetting] = useState(false);
@@ -279,7 +301,9 @@ function EditStaffModal({
     }
     if (resetting) {
       try { await navigator.clipboard.writeText(password); } catch { /* noop */ }
-      alert("Password reset and copied to clipboard.");
+      toast("success", "Password reset and copied to clipboard.");
+    } else {
+      toast("success", "Staff account updated.");
     }
     onSaved({ id: user.id, name, role });
   }
@@ -320,10 +344,10 @@ function EditStaffModal({
         {error && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>}
 
         <div className="flex justify-end gap-2 pt-2">
-          <button type="button" onClick={onClose} className="px-5 py-2 rounded-full text-sm border border-border hover:bg-bg-alt transition">
+          <button type="button" onClick={onClose} className="min-h-11 px-5 rounded-full text-sm border border-border hover:bg-bg-alt transition-colors cursor-pointer">
             Cancel
           </button>
-          <button type="submit" disabled={submitting} className="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-light transition disabled:opacity-60">
+          <button type="submit" disabled={submitting} className="min-h-11 bg-primary text-white px-5 rounded-full text-sm font-medium hover:bg-primary-light transition-colors cursor-pointer disabled:opacity-60">
             {submitting ? "Saving…" : "Save Changes"}
           </button>
         </div>
@@ -363,11 +387,11 @@ function PasswordField({
         autoComplete="new-password"
       />
       <button type="button" onClick={onToggleShow}
-        className="px-3 py-2 rounded-xl text-xs border border-border hover:bg-bg-alt transition">
+        className="min-h-11 px-3 rounded-xl text-xs border border-border hover:bg-bg-alt transition-colors cursor-pointer">
         {show ? "Hide" : "Show"}
       </button>
       <button type="button" onClick={() => navigator.clipboard.writeText(value).catch(() => {})}
-        className="px-3 py-2 rounded-xl text-xs border border-border hover:bg-bg-alt transition">
+        className="min-h-11 px-3 rounded-xl text-xs border border-border hover:bg-bg-alt transition-colors cursor-pointer">
         Copy
       </button>
     </div>
@@ -384,7 +408,9 @@ function ModalShell({
       <div className="bg-white rounded-2xl border border-border w-full max-w-md p-6 shadow-xl" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display text-xl font-semibold text-primary">{title}</h2>
-          <button onClick={onClose} className="text-text-secondary hover:text-dark transition" aria-label="Close">✕</button>
+          <button onClick={onClose} className="flex items-center justify-center min-h-11 min-w-11 -mr-2 rounded-xl text-text-secondary hover:text-dark hover:bg-bg-alt transition-colors cursor-pointer" aria-label="Close">
+            <X className="w-4 h-4" aria-hidden />
+          </button>
         </div>
         {children}
       </div>

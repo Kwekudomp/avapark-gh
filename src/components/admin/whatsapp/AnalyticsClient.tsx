@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLeft, BarChart3, MessageSquare, Bot, Users, Clock } from "lucide-react";
+import { MessageSquare, Bot, Users, Clock } from "lucide-react";
+import WhatsAppTabs from "./WhatsAppTabs";
 
 interface AnalyticsData {
   totalMessages: number;
@@ -23,13 +24,13 @@ function StatCard({ icon: Icon, label, value, subtext }: {
   subtext?: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-4">
+    <div className="bg-white rounded-2xl border border-border p-4">
       <div className="flex items-center gap-2 mb-2">
-        <Icon className="w-4 h-4 text-emerald-600" />
-        <span className="text-xs text-gray-400 font-medium">{label}</span>
+        <Icon className="w-4 h-4 text-primary" aria-hidden />
+        <span className="text-xs text-text-secondary font-medium">{label}</span>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-      {subtext && <p className="text-xs text-gray-400 mt-1">{subtext}</p>}
+      <p className="text-2xl font-bold text-dark">{value}</p>
+      {subtext && <p className="text-xs text-text-secondary mt-1">{subtext}</p>}
     </div>
   );
 }
@@ -40,18 +41,17 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <a href="/admin/whatsapp/inbox" className="text-gray-400 hover:text-gray-600">
-            <ArrowLeft className="w-5 h-5" />
-          </a>
-          <BarChart3 className="w-5 h-5 text-emerald-600" />
-          <h1 className="font-semibold text-lg">Analytics</h1>
-        </div>
-      </header>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+      <div className="mb-4">
+        <h1 className="text-2xl font-semibold text-dark">Analytics</h1>
+        <p className="text-sm text-text-secondary mt-0.5">
+          How the AI agent has performed over the last 30 days.
+        </p>
+      </div>
 
-      <div className="max-w-3xl mx-auto px-4 pt-4 space-y-4 pb-8">
+      <WhatsAppTabs />
+
+      <div className="space-y-4 pb-8">
         <div className="grid grid-cols-2 gap-3">
           <StatCard icon={MessageSquare} label="Total Messages" value={data.totalMessages} subtext="Last 30 days" />
           <StatCard icon={Bot} label="Auto-handled" value={`${autoRate}%`} subtext={`${data.autoHandled} messages`} />
@@ -59,40 +59,40 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
           <StatCard icon={Clock} label="Avg Response" value={`${data.avgResponseTime}s`} subtext="AI auto-replies" />
         </div>
 
-        <section className="bg-white rounded-xl border border-gray-100 p-4">
-          <h2 className="font-medium text-sm mb-3">Top FAQ Categories</h2>
+        <section className="bg-white rounded-2xl border border-border p-5">
+          <h2 className="font-semibold text-sm text-dark mb-3">Top FAQ Categories</h2>
           <div className="space-y-2">
             {data.topCategories.slice(0, 8).map((cat) => (
               <div key={cat.category} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">{cat.category}</span>
+                <span className="text-sm text-text-secondary">{cat.category}</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="w-24 h-2 bg-bg-alt rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-emerald-500 rounded-full"
+                      className="h-full bg-primary rounded-full"
                       style={{ width: `${Math.min(100, (cat.count / (data.topCategories[0]?.count || 1)) * 100)}%` }}
                     />
                   </div>
-                  <span className="text-xs text-gray-400 w-8 text-right">{cat.count}</span>
+                  <span className="text-xs text-text-secondary w-8 text-right">{cat.count}</span>
                 </div>
               </div>
             ))}
             {data.topCategories.length === 0 && (
-              <p className="text-sm text-gray-400">No data yet</p>
+              <p className="text-sm text-text-secondary">No data yet</p>
             )}
           </div>
         </section>
 
-        <section className="bg-white rounded-xl border border-gray-100 p-4">
-          <h2 className="font-medium text-sm mb-3">Languages</h2>
+        <section className="bg-white rounded-2xl border border-border p-5">
+          <h2 className="font-semibold text-sm text-dark mb-3">Languages</h2>
           <div className="flex flex-wrap gap-2">
             {data.languageBreakdown.map((lang) => (
-              <div key={lang.language} className="px-3 py-1.5 bg-gray-50 rounded-lg text-sm">
-                <span className="font-medium">{LANGUAGE_LABELS[lang.language] ?? lang.language}</span>
-                <span className="text-gray-400 ml-1">({lang.count})</span>
+              <div key={lang.language} className="px-3 py-1.5 bg-bg-alt rounded-xl text-sm">
+                <span className="font-medium text-dark">{LANGUAGE_LABELS[lang.language] ?? lang.language}</span>
+                <span className="text-text-secondary ml-1">({lang.count})</span>
               </div>
             ))}
             {data.languageBreakdown.length === 0 && (
-              <p className="text-sm text-gray-400">No data yet</p>
+              <p className="text-sm text-text-secondary">No data yet</p>
             )}
           </div>
         </section>

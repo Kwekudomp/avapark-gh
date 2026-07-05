@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Hotel, MapPin, Users, Plus, X } from "lucide-react";
 import { AccommodationPartner } from "@/lib/types";
+import { useToast } from "./ui/Toast";
+import { ConfirmDialog } from "./ui/ConfirmDialog";
 
 const empty = {
   name: "", type: "", distance: "", price_from: "", guests: "",
@@ -10,11 +12,14 @@ const empty = {
 };
 
 export default function AccommodationCMSClient({ initialPartners }: { initialPartners: AccommodationPartner[] }) {
+  const { toast } = useToast();
   const [partners, setPartners] = useState<AccommodationPartner[]>(initialPartners);
   const [form, setForm] = useState(empty);
   const [adding, setAdding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<AccommodationPartner | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   function set(k: string, v: string) { setForm(f => ({ ...f, [k]: v })); }
 
@@ -36,33 +41,44 @@ export default function AccommodationCMSClient({ initialPartners }: { initialPar
       sort_order: partners.length,
     };
 
-    if (editId) {
-      const res = await fetch("/api/cms/accommodation", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: editId, ...payload }),
-      });
-      const data = await res.json();
-      if (data.partner) {
-        setPartners(prev => prev.map(p => p.id === editId ? data.partner : p));
-        setEditId(null);
-        setForm(empty);
-        setAdding(false);
+    try {
+      if (editId) {
+        const res = await fetch("/api/cms/accommodation", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editId, ...payload }),
+        });
+        const data = await res.json();
+        if (data.partner) {
+          setPartners(prev => prev.map(p => p.id === editId ? data.partner : p));
+          setEditId(null);
+          setForm(empty);
+          setAdding(false);
+          toast("success", "Partner updated.");
+        } else {
+          toast("error", `Could not update partner: ${data.error ?? res.status}`);
+        }
+      } else {
+        const res = await fetch("/api/cms/accommodation", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.partner) {
+          setPartners(prev => [...prev, data.partner]);
+          setForm(empty);
+          setAdding(false);
+          toast("success", "Partner added.");
+        } else {
+          toast("error", `Could not add partner: ${data.error ?? res.status}`);
+        }
       }
-    } else {
-      const res = await fetch("/api/cms/accommodation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (data.partner) {
-        setPartners(prev => [...prev, data.partner]);
-        setForm(empty);
-        setAdding(false);
-      }
+    } catch {
+      toast("error", "Could not save partner — check your connection and try again.");
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   }
 
   function startEdit(p: AccommodationPartner) {
@@ -83,171 +99,204 @@ export default function AccommodationCMSClient({ initialPartners }: { initialPar
   }
 
   async function handleToggle(p: AccommodationPartner) {
-    const res = await fetch("/api/cms/accommodation", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: p.id, is_active: !p.is_active }),
-    });
-    if (res.ok) setPartners(prev => prev.map(x => x.id === p.id ? { ...x, is_active: !x.is_active } : x));
+    try {
+      const res = await fetch("/api/cms/accommodation", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: p.id, is_active: !p.is_active }),
+      });
+      if (res.ok) {
+        setPartners(prev => prev.map(x => x.id === p.id ? { ...x, is_active: !x.is_active } : x));
+        toast("success", p.is_active ? `${p.name} hidden from the site.` : `${p.name} is now live.`);
+      } else {
+        toast("error", `Could not update ${p.name} (${res.status}).`);
+      }
+    } catch {
+      toast("error", "Could not update partner — check your connection and try again.");
+    }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Remove this accommodation partner?")) return;
-    const res = await fetch("/api/cms/accommodation", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    if (res.ok) setPartners(prev => prev.filter(p => p.id !== id));
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/cms/accommodation", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setPartners(prev => prev.filter(p => p.id !== id));
+        toast("success", "Partner removed.");
+      } else {
+        toast("error", `Could not remove partner (${res.status}).`);
+      }
+    } catch {
+      toast("error", "Could not remove partner — check your connection and try again.");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
+    }
   }
 
-  const inputClass = "border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition w-full";
+  const inputClass = "border border-border rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors w-full";
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <header className="bg-primary text-white px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/dashboard" className="text-white/60 hover:text-white text-sm transition">← Dashboard</Link>
-          <h1 className="font-semibold">Accommodation Partners</h1>
-          <span className="text-white/40 text-sm">({partners.length})</span>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-dark">Accommodation Partners</h1>
+          <p className="text-sm text-text-secondary mt-0.5">{partners.length} partner{partners.length !== 1 ? "s" : ""}</p>
         </div>
         <button
           onClick={() => { setAdding(a => !a); setEditId(null); setForm(empty); }}
-          className="bg-accent text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-dark transition"
+          className="inline-flex items-center gap-1.5 min-h-11 bg-accent text-white px-4 rounded-full text-sm font-medium hover:bg-accent-dark transition-colors cursor-pointer shrink-0"
         >
-          {adding ? "Cancel" : "+ Add Partner"}
+          {adding ? <><X className="w-4 h-4" aria-hidden /> Cancel</> : <><Plus className="w-4 h-4" aria-hidden /> Add Partner</>}
         </button>
-      </header>
+      </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-        {adding && (
-          <form onSubmit={handleAdd} className="bg-white rounded-2xl border border-border p-6 space-y-4">
-            <h2 className="font-semibold text-primary">{editId ? "Edit Partner" : "New Accommodation Partner"}</h2>
+      {adding && (
+        <form onSubmit={handleAdd} className="bg-white rounded-2xl border border-border p-6 space-y-4">
+          <h2 className="font-semibold text-primary">{editId ? "Edit Partner" : "New Accommodation Partner"}</h2>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Partner Name *</label>
-                <input required value={form.name} onChange={e => set("name", e.target.value)} placeholder="e.g. Akuse River Lodge" className={inputClass} />
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Type *</label>
-                <input required value={form.type} onChange={e => set("type", e.target.value)} placeholder="e.g. Riverside Cabins" className={inputClass} />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Distance *</label>
-                <input required value={form.distance} onChange={e => set("distance", e.target.value)} placeholder="e.g. 12 min drive" className={inputClass} />
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Price From *</label>
-                <input required value={form.price_from} onChange={e => set("price_from", e.target.value)} placeholder="e.g. GHS 450" className={inputClass} />
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Guests *</label>
-                <input required value={form.guests} onChange={e => set("guests", e.target.value)} placeholder="e.g. 2–4 guests" className={inputClass} />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-text-secondary mb-1 block">Highlights (one per line) *</label>
-              <textarea
-                required
-                value={form.highlights}
-                onChange={e => set("highlights", e.target.value)}
-                placeholder={"River views\nAir conditioning\nBreakfast included"}
-                rows={3}
-                className={inputClass}
-              />
+              <label htmlFor="acc-name" className="text-xs text-text-secondary mb-1 block">Partner Name *</label>
+              <input id="acc-name" required value={form.name} onChange={e => set("name", e.target.value)} placeholder="e.g. Akuse River Lodge" className={inputClass} />
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Badge (optional)</label>
-                <input value={form.badge} onChange={e => set("badge", e.target.value)} placeholder="e.g. Popular, New, Eco-Friendly" className={inputClass} />
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Image URL (optional)</label>
-                <input value={form.image_url} onChange={e => set("image_url", e.target.value)} placeholder="https://..." className={inputClass} />
-              </div>
+            <div>
+              <label htmlFor="acc-type" className="text-xs text-text-secondary mb-1 block">Type *</label>
+              <input id="acc-type" required value={form.type} onChange={e => set("type", e.target.value)} placeholder="e.g. Riverside Cabins" className={inputClass} />
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">WhatsApp Override (optional)</label>
-                <input value={form.whatsapp_override} onChange={e => set("whatsapp_override", e.target.value)} placeholder="2330xxxxxxxxx" className={inputClass} />
-                <p className="text-xs text-text-secondary mt-1">Leave blank to use park's main WhatsApp</p>
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Direct Booking URL (optional)</label>
-                <input value={form.enquiry_url} onChange={e => set("enquiry_url", e.target.value)} placeholder="https://partner-booking-link.com" className={inputClass} />
-              </div>
-            </div>
-
-            <button type="submit" disabled={saving}
-              className="w-full bg-primary text-white py-3 rounded-full font-semibold text-sm hover:bg-primary-light transition disabled:opacity-60">
-              {saving ? "Saving…" : editId ? "Update Partner" : "Add Partner"}
-            </button>
-          </form>
-        )}
-
-        {partners.length === 0 && !adding ? (
-          <div className="bg-white rounded-2xl border-2 border-dashed border-border text-center py-16 text-text-secondary">
-            <p className="text-4xl mb-3">🏨</p>
-            <p className="text-lg font-medium">No accommodation partners yet</p>
-            <p className="text-sm mt-1">Click "+ Add Partner" to add your first partner lodge</p>
           </div>
-        ) : (
-          <div className="space-y-4">
-            {partners.map(p => (
-              <div key={p.id} className={`bg-white rounded-2xl border border-border p-5 flex gap-4 ${!p.is_active ? "opacity-60" : ""}`}>
-                {p.image_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.image_url} alt={p.name} className="w-24 h-24 object-cover rounded-xl flex-shrink-0" />
-                ) : (
-                  <div className="w-24 h-24 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-3xl">🏕️</div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold text-dark">{p.name}</p>
-                        {p.badge && (
-                          <span className="text-xs font-medium bg-secondary/20 text-dark px-2 py-0.5 rounded-full">{p.badge}</span>
-                        )}
-                      </div>
-                      <p className="text-xs text-accent mt-0.5">{p.type}</p>
-                      <div className="flex gap-3 mt-1 text-xs text-text-secondary">
-                        <span>📍 {p.distance}</span>
-                        <span>👥 {p.guests}</span>
-                        <span className="font-medium text-primary">From {p.price_from}/night</span>
-                      </div>
-                      {p.highlights.length > 0 && (
-                        <p className="text-xs text-text-secondary mt-1">{p.highlights.join(" · ")}</p>
+
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label htmlFor="acc-distance" className="text-xs text-text-secondary mb-1 block">Distance *</label>
+              <input id="acc-distance" required value={form.distance} onChange={e => set("distance", e.target.value)} placeholder="e.g. 12 min drive" className={inputClass} />
+            </div>
+            <div>
+              <label htmlFor="acc-price" className="text-xs text-text-secondary mb-1 block">Price From *</label>
+              <input id="acc-price" required value={form.price_from} onChange={e => set("price_from", e.target.value)} placeholder="e.g. GHS 450" className={inputClass} />
+            </div>
+            <div>
+              <label htmlFor="acc-guests" className="text-xs text-text-secondary mb-1 block">Guests *</label>
+              <input id="acc-guests" required value={form.guests} onChange={e => set("guests", e.target.value)} placeholder="e.g. 2–4 guests" className={inputClass} />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="acc-highlights" className="text-xs text-text-secondary mb-1 block">Highlights (one per line) *</label>
+            <textarea
+              id="acc-highlights"
+              required
+              value={form.highlights}
+              onChange={e => set("highlights", e.target.value)}
+              placeholder={"River views\nAir conditioning\nBreakfast included"}
+              rows={3}
+              className={inputClass}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="acc-badge" className="text-xs text-text-secondary mb-1 block">Badge (optional)</label>
+              <input id="acc-badge" value={form.badge} onChange={e => set("badge", e.target.value)} placeholder="e.g. Popular, New, Eco-Friendly" className={inputClass} />
+            </div>
+            <div>
+              <label htmlFor="acc-image" className="text-xs text-text-secondary mb-1 block">Image URL (optional)</label>
+              <input id="acc-image" value={form.image_url} onChange={e => set("image_url", e.target.value)} placeholder="https://..." className={inputClass} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="acc-whatsapp" className="text-xs text-text-secondary mb-1 block">WhatsApp Override (optional)</label>
+              <input id="acc-whatsapp" value={form.whatsapp_override} onChange={e => set("whatsapp_override", e.target.value)} placeholder="2330xxxxxxxxx" className={inputClass} />
+              <p className="text-xs text-text-secondary mt-1">Leave blank to use park&apos;s main WhatsApp</p>
+            </div>
+            <div>
+              <label htmlFor="acc-enquiry" className="text-xs text-text-secondary mb-1 block">Direct Booking URL (optional)</label>
+              <input id="acc-enquiry" value={form.enquiry_url} onChange={e => set("enquiry_url", e.target.value)} placeholder="https://partner-booking-link.com" className={inputClass} />
+            </div>
+          </div>
+
+          <button type="submit" disabled={saving}
+            className="w-full min-h-11 bg-primary text-white py-3 rounded-full font-semibold text-sm hover:bg-primary-light transition-colors cursor-pointer disabled:opacity-60">
+            {saving ? "Saving…" : editId ? "Update Partner" : "Add Partner"}
+          </button>
+        </form>
+      )}
+
+      {partners.length === 0 && !adding ? (
+        <div className="bg-white rounded-2xl border-2 border-dashed border-border text-center py-16 text-text-secondary">
+          <Hotel className="w-10 h-10 mx-auto mb-3 opacity-40" strokeWidth={1.5} aria-hidden />
+          <p className="text-lg font-medium">No accommodation partners yet</p>
+          <p className="text-sm mt-1">Click &ldquo;Add Partner&rdquo; to add your first partner lodge</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {partners.map(p => (
+            <div key={p.id} className={`bg-white rounded-2xl border border-border p-5 flex gap-4 ${!p.is_active ? "opacity-60" : ""}`}>
+              {p.image_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={p.image_url} alt={p.name} className="w-24 h-24 object-cover rounded-xl flex-shrink-0" />
+              ) : (
+                <div className="w-24 h-24 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Hotel className="w-8 h-8 text-primary/60" aria-hidden />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold text-dark">{p.name}</p>
+                      {p.badge && (
+                        <span className="text-xs font-medium bg-secondary/20 text-dark px-2 py-0.5 rounded-full">{p.badge}</span>
                       )}
                     </div>
-                    <div className="flex gap-2 flex-shrink-0 flex-wrap justify-end">
-                      <button onClick={() => startEdit(p)}
-                        className="px-3 py-1 bg-bg-alt text-text-secondary rounded-full text-xs font-medium hover:border-primary hover:text-primary border border-border transition">
-                        Edit
-                      </button>
-                      <button onClick={() => handleToggle(p)}
-                        className={`px-3 py-1 rounded-full text-xs font-medium transition ${p.is_active ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-bg-alt text-text-secondary hover:bg-border"}`}>
-                        {p.is_active ? "Live" : "Hidden"}
-                      </button>
-                      <button onClick={() => handleDelete(p.id)}
-                        className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium hover:bg-red-200 transition">
-                        Delete
-                      </button>
+                    <p className="text-xs text-accent mt-0.5">{p.type}</p>
+                    <div className="flex gap-3 mt-1 text-xs text-text-secondary">
+                      <span className="inline-flex items-center gap-1"><MapPin className="w-3.5 h-3.5" aria-hidden /> {p.distance}</span>
+                      <span className="inline-flex items-center gap-1"><Users className="w-3.5 h-3.5" aria-hidden /> {p.guests}</span>
+                      <span className="font-medium text-primary">From {p.price_from}/night</span>
                     </div>
+                    {p.highlights.length > 0 && (
+                      <p className="text-xs text-text-secondary mt-1">{p.highlights.join(" · ")}</p>
+                    )}
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0 flex-wrap justify-end">
+                    <button onClick={() => startEdit(p)}
+                      className="min-h-11 px-3 bg-bg-alt text-text-secondary rounded-full text-xs font-medium hover:border-primary hover:text-primary border border-border transition-colors cursor-pointer">
+                      Edit
+                    </button>
+                    <button onClick={() => handleToggle(p)}
+                      aria-pressed={p.is_active}
+                      className={`min-h-11 px-3 rounded-full text-xs font-medium transition-colors cursor-pointer ${p.is_active ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-bg-alt text-text-secondary hover:bg-border"}`}>
+                      {p.is_active ? "Live" : "Hidden"}
+                    </button>
+                    <button onClick={() => setConfirmDelete(p)}
+                      className="min-h-11 px-3 bg-red-100 text-red-700 rounded-full text-xs font-medium hover:bg-red-200 transition-colors cursor-pointer">
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <ConfirmDialog
+        open={confirmDelete !== null}
+        title="Remove this partner?"
+        message={confirmDelete ? `${confirmDelete.name} will be removed from the accommodation page.` : ""}
+        confirmLabel="Remove partner"
+        danger
+        busy={deleting}
+        onConfirm={() => { if (confirmDelete) handleDelete(confirmDelete.id); }}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 }

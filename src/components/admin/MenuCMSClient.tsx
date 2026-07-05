@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { MenuItemRow, MenuItemMeal, MenuItemTag } from "@/lib/types";
+import { useToast } from "./ui/Toast";
 
 const MEAL_OPTIONS: { key: MenuItemMeal | "all"; label: string }[] = [
   { key: "all", label: "All meals" },
@@ -28,6 +29,7 @@ interface Edit {
 }
 
 export default function MenuCMSClient({ initialItems }: { initialItems: MenuItemRow[] }) {
+  const { toast } = useToast();
   const [items, setItems] = useState<MenuItemRow[]>(initialItems);
   const [mealFilter, setMealFilter] = useState<MenuItemMeal | "all">("all");
   const [search, setSearch] = useState("");
@@ -96,7 +98,7 @@ export default function MenuCMSClient({ initialItems }: { initialItems: MenuItem
 
     const parsedPrice = e.price.trim() === "" ? null : Number(e.price);
     if (parsedPrice != null && (Number.isNaN(parsedPrice) || parsedPrice < 0)) {
-      alert("Price must be a valid positive number or empty");
+      toast("error", "Price must be a valid positive number, or left blank.");
       return;
     }
 
@@ -119,8 +121,9 @@ export default function MenuCMSClient({ initialItems }: { initialItems: MenuItem
       });
       setSavedFlash(item.id);
       setTimeout(() => setSavedFlash(null), 1500);
+      toast("success", `${item.name} updated.`);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Something went wrong");
+      toast("error", err instanceof Error ? err.message : "Could not save — try again.");
     } finally {
       setSaving(null);
     }
@@ -150,14 +153,16 @@ export default function MenuCMSClient({ initialItems }: { initialItems: MenuItem
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name, category or ID..."
-          className="w-full bg-white border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition"
+          aria-label="Search menu items"
+          className="w-full bg-white border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
         />
         <div className="flex flex-wrap gap-2 items-center">
           {MEAL_OPTIONS.map((m) => (
             <button
               key={m.key}
               onClick={() => setMealFilter(m.key)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${
+              aria-pressed={mealFilter === m.key}
+              className={`min-h-11 px-4 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
                 mealFilter === m.key
                   ? "bg-primary text-white"
                   : "bg-white border border-border text-text-secondary hover:border-primary"
@@ -257,7 +262,7 @@ export default function MenuCMSClient({ initialItems }: { initialItems: MenuItem
                           <button
                             onClick={() => saveItem(item)}
                             disabled={!changed || isSaving}
-                            className="px-4 py-1.5 bg-primary text-white rounded-full text-xs font-medium hover:bg-primary/90 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="min-h-11 px-4 bg-primary text-white rounded-full text-xs font-medium hover:bg-primary-light transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             {isSaving ? "Saving..." : justSaved ? "Saved" : "Save"}
                           </button>

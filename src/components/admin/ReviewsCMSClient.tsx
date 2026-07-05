@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { Star } from "lucide-react";
 import { Review, ReviewStatus } from "@/lib/types";
+import { useToast } from "./ui/Toast";
+import { ConfirmDialog } from "./ui/ConfirmDialog";
 
 const STATUS_COLORS: Record<ReviewStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -11,16 +14,25 @@ const STATUS_COLORS: Record<ReviewStatus, string> = {
 
 function StarDisplay({ rating }: { rating: number }) {
   return (
-    <span className="text-yellow-400">
-      {"★".repeat(rating)}{"☆".repeat(5 - rating)}
+    <span className="inline-flex items-center gap-0.5 text-yellow-400" role="img" aria-label={`${rating} out of 5 stars`}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star
+          key={i}
+          className="w-4 h-4"
+          fill={i < rating ? "currentColor" : "none"}
+          aria-hidden
+        />
+      ))}
     </span>
   );
 }
 
 export default function ReviewsCMSClient({ initialReviews }: { initialReviews: Review[] }) {
+  const { toast } = useToast();
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [filter, setFilter] = useState<"all" | ReviewStatus>("pending");
   const [updating, setUpdating] = useState<string | null>(null);
+  const [confirmReject, setConfirmReject] = useState<Review | null>(null);
 
   async function updateStatus(id: string, status: ReviewStatus) {
     setUpdating(id);
@@ -32,7 +44,12 @@ export default function ReviewsCMSClient({ initialReviews }: { initialReviews: R
       });
       if (res.ok) {
         setReviews(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+        toast("success", `Review ${status === "approved" ? "approved" : "rejected"}.`);
+      } else {
+        toast("error", `Could not update review (${res.status}).`);
       }
+    } catch {
+      toast("error", "Could not update review — check your connection and try again.");
     } finally {
       setUpdating(null);
     }
@@ -65,7 +82,8 @@ export default function ReviewsCMSClient({ initialReviews }: { initialReviews: R
       <div className="flex gap-2 flex-wrap mb-6">
         {(["pending", "all", "approved", "rejected"] as const).map(s => (
           <button key={s} onClick={() => setFilter(s)}
-            className={`px-4 py-2 rounded-full text-xs font-semibold capitalize transition ${
+            aria-pressed={filter === s}
+            className={`min-h-11 px-4 rounded-full text-xs font-semibold capitalize transition-colors cursor-pointer ${
               filter === s ? "bg-primary text-white" : "bg-white border border-border text-text-secondary hover:border-primary"
             }`}>
             {s} {s !== "all" ? `(${counts[s] ?? reviews.length})` : `(${reviews.length})`}
@@ -95,7 +113,7 @@ export default function ReviewsCMSClient({ initialReviews }: { initialReviews: R
                     <StarDisplay rating={review.rating} />
                     <span className="text-xs text-text-secondary">{review.rating}/5</span>
                   </div>
-                  <p className="text-sm text-dark leading-relaxed">"{review.comment}"</p>
+                  <p className="text-sm text-dark leading-relaxed">&ldquo;{review.comment}&rdquo;</p>
                   <p className="text-xs text-text-secondary mt-2">
                     {new Date(review.created_at).toLocaleDateString("en-GH", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                   </p>
@@ -105,16 +123,16 @@ export default function ReviewsCMSClient({ initialReviews }: { initialReviews: R
                     <button
                       onClick={() => updateStatus(review.id, "approved")}
                       disabled={updating === review.id}
-                      className="px-4 py-1.5 bg-green-600 text-white rounded-full text-xs font-medium hover:bg-green-700 transition disabled:opacity-50"
+                      className="min-h-11 px-4 bg-green-600 text-white rounded-full text-xs font-medium hover:bg-green-700 transition-colors cursor-pointer disabled:opacity-50"
                     >
                       Approve
                     </button>
                   )}
                   {review.status !== "rejected" && (
                     <button
-                      onClick={() => updateStatus(review.id, "rejected")}
+                      onClick={() => setConfirmReject(review)}
                       disabled={updating === review.id}
-                      className="px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-xs font-medium hover:bg-red-200 transition disabled:opacity-50"
+                      className="min-h-11 px-4 bg-red-100 text-red-700 rounded-full text-xs font-medium hover:bg-red-200 transition-colors cursor-pointer disabled:opacity-50"
                     >
                       Reject
                     </button>
@@ -125,6 +143,22 @@ export default function ReviewsCMSClient({ initialReviews }: { initialReviews: R
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmReject !== null}
+        title="Reject this review?"
+        message={confirmReject ? `${confirmReject.guest_name}'s review will be hidden from guests on the website.` : ""}
+        confirmLabel="Reject review"
+        danger
+        busy={updating === confirmReject?.id}
+        onConfirm={async () => {
+          if (confirmReject) {
+            await updateStatus(confirmReject.id, "rejected");
+            setConfirmReject(null);
+          }
+        }}
+        onCancel={() => setConfirmReject(null)}
+      />
     </div>
   );
 }

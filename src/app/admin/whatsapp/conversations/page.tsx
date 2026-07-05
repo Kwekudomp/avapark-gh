@@ -21,8 +21,8 @@ export default async function WhatsAppConversationsPage() {
 
   if (!staffRecord) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">You are not assigned to any WhatsApp venue.</p>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 text-center">
+        <p className="text-sm text-text-secondary">You are not assigned to any WhatsApp venue.</p>
       </div>
     );
   }

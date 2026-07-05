@@ -90,3 +90,27 @@ body {
     0%, 100% { transform: scale(1); }
   }
 }
+
+/* ── Admin dark theme ─────────────────────────────────────────
+   Scoped to the admin shell ([data-admin-theme="dark"]). The theme uses
+   @theme inline, so utility values are inlined — dark mode remaps the
+   handful of surface/text utilities the admin panel uses. */
+[data-admin-theme="dark"] {
+  color-scheme: dark;
+
+  .bg-bg-alt { background-color: #141613; }
+  .bg-bg { background-color: #101210; }
+  .bg-white { background-color: #1d211d; }
+  .border-border { border-color: #2f342e; }
+  .divide-border > :not([hidden]) ~ :not([hidden]) { border-color: #2f342e; }
+  .text-dark { color: #edebe4; }
+  .text-text { color: #d8d6cf; }
+  .text-text-secondary { color: #a4aa9f; }
+  .text-primary { color: #93cdab; }
+  .hover\:bg-bg-alt\/50:hover { background-color: rgba(255, 255, 255, 0.04); }
+  .hover\:border-primary:hover { border-color: #93cdab; }
+  .hover\:bg-black\/5:hover { background-color: rgba(255, 255, 255, 0.08); }
+  .shadow-sm, .shadow-lg, .shadow-xl { --tw-shadow-color: rgba(0, 0, 0, 0.5); }
+
+  input, select, textarea { color-scheme: dark; }
+}

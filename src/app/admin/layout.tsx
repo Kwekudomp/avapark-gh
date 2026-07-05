@@ -5,6 +5,7 @@ import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import { AdminRoleProvider } from "@/components/admin/AdminRoleContext";
+import AdminShell from "@/components/admin/AdminShell";
 import type { UserRole } from "@/lib/types";
 
 const MSO_ALLOWED_PREFIXES = [
@@ -58,7 +59,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         role,
       }}
     >
-      {children}
+      <AdminShell>{children}</AdminShell>
     </AdminRoleProvider>
   );
 }
