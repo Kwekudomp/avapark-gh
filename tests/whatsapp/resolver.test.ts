@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildFactsFromExperiences, buildFactsFromMenu } from "@/lib/whatsapp/resolver";
-import type { CMSExperience, MenuItemRow } from "@/lib/supabase";
+import type { CMSExperience, MenuItemRow } from "@/lib/types";
 
 describe("buildFactsFromExperiences", () => {
   it("extracts key facts from experiences", () => {

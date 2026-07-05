@@ -4,7 +4,7 @@ import { desc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { assertAdmin } from "@/lib/auth/roles";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 const VALID_ROLES: UserRole[] = ["admin", "marketing_sales"];
 

@@ -3,7 +3,7 @@ import { asc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { accommodationPartners } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { AccommodationPartner } from "@/lib/supabase";
+import type { AccommodationPartner } from "@/lib/types";
 import AccommodationCMSClient from "@/components/admin/AccommodationCMSClient";
 
 export default async function AdminAccommodationPage() {

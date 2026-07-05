@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { CMSEvent } from "@/lib/supabase";
+import type { CMSEvent } from "@/lib/types";
 import { toLocalISODate } from "@/lib/dates";
 import EventDetailModal from "@/components/EventDetailModal";
 

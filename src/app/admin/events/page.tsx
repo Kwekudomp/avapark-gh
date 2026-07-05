@@ -3,7 +3,7 @@ import { asc, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { events as eventsTable } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { CMSEvent } from "@/lib/supabase";
+import type { CMSEvent } from "@/lib/types";
 import EventsCMSClient from "@/components/admin/EventsCMSClient";
 
 export default async function AdminEventsPage() {

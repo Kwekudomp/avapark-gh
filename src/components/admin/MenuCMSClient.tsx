@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { MenuItemRow, MenuItemMeal, MenuItemTag } from "@/lib/supabase";
+import type { MenuItemRow, MenuItemMeal, MenuItemTag } from "@/lib/types";
 
 const MEAL_OPTIONS: { key: MenuItemMeal | "all"; label: string }[] = [
   { key: "all", label: "All meals" },

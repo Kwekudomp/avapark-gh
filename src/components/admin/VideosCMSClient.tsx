@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { CMSVideo } from "@/lib/supabase";
+import { CMSVideo } from "@/lib/types";
 
 const CATEGORIES = ["highlights", "events", "nature", "experiences"] as const;
 

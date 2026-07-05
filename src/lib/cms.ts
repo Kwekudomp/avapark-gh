@@ -10,7 +10,7 @@ import {
   accommodationPartners,
   siteSettings,
 } from "@/db/schema";
-import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner, MenuItemRow } from "./supabase";
+import type { CMSExperience, GalleryItem, CMSEvent, CMSVideo, SiteSettings, Review, AccommodationPartner, MenuItemRow } from "./types";
 import { experiences as staticExperiences, getFeaturedExperiences as getStaticFeatured } from "@/data/experiences";
 import type { Experience } from "@/data/experiences";
 import { MENU_ITEMS as staticMenuItems } from "@/data/menu";

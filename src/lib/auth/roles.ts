@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 /**
  * Returns the calling user's role from the users table, or null if the

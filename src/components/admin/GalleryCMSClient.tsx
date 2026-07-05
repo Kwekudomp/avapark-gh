@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
-import { GalleryItem } from "@/lib/supabase";
+import { GalleryItem } from "@/lib/types";
 
 const CATEGORIES = ["venue", "camping", "pool", "gardens", "events"] as const;
 
@@ -155,7 +155,7 @@ export default function GalleryCMSClient({
             />
           </div>
           <p className="text-xs text-text-secondary mt-3">
-            Supported: JPG, PNG, WEBP. Images are stored in Supabase Storage and served via CDN.
+            Supported: JPG, PNG, WEBP. Images are stored in Cloudflare R2 and served via CDN.
           </p>
         </div>
 

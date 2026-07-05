@@ -5,7 +5,7 @@ import { users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCurrentRole } from "@/lib/auth/roles";
 import UsersAdminClient, { type StaffRow } from "@/components/admin/UsersAdminClient";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 

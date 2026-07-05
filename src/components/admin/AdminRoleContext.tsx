@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 export interface AdminRoleValue {
   userId: string;

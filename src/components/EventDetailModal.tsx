@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, Tag, Ticket, ExternalLink } from "lucide-react";
-import type { CMSEvent } from "@/lib/supabase";
+import type { CMSEvent } from "@/lib/types";
 import { parseLocalDate } from "@/lib/dates";
 
 interface EventDetailModalProps {

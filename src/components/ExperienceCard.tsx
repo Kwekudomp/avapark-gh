@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { CMSExperience } from "@/lib/supabase";
+import { CMSExperience } from "@/lib/types";
 import ScrollReveal from "./ScrollReveal";
 
 interface ExperienceCardProps {

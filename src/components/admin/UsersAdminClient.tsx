@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 export interface StaffRow {
   id: string;

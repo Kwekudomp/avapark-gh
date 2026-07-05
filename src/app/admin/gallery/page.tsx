@@ -4,7 +4,7 @@ import { getDb } from "@/db";
 import { galleryItems, users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCurrentRole } from "@/lib/auth/roles";
-import type { GalleryItem } from "@/lib/supabase";
+import type { GalleryItem } from "@/lib/types";
 import GalleryCMSClient from "@/components/admin/GalleryCMSClient";
 
 export const dynamic = "force-dynamic";

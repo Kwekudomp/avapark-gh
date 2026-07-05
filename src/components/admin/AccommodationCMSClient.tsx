@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AccommodationPartner } from "@/lib/supabase";
+import { AccommodationPartner } from "@/lib/types";
 
 const empty = {
   name: "", type: "", distance: "", price_from: "", guests: "",

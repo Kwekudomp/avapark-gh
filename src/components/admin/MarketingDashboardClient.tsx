@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Inbox, Calendar, Image as ImageIcon } from "lucide-react";
-import { Booking, BookingStatus, GalleryItem } from "@/lib/supabase";
+import { Booking, BookingStatus, GalleryItem } from "@/lib/types";
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",

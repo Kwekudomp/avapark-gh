@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CMSExperience } from "@/lib/supabase";
+import { CMSExperience } from "@/lib/types";
 
 const CATEGORY_COLORS: Record<string, string> = {
   recurring: "bg-blue-100 text-blue-700",

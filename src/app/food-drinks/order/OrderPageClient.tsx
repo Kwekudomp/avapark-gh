@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MEAL_LABELS, type MealTime, type DietTag } from "@/data/menu";
-import type { MenuItemRow } from "@/lib/supabase";
+import type { MenuItemRow } from "@/lib/types";
 
 type OrderType = "dine-in" | "pickup" | "delivery";
 

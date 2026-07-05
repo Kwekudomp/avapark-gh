@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CMSEvent } from "@/lib/supabase";
+import { CMSEvent } from "@/lib/types";
 import SectionHeader from "@/components/SectionHeader";
 import EventDetailModal from "@/components/EventDetailModal";
 import { parseLocalDate } from "@/lib/dates";

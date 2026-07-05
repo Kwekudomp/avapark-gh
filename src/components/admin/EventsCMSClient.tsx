@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { CMSEvent } from "@/lib/supabase";
+import { CMSEvent } from "@/lib/types";
 import { parseLocalDate } from "@/lib/dates";
 
 const empty = {

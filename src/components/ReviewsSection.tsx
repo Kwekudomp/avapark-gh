@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Review } from "@/lib/supabase";
+import { Review } from "@/lib/types";
 
 const EXPERIENCES = [
   "Friday – Party in the Woods",

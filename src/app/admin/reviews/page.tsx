@@ -3,7 +3,7 @@ import { desc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { reviews as reviewsTable } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { Review } from "@/lib/supabase";
+import type { Review } from "@/lib/types";
 import ReviewsCMSClient from "@/components/admin/ReviewsCMSClient";
 
 export default async function AdminReviewsPage() {

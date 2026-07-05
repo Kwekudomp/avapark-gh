@@ -4,7 +4,7 @@ import { getDb } from "@/db";
 import { menuItems } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import MenuCMSClient from "@/components/admin/MenuCMSClient";
-import type { MenuItemRow } from "@/lib/supabase";
+import type { MenuItemRow } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 

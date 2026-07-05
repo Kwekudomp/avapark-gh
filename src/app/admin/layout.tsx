@@ -5,7 +5,7 @@ import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import { AdminRoleProvider } from "@/components/admin/AdminRoleContext";
-import type { UserRole } from "@/lib/supabase";
+import type { UserRole } from "@/lib/types";
 
 const MSO_ALLOWED_PREFIXES = [
   "/admin/dashboard",

@@ -6,7 +6,7 @@ import { getAdminSession } from "@/lib/admin-auth";
 import { getCurrentRole } from "@/lib/auth/roles";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
 import MarketingDashboardClient from "@/components/admin/MarketingDashboardClient";
-import type { Booking, GalleryItem } from "@/lib/supabase";
+import type { Booking, GalleryItem } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 

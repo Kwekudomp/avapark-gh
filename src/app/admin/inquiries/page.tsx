@@ -4,7 +4,7 @@ import { getDb } from "@/db";
 import { inquiries } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
 import InquiriesCMSClient from "@/components/admin/InquiriesCMSClient";
-import type { Inquiry } from "@/lib/supabase";
+import type { Inquiry } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 

@@ -3,7 +3,7 @@ import { asc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { videos as videosTable } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { CMSVideo } from "@/lib/supabase";
+import type { CMSVideo } from "@/lib/types";
 import VideosCMSClient from "@/components/admin/VideosCMSClient";
 
 export default async function AdminVideosPage() {

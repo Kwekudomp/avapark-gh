@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Review, ReviewStatus } from "@/lib/supabase";
+import { Review, ReviewStatus } from "@/lib/types";
 
 const STATUS_COLORS: Record<ReviewStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",

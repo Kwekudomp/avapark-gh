@@ -1,7 +1,7 @@
 import { and, asc, eq, gte } from "drizzle-orm";
 import { getDb } from "@/db";
 import { closures, experiences, faqs, menuItems } from "@/db/schema";
-import type { CMSExperience, MenuItemRow } from "@/lib/supabase";
+import type { CMSExperience, MenuItemRow } from "@/lib/types";
 import type { ResolvedContext, Intent } from "./types";
 
 export function buildFactsFromExperiences(

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Inbox, Mail, Phone, Archive, RotateCcw, Trash2, ExternalLink } from "lucide-react";
-import type { Inquiry, InquiryStatus } from "@/lib/supabase";
+import type { Inquiry, InquiryStatus } from "@/lib/types";
 
 type Tab = "inbox" | "archived" | "all";
 

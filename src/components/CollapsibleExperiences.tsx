@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { CMSExperience } from "@/lib/supabase";
+import type { CMSExperience } from "@/lib/types";
 import ExperienceGrid from "@/components/ExperienceGrid";
 
 export default function CollapsibleExperiences({

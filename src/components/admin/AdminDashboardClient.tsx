@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Booking, BookingStatus } from "@/lib/supabase";
+import { Booking, BookingStatus } from "@/lib/types";
 import { MessageSquare, Inbox } from "lucide-react";
 
 const STATUS_COLORS: Record<BookingStatus, string> = {

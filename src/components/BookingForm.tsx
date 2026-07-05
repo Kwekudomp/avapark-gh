@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CMSExperience } from "@/lib/supabase";
+import { CMSExperience } from "@/lib/types";
 import { WHATSAPP_NUMBER } from "@/data/constants";
 
 declare global {

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 import { WHATSAPP_NUMBER } from "@/data/constants";
-import type { AccommodationPartner } from "@/lib/supabase";
+import type { AccommodationPartner } from "@/lib/types";
 import { Tent, TreePine, Backpack, Building, MapPin, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 

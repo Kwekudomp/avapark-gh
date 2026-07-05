@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
-import { CMSEvent } from "@/lib/supabase";
+import { CMSEvent } from "@/lib/types";
 import EventDetailModal from "@/components/EventDetailModal";
 import { parseLocalDate } from "@/lib/dates";
 

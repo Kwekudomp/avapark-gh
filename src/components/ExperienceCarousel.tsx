@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Clock, Calendar } from "lucide-react";
-import type { CMSExperience } from "@/lib/supabase";
+import type { CMSExperience } from "@/lib/types";
 
 const CATEGORY_LABELS: Record<CMSExperience["category"], string> = {
   recurring: "Weekly Event",

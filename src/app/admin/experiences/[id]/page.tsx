@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { experiences as experiencesTable } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin-auth";
-import type { CMSExperience } from "@/lib/supabase";
+import type { CMSExperience } from "@/lib/types";
 import ExperienceEditorClient from "@/components/admin/ExperienceEditorClient";
 
 export default async function ExperienceEditorPage({
