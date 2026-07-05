@@ -17,7 +17,7 @@ const LINES = [
 
 export default function ContactNumbersPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader tag="REACH US" title="Contact Numbers" />
       <div className="max-w-[900px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {LINES.map((line) => (

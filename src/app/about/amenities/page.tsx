@@ -57,7 +57,7 @@ const amenities: { title: string; description: string; Icon: LucideIcon }[] = [
 
 export default function AmenitiesPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader tag="OUR AMENITIES" title="Everything You Need" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1400px] mx-auto">
         {amenities.map((amenity, i) => (

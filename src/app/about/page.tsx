@@ -76,7 +76,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="pt-32 pb-16 px-[5%] bg-bg-alt text-center">
+      <section className="pt-6 pb-16 px-[5%] bg-bg-alt text-center">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs tracking-[3px] uppercase text-accent font-semibold">
             ABOUT US

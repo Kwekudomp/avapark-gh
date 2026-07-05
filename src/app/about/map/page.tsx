@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function MapPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader tag="FIND YOUR WAY" title="Park Map" />
       <div className="max-w-[900px] mx-auto">
         <div className="bg-white rounded-2xl border border-border p-8 sm:p-12 text-center">

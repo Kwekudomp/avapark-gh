@@ -48,7 +48,7 @@ export default async function EventCalendarPage() {
   const events = await getUpcomingEvents();
 
   return (
-    <main className="pt-28 pb-24">
+    <main className="pt-6 pb-24">
       {/* Hero */}
       <section className="px-[5%] mb-12">
         <SectionHeader

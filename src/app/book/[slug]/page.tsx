@@ -22,7 +22,7 @@ export default async function BookPage(
   if (!experience) notFound();
 
   return (
-    <main className="min-h-screen bg-bg pt-28 pb-20 px-[5%]">
+    <main className="min-h-screen bg-bg pt-6 pb-20 px-[5%]">
       <div className="max-w-2xl mx-auto">
         <p className="text-xs tracking-[3px] uppercase text-accent font-semibold mb-2">
           BOOKING

@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function DirectionsPage() {
   return (
-    <main className="pt-28 pb-24">
+    <main className="pt-6 pb-24">
       <HowToGetHere />
     </main>
   );

@@ -255,7 +255,7 @@ export default function AccommodationPage() {
   const activeLodge = partners.find((p) => p.id === selectedLodge);
 
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader
         tag="WHERE TO STAY"
         title="Rest Close, Wake Ready"

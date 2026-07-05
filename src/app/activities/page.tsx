@@ -98,7 +98,7 @@ const ACTIVITIES: { name: string; description: string; Icon: LucideIcon }[] = [
 
 export default function ActivitiesPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader
         tag="THINGS TO DO"
         title="Activities at Hidden Paradise"

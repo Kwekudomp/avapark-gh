@@ -15,7 +15,7 @@ export default async function GalleryPage() {
 
   return (
     <>
-      <section className="py-32 pt-40 px-[5%] bg-bg-alt text-center">
+      <section className="pt-6 pb-32 pt-40 px-[5%] bg-bg-alt text-center">
         <h1 className="font-display text-5xl md:text-6xl font-semibold text-primary">
           Gallery
         </h1>

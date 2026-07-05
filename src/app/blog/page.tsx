@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function BlogPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader
         tag="OUR BLOG"
         title="Stories & Updates"

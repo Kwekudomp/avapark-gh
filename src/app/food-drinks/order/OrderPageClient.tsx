@@ -178,7 +178,7 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
   /* ── Confirmation view ────────────────────────────── */
   if (submitted) {
     return (
-      <main className="pt-28 pb-24 px-[5%] min-h-screen">
+      <main className="pt-6 pb-24 px-[5%] min-h-screen">
         <div className="max-w-xl mx-auto text-center bg-white rounded-2xl border border-border p-10">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
             <CheckCircle2 className="w-8 h-8 text-green-600" strokeWidth={2} />
@@ -218,7 +218,7 @@ export default function OrderPageClient({ items }: { items: MenuItemRow[] }) {
   }
 
   return (
-    <main className="pt-28 pb-32 px-[5%] relative">
+    <main className="pt-6 pb-32 px-[5%] relative">
       {/* Back link */}
       <div className="max-w-[1200px] mx-auto mb-6">
         <Link

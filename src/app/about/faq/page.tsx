@@ -111,7 +111,7 @@ const FAQS = [
 
 export default function FaqPage() {
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader tag="GOT QUESTIONS?" title="Frequently Asked Questions" />
       <div className="max-w-[900px] mx-auto space-y-4">
         {FAQS.map((faq) => (

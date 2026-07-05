@@ -185,7 +185,7 @@ export default function FestivalsPage() {
   )}`;
 
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader
         tag="CULTURE & CELEBRATIONS"
         title="Festivals & Concerts Near Hidden Paradise"

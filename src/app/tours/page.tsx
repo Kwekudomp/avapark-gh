@@ -57,7 +57,7 @@ export default function ToursPage() {
   )}`;
 
   return (
-    <main className="pt-28 pb-24 px-[5%]">
+    <main className="pt-6 pb-24 px-[5%]">
       <SectionHeader
         tag="EASTERN / VOLTA TOURS"
         title="Explore Beyond the Park"
