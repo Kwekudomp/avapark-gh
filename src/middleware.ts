@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 import { getSiteState } from "@/lib/site-state";
 
 // Paths reachable while state = 'maintenance' (real maintenance — admin keeps working).
@@ -50,30 +50,15 @@ export async function middleware(request: NextRequest) {
   });
   response.headers.set("x-pathname", pathname);
 
-  // 3) Admin auth refresh — only for /admin/* (not /admin itself which is the login page)
+  // 3) Admin session gate — only for /admin/* (not /admin itself which is the login page)
   if (!pathname.startsWith("/admin/")) {
     return response;
   }
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value);
-            response.cookies.set(name, value, options);
-          });
-        },
-      },
-    }
-  );
+  const token = request.cookies.get(SESSION_COOKIE)?.value;
+  const session = token ? await verifySessionToken(token) : null;
 
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (!session) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
 

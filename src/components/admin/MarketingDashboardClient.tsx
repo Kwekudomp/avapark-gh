@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Inbox, Calendar, Image as ImageIcon } from "lucide-react";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { Booking, BookingStatus, GalleryItem } from "@/lib/supabase";
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
@@ -33,8 +32,7 @@ export default function MarketingDashboardClient({
   const [updating, setUpdating] = useState<string | null>(null);
 
   async function handleSignOut() {
-    const supabase = createBrowserSupabase();
-    await supabase.auth.signOut();
+    await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin");
     router.refresh();
   }

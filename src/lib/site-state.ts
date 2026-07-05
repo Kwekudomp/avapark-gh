@@ -1,6 +1,8 @@
 // Resolves the current site lock state for the middleware gate.
 // Resolution order: env override -> fresh cache -> DB read -> stale cache -> 'off'.
 
+import { neon } from "@neondatabase/serverless";
+
 export type SiteState = "off" | "maintenance" | "lockdown";
 
 const VALID: readonly SiteState[] = ["off", "maintenance", "lockdown"];
@@ -20,20 +22,13 @@ function envOverride(): SiteState | null {
 }
 
 async function fetchState(): Promise<SiteState> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Error("Supabase env not configured");
+  const url = process.env.DATABASE_URL;
+  if (!url) throw new Error("DATABASE_URL not configured");
 
-  const res = await fetch(
-    `${url}/rest/v1/site_state?id=eq.singleton&select=state`,
-    {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      cache: "no-store",
-    }
-  );
-  if (!res.ok) throw new Error(`site_state read failed: ${res.status}`);
-
-  const rows = (await res.json()) as Array<{ state?: string }>;
+  // Raw neon-http query (Edge-compatible) — middleware runs on the Edge
+  // runtime, and this avoids pulling the full Drizzle schema into it.
+  const sql = neon(url);
+  const rows = (await sql`select state from site_state where id = 'singleton'`) as Array<{ state?: string }>;
   const state = rows[0]?.state;
   if (state && VALID.includes(state as SiteState)) return state as SiteState;
   return "off";

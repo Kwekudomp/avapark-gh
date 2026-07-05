@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -16,10 +15,13 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
 
-    const supabase = createBrowserSupabase();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    if (error) {
+    if (!res.ok) {
       setError("Invalid email or password");
       setLoading(false);
       return;

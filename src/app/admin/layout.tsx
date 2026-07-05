@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { users } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import { AdminRoleProvider } from "@/components/admin/AdminRoleContext";
 import type { UserRole } from "@/lib/supabase";
 
@@ -25,23 +28,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     return <>{children}</>;
   }
 
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin");
+  const session = await getAdminSession();
+  if (!session) redirect("/admin");
 
-  const adminClient = createAdminSupabase();
-  const { data: profile } = await adminClient
-    .from("profiles")
-    .select("role, name, email")
-    .eq("id", user.id)
-    .maybeSingle();
+  const [account] = await getDb()
+    .select({ role: users.role, name: users.name, email: users.email })
+    .from(users)
+    .where(eq(users.id, session.userId))
+    .limit(1);
 
-  if (!profile) {
-    // Auth user with no profile row — fail closed.
+  if (!account) {
+    // Session for a deleted user — fail closed.
     redirect("/admin");
   }
 
-  const role = profile.role as UserRole;
+  const role = account.role as UserRole;
 
   // Route gating for marketing_sales
   if (role === "marketing_sales" && !isMsoAllowed(pathname)) {
@@ -51,9 +52,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <AdminRoleProvider
       value={{
-        userId: user.id,
-        email: profile.email,
-        name: profile.name,
+        userId: session.userId,
+        email: account.email,
+        name: account.name ?? "",
         role,
       }}
     >

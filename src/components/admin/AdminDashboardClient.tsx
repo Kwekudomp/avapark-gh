@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { Booking, BookingStatus } from "@/lib/supabase";
 import { MessageSquare, Inbox } from "lucide-react";
 
@@ -34,8 +33,7 @@ export default function AdminDashboardClient({
   const [updating, setUpdating] = useState<string | null>(null);
 
   async function handleSignOut() {
-    const supabase = createBrowserSupabase();
-    await supabase.auth.signOut();
+    await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin");
     router.refresh();
   }

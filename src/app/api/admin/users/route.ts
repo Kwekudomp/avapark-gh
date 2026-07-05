@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminSupabase } from "@/lib/supabase-server";
+import bcrypt from "bcryptjs";
+import { desc } from "drizzle-orm";
+import { getDb } from "@/db";
+import { users } from "@/db/schema";
 import { assertAdmin } from "@/lib/auth/roles";
 import type { UserRole } from "@/lib/supabase";
 
@@ -9,24 +12,24 @@ export async function GET() {
   const auth = await assertAdmin();
   if (!auth.ok) return NextResponse.json({ error: "Forbidden" }, { status: auth.status });
 
-  const admin = createAdminSupabase();
-
-  const { data: profiles, error } = await admin
-    .from("profiles")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  // Enrich with last_sign_in_at from auth.admin
-  const { data: { users: authUsers } } = await admin.auth.admin.listUsers();
-  const lastSignInById = new Map(authUsers.map(u => [u.id, u.last_sign_in_at]));
-
-  const enriched = (profiles ?? []).map(p => ({
-    ...p,
-    last_sign_in_at: lastSignInById.get(p.id) ?? null,
-  }));
-
-  return NextResponse.json({ users: enriched });
+  try {
+    const rows = await getDb()
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        role: users.role,
+        created_at: users.created_at,
+        updated_at: users.updated_at,
+        last_sign_in_at: users.last_sign_in_at,
+      })
+      .from(users)
+      .orderBy(desc(users.created_at));
+    return NextResponse.json({ users: rows });
+  } catch (err) {
+    console.error("List users error:", err);
+    return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -46,33 +49,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Password must be at least 8 characters" }, { status: 400 });
   }
 
-  const admin = createAdminSupabase();
-
-  // Step 1 — create the auth user
-  const { data: created, error: createErr } = await admin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-  });
-  if (createErr || !created.user) {
-    return NextResponse.json({ error: createErr?.message ?? "Failed to create user" }, { status: 500 });
+  try {
+    const [created] = await getDb()
+      .insert(users)
+      .values({
+        email: email.trim().toLowerCase(),
+        name,
+        role,
+        password_hash: await bcrypt.hash(password, 10),
+      })
+      .returning({ id: users.id, email: users.email, name: users.name, role: users.role });
+    return NextResponse.json({ user: created });
+  } catch (err) {
+    const message = err instanceof Error && /unique|duplicate/i.test(err.message)
+      ? "A user with that email already exists"
+      : "Failed to create user";
+    console.error("Create user error:", err);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  // Step 2 — insert profile
-  const { error: profileErr } = await admin.from("profiles").insert({
-    id: created.user.id,
-    email,
-    name,
-    role,
-  });
-
-  if (profileErr) {
-    // Rollback the auth user so we don't leave a half-created account
-    await admin.auth.admin.deleteUser(created.user.id);
-    return NextResponse.json({ error: profileErr.message }, { status: 500 });
-  }
-
-  return NextResponse.json({
-    user: { id: created.user.id, email, name, role },
-  });
 }

@@ -1,26 +1,33 @@
-import { createServerSupabase, createAdminSupabase } from "@/lib/supabase-server";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/db";
+import { users } from "@/db/schema";
+import { getAdminSession } from "@/lib/admin-auth";
 import type { UserRole } from "@/lib/supabase";
 
 /**
- * Returns the calling user's role from the profiles table, or null if
- * the user is not signed in or has no profile row yet.
+ * Returns the calling user's role from the users table, or null if the
+ * user is not signed in or no longer exists.
  *
- * Reads via the service-role client so it bypasses profiles RLS without
- * needing to grant SELECT to authenticated.
+ * The role is read fresh from the DB (not trusted from the session token)
+ * so role changes take effect immediately.
  */
 export async function getCurrentRole(): Promise<UserRole | null> {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  const session = await getAdminSession();
+  if (!session) return null;
+  return roleFor(session.userId);
+}
 
-  const admin = createAdminSupabase();
-  const { data } = await admin
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  return (data?.role as UserRole | undefined) ?? null;
+async function roleFor(userId: string): Promise<UserRole | null> {
+  try {
+    const [row] = await getDb()
+      .select({ role: users.role })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    return (row?.role as UserRole | undefined) ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export type AuthOk = { ok: true; userId: string; role: UserRole };
@@ -31,24 +38,22 @@ export type AuthFail = { ok: false; status: 401 | 403 };
  * Returns { ok: true, userId } or { ok: false, status } on failure.
  */
 export async function assertAdmin(): Promise<{ ok: true; userId: string } | AuthFail> {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false, status: 401 };
+  const session = await getAdminSession();
+  if (!session) return { ok: false, status: 401 };
 
-  const role = await getCurrentRole();
+  const role = await roleFor(session.userId);
   if (role !== "admin") return { ok: false, status: 403 };
-  return { ok: true, userId: user.id };
+  return { ok: true, userId: session.userId };
 }
 
 /**
  * For API routes — verifies the caller is staff (admin OR marketing_sales).
  */
 export async function assertStaff(): Promise<AuthOk | AuthFail> {
-  const supabase = await createServerSupabase();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false, status: 401 };
+  const session = await getAdminSession();
+  if (!session) return { ok: false, status: 401 };
 
-  const role = await getCurrentRole();
+  const role = await roleFor(session.userId);
   if (role !== "admin" && role !== "marketing_sales") return { ok: false, status: 403 };
-  return { ok: true, userId: user.id, role };
+  return { ok: true, userId: session.userId, role };
 }
