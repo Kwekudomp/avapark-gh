@@ -1,24 +1,35 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("@/lib/supabase-server", () => ({ createAdminSupabase: vi.fn() }));
+vi.mock("@/db", () => ({ getDb: vi.fn() }));
 
-import { createAdminSupabase } from "@/lib/supabase-server";
+import { getDb } from "@/db";
 import { POST } from "@/app/api/sys/route";
 import { _resetRateLimit } from "@/lib/rate-limit";
 
-// Builds a mock admin client whose select returns `state` and whose update succeeds.
-const makeAdmin = (
+// Builds a mock Drizzle db whose select returns `state` and whose upsert succeeds.
+// Chains used by the route:
+//   select().from().where().limit() -> rows
+//   insert().values().onConflictDoUpdate() -> void
+const makeDb = (
   state: string | null,
-  opts: { updateError?: { message: string }; selectError?: { message: string } } = {}
+  opts: { writeError?: boolean; readError?: boolean } = {}
 ) => {
-  const updateEq = vi.fn().mockResolvedValue({ error: opts.updateError ?? null });
-  const update = vi.fn(() => ({ eq: updateEq }));
-  const maybeSingle = vi.fn().mockResolvedValue({
-    data: state ? { state } : null,
-    error: opts.selectError ?? null,
-  });
-  const select = vi.fn(() => ({ eq: vi.fn(() => ({ maybeSingle })) }));
-  return { client: { from: vi.fn(() => ({ update, select })) }, update, updateEq };
+  const onConflictDoUpdate = vi.fn(() =>
+    opts.writeError ? Promise.reject(new Error("db down")) : Promise.resolve()
+  );
+  const values = vi.fn(() => ({ onConflictDoUpdate }));
+  const insert = vi.fn(() => ({ values }));
+
+  const limit = vi.fn(() =>
+    opts.readError
+      ? Promise.reject(new Error("db down"))
+      : Promise.resolve(state ? [{ state }] : [])
+  );
+  const where = vi.fn(() => ({ limit }));
+  const from = vi.fn(() => ({ where }));
+  const select = vi.fn(() => ({ from }));
+
+  return { db: { insert, select } as never, insert, values };
 };
 
 const post = (body: unknown) =>
@@ -47,32 +58,35 @@ describe("POST /api/sys", () => {
   });
 
   it("returns the current state for a correct password with no state change", async () => {
-    const { client } = makeAdmin("maintenance");
-    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    const { db, insert } = makeDb("maintenance");
+    vi.mocked(getDb).mockReturnValue(db);
     const res = await post({ password: "s3cret" });
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ state: "maintenance" });
+    expect(insert).not.toHaveBeenCalled();
   });
 
   it("updates the row and returns the new state", async () => {
-    const { client, update } = makeAdmin("lockdown");
-    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    const { db, values } = makeDb("lockdown");
+    vi.mocked(getDb).mockReturnValue(db);
     const res = await post({ password: "s3cret", state: "lockdown" });
     expect(res.status).toBe(200);
-    expect(update).toHaveBeenCalledWith({ state: "lockdown" });
+    expect(values).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "singleton", state: "lockdown" })
+    );
     expect(await res.json()).toEqual({ state: "lockdown" });
   });
 
   it("returns 400 for an invalid state value", async () => {
-    const { client } = makeAdmin("off");
-    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    const { db } = makeDb("off");
+    vi.mocked(getDb).mockReturnValue(db);
     const res = await post({ password: "s3cret", state: "banana" });
     expect(res.status).toBe(400);
   });
 
   it("returns 500 when the update fails", async () => {
-    const { client } = makeAdmin("off", { updateError: { message: "db down" } });
-    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    const { db } = makeDb("off", { writeError: true });
+    vi.mocked(getDb).mockReturnValue(db);
     const res = await post({ password: "s3cret", state: "off" });
     expect(res.status).toBe(500);
   });
@@ -86,8 +100,8 @@ describe("POST /api/sys", () => {
   });
 
   it("a correct password resets the failure counter", async () => {
-    const { client } = makeAdmin("off");
-    vi.mocked(createAdminSupabase).mockReturnValue(client as never);
+    const { db } = makeDb("off");
+    vi.mocked(getDb).mockReturnValue(db);
     for (let i = 0; i < 4; i++) {
       expect((await post({ password: "wrong" })).status).toBe(401);
     }

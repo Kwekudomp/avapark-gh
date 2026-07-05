@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { verifyWebhookSignature, parseIncomingMessages } from "@/lib/whatsapp/webhook";
+import type { WhatsAppWebhookPayload } from "@/lib/whatsapp/types";
 import crypto from "crypto";
 
 const APP_SECRET = "test-app-secret";
@@ -27,7 +28,7 @@ describe("verifyWebhookSignature", () => {
 
 describe("parseIncomingMessages", () => {
   it("parses a text message from webhook payload", () => {
-    const payload = {
+    const payload: WhatsAppWebhookPayload = {
       object: "whatsapp_business_account",
       entry: [{
         id: "entry-1",
@@ -65,7 +66,7 @@ describe("parseIncomingMessages", () => {
   });
 
   it("ignores non-text messages", () => {
-    const payload = {
+    const payload: WhatsAppWebhookPayload = {
       object: "whatsapp_business_account",
       entry: [{
         id: "entry-1",
@@ -91,7 +92,7 @@ describe("parseIncomingMessages", () => {
   });
 
   it("returns empty array for status-only webhooks", () => {
-    const payload = {
+    const payload: WhatsAppWebhookPayload = {
       object: "whatsapp_business_account",
       entry: [{
         id: "entry-1",

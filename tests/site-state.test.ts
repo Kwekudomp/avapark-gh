@@ -1,33 +1,33 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+// site-state.ts queries Neon via a tagged-template `sql` function created by
+// neon(DATABASE_URL). Mock the package so every query hits mockSql instead.
+const { mockSql } = vi.hoisted(() => ({ mockSql: vi.fn() }));
+vi.mock("@neondatabase/serverless", () => ({ neon: () => mockSql }));
+
 import { getSiteState, _resetSiteStateCache } from "@/lib/site-state";
 
 describe("getSiteState", () => {
   beforeEach(() => {
     _resetSiteStateCache();
-    // Neutralize the MAINTENANCE_MODE override without wiping the
-    // Supabase env stubs that tests/setup.ts provides.
+    mockSql.mockReset();
+    // Neutralize the MAINTENANCE_MODE override and re-apply the DATABASE_URL
+    // stub in case afterEach of a prior test called vi.unstubAllEnvs().
     vi.stubEnv("MAINTENANCE_MODE", "");
-    // Re-apply Supabase env stubs in case afterEach of a prior test
-    // called vi.unstubAllEnvs() and wiped them.
-    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "http://localhost:54321");
-    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "test-anon-key");
-    vi.unstubAllGlobals();
+    vi.stubEnv("DATABASE_URL", "postgresql://test:test@localhost:5432/test");
   });
 
   afterEach(() => {
     vi.unstubAllEnvs();
-    vi.unstubAllGlobals();
   });
 
-  const mockFetch = (rows: Array<{ state: string }>) =>
-    vi.fn().mockResolvedValue({ ok: true, json: async () => rows });
+  const queueRows = (rows: Array<{ state: string }>) =>
+    mockSql.mockResolvedValue(rows);
 
-  it("returns the env override when MAINTENANCE_MODE=lockdown, without fetching", async () => {
+  it("returns the env override when MAINTENANCE_MODE=lockdown, without querying", async () => {
     vi.stubEnv("MAINTENANCE_MODE", "lockdown");
-    const fetchSpy = vi.fn();
-    vi.stubGlobal("fetch", fetchSpy);
     expect(await getSiteState()).toBe("lockdown");
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(mockSql).not.toHaveBeenCalled();
   });
 
   it("returns the env override when MAINTENANCE_MODE=maintenance", async () => {
@@ -37,35 +37,36 @@ describe("getSiteState", () => {
 
   it("ignores an invalid env override value and reads the DB", async () => {
     vi.stubEnv("MAINTENANCE_MODE", "true");
-    vi.stubGlobal("fetch", mockFetch([{ state: "off" }]));
+    queueRows([{ state: "off" }]);
     expect(await getSiteState()).toBe("off");
+    expect(mockSql).toHaveBeenCalledTimes(1);
   });
 
-  it("reads the state from the Supabase REST API", async () => {
-    vi.stubGlobal("fetch", mockFetch([{ state: "lockdown" }]));
+  it("reads the state from the database", async () => {
+    queueRows([{ state: "lockdown" }]);
     expect(await getSiteState()).toBe("lockdown");
   });
 
-  it("caches the value — a second call within TTL does not fetch again", async () => {
-    const fetchSpy = mockFetch([{ state: "maintenance" }]);
-    vi.stubGlobal("fetch", fetchSpy);
+  it("caches the value — a second call within TTL does not query again", async () => {
+    queueRows([{ state: "maintenance" }]);
     await getSiteState();
     await getSiteState();
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(mockSql).toHaveBeenCalledTimes(1);
   });
 
-  it("fails open to 'off' when the fetch throws and there is no cache", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network down")));
+  it("fails open to 'off' when the query throws and there is no cache", async () => {
+    mockSql.mockRejectedValue(new Error("network down"));
     expect(await getSiteState()).toBe("off");
   });
 
-  it("fails open to 'off' when the response is not ok", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 500 }));
+  it("fails open to 'off' when DATABASE_URL is not configured", async () => {
+    vi.stubEnv("DATABASE_URL", "");
     expect(await getSiteState()).toBe("off");
+    expect(mockSql).not.toHaveBeenCalled();
   });
 
   it("returns 'off' when the row holds an unrecognized state", async () => {
-    vi.stubGlobal("fetch", mockFetch([{ state: "banana" }]));
+    queueRows([{ state: "banana" }]);
     expect(await getSiteState()).toBe("off");
   });
 });
