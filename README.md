@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hidden Paradise Nature Park — hiddenparadisegh.com
 
-## Getting Started
+Website, booking funnel, and admin CMS for Hidden Paradise Nature Park
+(Akuse Road, Okwenya, Eastern Region, Ghana). Public site + `/admin` panel +
+WhatsApp ordering, running serverlessly at zero fixed monthly cost.
 
-First, run the development server:
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router) + React + Tailwind CSS 4 |
+| Database | Neon Postgres (serverless) via Drizzle ORM |
+| Auth | Cookie sessions (jose HS256 JWT) + bcrypt, roles in `users` table |
+| Media storage | Cloudflare R2 (S3 API), public bucket `hiddenparadise-media` |
+| Email | Resend (`noreply@hiddenparadisegh.com`) |
+| Hosting | Vercel — push to `main` deploys production |
+| AI (on hold) | Anthropic Claude for the WhatsApp agent |
+| Payments (on hold) | Paystack deposits |
+
+> Migrated off Supabase in July 2026 — see
+> [docs/MIGRATION_RUNBOOK.md](docs/MIGRATION_RUNBOOK.md) for the record and
+> [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how everything fits together.
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp env.local.example .env.local   # fill in DATABASE_URL, SESSION_SECRET, R2_*, …
+npm run dev                        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Useful scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | What it does |
+|---|---|
+| `npm run dev` / `npm run build` / `npm start` | Standard Next.js |
+| `npm test` | Vitest suite (76 tests) |
+| `npm run db:generate` | Generate SQL from `src/db/schema.ts` |
+| `npm run db:push` | Push schema to the DB in `DATABASE_URL` |
+| `node scripts/seed-neon.mjs` | Seed an empty database (content + first admin) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Where things live
 
-## Learn More
+```
+src/app/            public pages + /admin panel + /api routes
+src/db/             Drizzle schema (20 tables) + client
+src/lib/            auth, session, cms readers, r2, email, site-state, whatsapp agent
+src/components/     public + admin React components
+supabase/migrations historical SQL (reference only — schema source of truth is src/db/schema.ts)
+scripts/            one-off ops scripts (seeding)
+docs/               architecture, operations, migration runbook, feature plans
+tests/              vitest suites
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system design, data model, auth, integrations
+- [docs/OPERATIONS.md](docs/OPERATIONS.md) — running the site day to day: admin panel, staff, deploys, env vars, on-hold features
+- [docs/MIGRATION_RUNBOOK.md](docs/MIGRATION_RUNBOOK.md) — the Supabase → Neon/R2 migration record
+- [docs/superpowers/plans/](docs/superpowers/plans/) — feature design/implementation plans

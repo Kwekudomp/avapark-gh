@@ -1,5 +1,11 @@
 # Cutover: Supabase → Neon + R2 (v2, current main)
 
+> **STATUS: EXECUTED 2026-07-05.** Merged to `main`, deployed to production,
+> and verified live (public pages, admin login/gate, settings save, review
+> submit, inquiry email, R2 upload). Paystack and the WhatsApp AI agent are
+> intentionally on hold — see docs/OPERATIONS.md for how to re-enable them.
+> This document is kept as the migration record.
+
 Branch: `migrate/neon-r2-v2`. Supabase is fully removed; the stack is
 Neon Postgres (Drizzle) + Cloudflare R2 + cookie-session auth. Content was
 rebuilt from in-repo seeds (the paused Supabase project's data was not
